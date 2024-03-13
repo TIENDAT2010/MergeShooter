@@ -5,13 +5,16 @@ using UnityEngine;
 
 public class EnemyController : MonoBehaviour
 {
+    [SerializeField] private EnemyType enemyType = EnemyType.Monster01;
     [SerializeField] private SpriteRenderer spriteRenderer = null;
     [SerializeField] private Sprite[] sprites = null;
+    [SerializeField] private EnemyDieFx enemyDieFxPrefabs;
 
     public float speed;
     private float damage;
-    private float health;
+    private float health = 5;
 
+    public EnemyType EnemyType { get => enemyType; }
 
     private void Start()
     {
@@ -35,10 +38,31 @@ public class EnemyController : MonoBehaviour
 
     private IEnumerator Moving()
     {
-        while(spriteRenderer.transform.position.y >= -1f)
+        while(spriteRenderer.transform.position.y >= -4f)
         {
             transform.position += Vector3.down * speed * Time.deltaTime;
             yield return null;
         }
     }
+    
+    public void SetOderInLayer(int oder)
+    {
+        spriteRenderer.sortingOrder = oder;
+    }    
+
+    public void OneHitBullet(int damage)
+    {
+        health  = health - damage;
+        if(health <= 0)
+        {
+            Die();
+        }
+    }   
+
+    public void Die()
+    {
+        Destroy(gameObject);
+        EnemyDieFx enemyDieFx = Instantiate(enemyDieFxPrefabs,transform.position,Quaternion.identity);
+    }
+
 }
