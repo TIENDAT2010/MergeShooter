@@ -3,20 +3,50 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 
-public class GridsController : MonoBehaviour
+public class TankController : MonoBehaviour
 {
     [SerializeField] private TankType tankType = TankType.Tank01;
     [SerializeField] private SpriteRenderer spriteRenderer = null;
     [SerializeField] private Sprite[] sprites = null;
-    [SerializeField] private BulletsController[] bulletPrefabs;
     [SerializeField] private GameObject bulletSpawnPos;
-    private GameObject targetEnemy = null;
     [SerializeField] private int speedBullet;
     [SerializeField] private float speedFireBullet;
     [SerializeField] private float rangeFire;
+
+    private GameObject targetEnemy = null;
     private float health;
 
+
+    private bool m_isMoving = false;
+    public bool IsMoving
+    {
+        set 
+        {
+            targetEnemy = null;
+            m_isMoving = value; 
+        }
+    }
+
+
+    private Transform currentTankSpawn = null;
+    public Transform CurrentTankSpawn
+    {
+        set 
+        {
+            currentTankSpawn = value; 
+        }
+        get
+        {
+            return currentTankSpawn;
+        }
+    }
+
+
     public TankType TankType { get => tankType; }
+
+
+
+
 
     private void Start()
     {
@@ -25,32 +55,30 @@ public class GridsController : MonoBehaviour
 
 
 
+
     private IEnumerator CheckEnemy()
     {
         while (targetEnemy == null)
         {
-
-            GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
-            foreach (GameObject enemy in enemies)
+            if (m_isMoving == false)
             {
-                float distanceToPlayer = Vector3.Distance(this.transform.position, enemy.transform.position);
-                if((distanceToPlayer <= rangeFire) && (Mathf.Abs(enemy.transform.position.x - transform.position.x) <= 4))
+                GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
+                foreach (GameObject enemy in enemies)
                 {
-                    targetEnemy = enemy;
-                    StartCoroutine(RotateTank());
-                    StartCoroutine(TankFire());
-                    yield break;
+                    float distanceToPlayer = Vector3.Distance(this.transform.position, enemy.transform.position);
+                    if ((distanceToPlayer <= rangeFire) && (Mathf.Abs(enemy.transform.position.x - transform.position.x) <= 4))
+                    {
+                        targetEnemy = enemy;
+                        StartCoroutine(RotateTank());
+                        StartCoroutine(TankFire());
+                        yield break;
+                    }
                 }
             }
-
-
-
             yield return null;
         }
 
     }   
-    
-
 
     private IEnumerator TankFire()
     {
@@ -61,7 +89,13 @@ public class GridsController : MonoBehaviour
                 spriteRenderer.sprite = sprites[i];
                 yield return new WaitForSeconds(0.03f);
             }
-            SpawnBullet();
+
+
+            BulletController bullet = PoolManager.Instance.GetBulletController(BulletType.Bullet01);
+            bullet.transform.position = bulletSpawnPos.transform.position;
+            bullet.transform.up = transform.up;
+            bullet.Move(10f);
+
             if (targetEnemy == null)
             {
                 StartCoroutine(CheckEnemy());
@@ -79,26 +113,36 @@ public class GridsController : MonoBehaviour
         }
     }
 
-
-    private void SpawnBullet()
+    public void DestroyTank()
     {
-        for (int i = 0; i < bulletPrefabs.Length; i++)
-        {
-            if (bulletPrefabs[i].BulletType == BulletType.Bullet01)
-            {
-                BulletsController bulletClone = Instantiate(bulletPrefabs[i], bulletSpawnPos.transform.position, Quaternion.identity);
-                StartCoroutine(MoveBullet(bulletClone));
-            }
-        }
+        Destroy(gameObject);
     }
 
-    private IEnumerator MoveBullet(BulletsController bulletClone)
-    { 
-        while(bulletClone != null) 
+
+
+
+
+    public void MoveTankBackToGrid()
+    {
+        gameObject.GetComponent<TankController>().IsMoving = true;
+        gameObject.GetComponent<Collider2D>().enabled = false;
+        StartCoroutine(MoveTank());
+        gameObject.GetComponent<Collider2D>().enabled = true;
+    }
+
+    private IEnumerator MoveTank()
+    {
+        float t = 0;
+        float moveTime = 1f;
+        Vector3 startVector3 = transform.position;
+        while (t < moveTime)
         {
-            bulletClone.transform.position += (transform.up * Time.deltaTime * speedBullet);
+            t += Time.deltaTime;
+            float factor = t / moveTime;
+            Vector3 newPos = Vector3.Lerp(startVector3,currentTankSpawn.position, factor);
+            transform.position = newPos;
             yield return null;
         }
+        m_isMoving = false;
     }
-
 }

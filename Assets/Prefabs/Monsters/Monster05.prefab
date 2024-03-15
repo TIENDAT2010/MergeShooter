@@ -97,7 +97,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 62488db7218062740bdde1f4dfaa7f8f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemyName: 0
+  enemyType: 4
   spriteRenderer: {fileID: 3854416240434665286}
   sprites:
   - {fileID: 21300000, guid: 812408e5cd0cace41b861de03d28f493, type: 3}

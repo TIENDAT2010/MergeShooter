@@ -10,8 +10,8 @@ GameObject:
   m_Component:
   - component: {fileID: 2482394592206839735}
   - component: {fileID: 6198575463519858259}
-  - component: {fileID: 6026037390526222256}
   - component: {fileID: 4340177102441276783}
+  - component: {fileID: 6026037390526222256}
   m_Layer: 0
   m_Name: Monster01
   m_TagString: Enemy
@@ -75,7 +75,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 50
-  m_Sprite: {fileID: 21300000, guid: b08923b8c1d91ad4f9bec4e62b41aade, type: 3}
+  m_Sprite: {fileID: 21300000, guid: b0cfb4f918cf4a847911be185a1f5733, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -86,43 +86,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &6026037390526222256
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2911958814162420184}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 62488db7218062740bdde1f4dfaa7f8f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  enemyType: 0
-  spriteRenderer: {fileID: 6198575463519858259}
-  sprites:
-  - {fileID: 21300000, guid: b0cfb4f918cf4a847911be185a1f5733, type: 3}
-  - {fileID: 21300000, guid: d60562acd7ccbbb40871375f5018ba73, type: 3}
-  - {fileID: 21300000, guid: 2a57391d016ef194d9a2f959b504c386, type: 3}
-  - {fileID: 21300000, guid: 9a457f7e370a0da4ca35a4ac9471df71, type: 3}
-  - {fileID: 21300000, guid: 6783eed33db74bc4a971e239a5578f62, type: 3}
-  - {fileID: 21300000, guid: 0f2863b69af3a1e41b0d8884c4594e27, type: 3}
-  - {fileID: 21300000, guid: e348da0685d52cf4296eada87729dcb4, type: 3}
-  - {fileID: 21300000, guid: 47bd113deb067b0429ae7d7261c65b2b, type: 3}
-  - {fileID: 21300000, guid: e24bd754e237ed04399da0caf55c0916, type: 3}
-  - {fileID: 21300000, guid: df50b20758888db4c8d5517a1a30a5d6, type: 3}
-  - {fileID: 21300000, guid: f35ca54a7f098194b9a91c18a813f7cd, type: 3}
-  - {fileID: 21300000, guid: f5a7421dc6852c04e8528bd7b4a94ecc, type: 3}
-  - {fileID: 21300000, guid: 784cd0fb4a72c104c97df55da67ca8b9, type: 3}
-  - {fileID: 21300000, guid: 0f24bd6c2c72e464d8169161e3a23957, type: 3}
-  - {fileID: 21300000, guid: f38a38187641b174a8499f9b8d692fa5, type: 3}
-  - {fileID: 21300000, guid: 52e75880177e9774d94d533ca38cb0e9, type: 3}
-  - {fileID: 21300000, guid: 1cd1a728934b038409f383219ef3eee1, type: 3}
-  - {fileID: 21300000, guid: f699fbaf4b332de46834933a8d9dcfc2, type: 3}
-  - {fileID: 21300000, guid: a9ae80da300c5604fbda230cd6138fb8, type: 3}
-  - {fileID: 21300000, guid: ac79e980505f2ca4fb6baf437f44f0df, type: 3}
-  enemyDieFxPrefabs: {fileID: 3307052621351589210, guid: 8031a36f33f5c3447af58e7d22183906, type: 3}
-  speed: 1
 --- !u!70 &4340177102441276783
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
@@ -158,3 +121,39 @@ CapsuleCollider2D:
   m_Offset: {x: 0.014510393, y: -0.08706236}
   m_Size: {x: 1.1432881, y: 1.4158754}
   m_Direction: 0
+--- !u!114 &6026037390526222256
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2911958814162420184}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62488db7218062740bdde1f4dfaa7f8f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  enemyType: 0
+  spriteRenderer: {fileID: 6198575463519858259}
+  sprites:
+  - {fileID: 21300000, guid: b0cfb4f918cf4a847911be185a1f5733, type: 3}
+  - {fileID: 21300000, guid: d60562acd7ccbbb40871375f5018ba73, type: 3}
+  - {fileID: 21300000, guid: 2a57391d016ef194d9a2f959b504c386, type: 3}
+  - {fileID: 21300000, guid: 9a457f7e370a0da4ca35a4ac9471df71, type: 3}
+  - {fileID: 21300000, guid: 6783eed33db74bc4a971e239a5578f62, type: 3}
+  - {fileID: 21300000, guid: 0f2863b69af3a1e41b0d8884c4594e27, type: 3}
+  - {fileID: 21300000, guid: e348da0685d52cf4296eada87729dcb4, type: 3}
+  - {fileID: 21300000, guid: 47bd113deb067b0429ae7d7261c65b2b, type: 3}
+  - {fileID: 21300000, guid: e24bd754e237ed04399da0caf55c0916, type: 3}
+  - {fileID: 21300000, guid: df50b20758888db4c8d5517a1a30a5d6, type: 3}
+  - {fileID: 21300000, guid: f35ca54a7f098194b9a91c18a813f7cd, type: 3}
+  - {fileID: 21300000, guid: f5a7421dc6852c04e8528bd7b4a94ecc, type: 3}
+  - {fileID: 21300000, guid: 784cd0fb4a72c104c97df55da67ca8b9, type: 3}
+  - {fileID: 21300000, guid: 0f24bd6c2c72e464d8169161e3a23957, type: 3}
+  - {fileID: 21300000, guid: f38a38187641b174a8499f9b8d692fa5, type: 3}
+  - {fileID: 21300000, guid: 52e75880177e9774d94d533ca38cb0e9, type: 3}
+  - {fileID: 21300000, guid: 1cd1a728934b038409f383219ef3eee1, type: 3}
+  - {fileID: 21300000, guid: f699fbaf4b332de46834933a8d9dcfc2, type: 3}
+  - {fileID: 21300000, guid: a9ae80da300c5604fbda230cd6138fb8, type: 3}
+  - {fileID: 21300000, guid: ac79e980505f2ca4fb6baf437f44f0df, type: 3}
+  speed: 1

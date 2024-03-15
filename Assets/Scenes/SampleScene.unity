@@ -207,6 +207,65 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!1 &246533364
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 246533366}
+  - component: {fileID: 246533365}
+  m_Layer: 0
+  m_Name: BoolManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &246533365
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 246533364}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5d046a0d19fbb414d9b8ba576353df6f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  enemyPrefabs:
+  - {fileID: 6026037390526222256, guid: 149a2463f2d83a64c8455683e82d80cb, type: 3}
+  - {fileID: 7111951618842916881, guid: 098bcc66ce932714094005e0af73fd63, type: 3}
+  - {fileID: 3737111854172434577, guid: 3a5bfd9ff5b61534a9dba1b5e9597a25, type: 3}
+  - {fileID: 1689493249728958609, guid: af5dab73ea5f0da4690e3ac3f0ed8195, type: 3}
+  - {fileID: 7409384106944250411, guid: 353acbaacf33cea4184a06801a5a0a7b, type: 3}
+  tankPrefabs:
+  - {fileID: 133657313570932202, guid: b09a09cc5878662499fcc07fd960216b, type: 3}
+  - {fileID: 4084926873238867560, guid: d37b954682862954fba8f644a7ace233, type: 3}
+  - {fileID: 419229688960681618, guid: 02cf6b19a20b9fa4a9397298e4a163e0, type: 3}
+  - {fileID: 2022243897340242690, guid: 7da1b2a7f0ef3e84a9a6d7e0928207d8, type: 3}
+  - {fileID: 3834105591255934338, guid: 7f04982da4b44644f8e1f1ba5d0bdce4, type: 3}
+  bulletPrefabs:
+  - {fileID: 5772459285833032178, guid: 40465e4631160e7478c2da61d5ce2d46, type: 3}
+  enemyDieFxPrefabs: {fileID: 3307052621351589210, guid: 8031a36f33f5c3447af58e7d22183906, type: 3}
+--- !u!4 &246533366
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 246533364}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &390440566
 GameObject:
   m_ObjectHideFlags: 0
@@ -236,14 +295,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 017a7aa8d17e7044eb3bc0c4cd4f8772, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemyPrefabs:
-  - {fileID: 6026037390526222256, guid: 149a2463f2d83a64c8455683e82d80cb, type: 3}
-  tankPrefabs:
-  - {fileID: 133657313570932202, guid: b09a09cc5878662499fcc07fd960216b, type: 3}
-  tankSpawn01: {fileID: 174715799}
-  tankSpawn02: {fileID: 1407128127}
-  tankSpawn03: {fileID: 1440584975}
-  TankGridController: {fileID: 2124988653}
+  tankSpawns:
+  - {fileID: 174715799}
+  - {fileID: 866477322}
+  - {fileID: 1407128127}
+  - {fileID: 478653966}
+  - {fileID: 1440584975}
+  - {fileID: 1508323260}
+  - {fileID: 1410560140}
+  - {fileID: 1988620955}
+  - {fileID: 1535829919}
+  - {fileID: 1671290015}
+  - {fileID: 765584124}
+  - {fileID: 504788700}
 --- !u!4 &390440568
 Transform:
   m_ObjectHideFlags: 0
@@ -1416,7 +1480,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 20
+  m_SortingOrder: 1
   m_Sprite: {fileID: 21300000, guid: 23ab657ae6b4e3e4e96764c5e99568ac, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -1536,7 +1600,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2124988652}
-  - component: {fileID: 2124988653}
   m_Layer: 0
   m_Name: TankGrid
   m_TagString: Untagged
@@ -1571,31 +1634,6 @@ Transform:
   - {fileID: 504788700}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2124988653
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2124988651}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 92bb4fde8c6ceba48ae1043b8d4970c9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  tankSpawns:
-  - {fileID: 174715799}
-  - {fileID: 866477322}
-  - {fileID: 1407128127}
-  - {fileID: 478653966}
-  - {fileID: 1440584975}
-  - {fileID: 1508323260}
-  - {fileID: 1410560140}
-  - {fileID: 1988620955}
-  - {fileID: 1535829919}
-  - {fileID: 1671290015}
-  - {fileID: 765584124}
-  - {fileID: 504788700}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
@@ -1606,3 +1644,4 @@ SceneRoots:
   - {fileID: 390440568}
   - {fileID: 846645951}
   - {fileID: 1934116961}
+  - {fileID: 246533366}

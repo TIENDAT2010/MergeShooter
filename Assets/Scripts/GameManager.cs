@@ -1,68 +1,48 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading;
 using UnityEngine;
 
-
-public enum TankType
-{
-    Tank01 = 0,
-    Tank02,
-    Tank03,
-    Tank04,
-    Tank05,
-    Tank06,
-    Tank07,
-    Tank08,
-    Tank09,
-    Tank10,
-}
-
-public enum EnemyType
-{
-    Monster01 = 0,
-    Monster02,
-    Monster03,
-    Monster04,
-    Monster05,
-    Monster06,
-    Monster07,
-    Monster08,
-    Monster09,
-    Monster10,
-}
-
-public enum BulletType
-{
-    Bullet01 = 0,
-    Bullet02,
-    Bullet03,
-    Bullet04,
-    Bullet05,
-    Bullet06,
-    Bullet07,
-    Bullet08,
-    Bullet09,
-    Bullet10,
-}
 public class GameManager : MonoBehaviour
 {
-    [SerializeField] private EnemyController[] enemyPrefabs;
-    [SerializeField] private GridsController[] tankPrefabs;
-    [SerializeField] private Transform tankSpawn01;
-    [SerializeField] private Transform tankSpawn02;
-    [SerializeField] private Transform tankSpawn03;
-    [SerializeField] private TankGridController TankGridController = null;
+
+    [SerializeField] private Transform[] tankSpawns = null;
+    private Dictionary<Transform, GameObject> dicTankSpawn = new Dictionary<Transform, GameObject>();
 
     private Transform selectedTank = null;
-    private int m_countEnemy = 0;
     private int m_countTank = 0;
+
+
 
     private void Start()
     {
-        SpawnTank(tankSpawn01);
-        SpawnTank(tankSpawn02);
-        SpawnTank(tankSpawn03);
-        StartCoroutine(SpawnEnemies());
+
+        for (int i = 0; i < tankSpawns.Length; i++)
+        {
+            dicTankSpawn.Add(tankSpawns[i], null);
+        }
+
+
+        while (m_countTank < 3)
+        {
+            TankController tank = PoolManager.Instance.GetTankController(TankType.Tank01);
+            for (int i = 0; i < dicTankSpawn.Count; i++)
+            {
+                Transform gridTranform = tankSpawns[i];
+                GameObject valueTank = null;
+                dicTankSpawn.TryGetValue(gridTranform, out valueTank);
+                if (valueTank == null)
+                {
+                    dicTankSpawn[gridTranform] = tank.gameObject;
+                    tank.gameObject.transform.position = gridTranform.position;
+                    tank.gameObject.SetActive(true);
+                    tank.CurrentTankSpawn = gridTranform;
+                    break;
+                }
+            }
+            m_countTank++;
+        }
+        StartCoroutine(SpawnEnemies(EnemyType.Monster01));
     }
 
     private void Update()
@@ -71,28 +51,90 @@ public class GameManager : MonoBehaviour
         if (Input.GetMouseButtonDown(0))
         {
             Collider2D collider2d = Physics2D.OverlapCircle(mousePos, 0.5f);
-            if (collider2d != null)
+            if ((collider2d != null) && collider2d.gameObject.CompareTag("Tank"))
             {
                 selectedTank = collider2d.transform;
+                selectedTank.gameObject.GetComponent<TankController>().IsMoving = true;
             }
         }
         if(Input.GetMouseButton(0) && selectedTank != null)
         {
+            selectedTank.gameObject.GetComponent<TankController>().IsMoving = true;
             selectedTank.position = new Vector3(mousePos.x, mousePos.y, 0f);
         }
         if(Input.GetMouseButtonUp(0) && selectedTank != null)
         {
-            Transform closeTankSpawn = TankGridController.GetCloseTankSpawn(selectedTank);
-            selectedTank.position = closeTankSpawn.position;
+            Transform gridTranformNearest = GetNearestTankSpawn(selectedTank);
+
+            //if(gridTranformNearest == null) 
+            //{
+            //    selectedTank.gameObject.GetComponent<TankController>().MoveTankBackToGrid();
+            //}
+            //else
+            //{
+            //    if (CheckTankInDic(gridTranformNearest))
+            //    {
+            //        TankController nearTank = GetTankController(gridTranformNearest);
+            //        TankController selectTank = selectedTank.GetComponent<TankController>();
+            //        if(nearTank.TankType == selectTank.TankType)
+            //        {
+
+            //        }
+            //        else
+            //        {
+            //            selectedTank.gameObject.GetComponent<TankController>().MoveTankBackToGrid();
+            //        }
+            //    }
+            //}
+
+
+            if((CheckTankInDic(gridTranformNearest) == false) && gridTranformNearest != null)
+            {
+                selectedTank.transform.position = gridTranformNearest.position;
+                dicTankSpawn[gridTranformNearest] = selectedTank.gameObject;
+                selectedTank.gameObject.GetComponent<TankController>().CurrentTankSpawn = gridTranformNearest;
+                selectedTank.GetComponent<TankController>().IsMoving = false;
+            }
+            else if ( gridTranformNearest == null)
+            {
+                selectedTank.gameObject.GetComponent<TankController>().MoveTankBackToGrid();
+            }           
+            else
+            {
+                TankController tankInGrid = GetTankController(gridTranformNearest);
+
+                if(tankInGrid.GetComponent<TankController>().TankType == selectedTank.GetComponent<TankController>().TankType )
+                {
+                    TankType tankType = tankInGrid.GetComponent<TankController>().TankType;
+                    dicTankSpawn[gridTranformNearest] = null;
+                    dicTankSpawn[selectedTank.GetComponent<TankController>().CurrentTankSpawn] = null;
+                    tankInGrid.GetComponent<TankController>().DestroyTank();
+                    selectedTank.GetComponent<TankController>().DestroyTank();
+
+                    TankType nextTankType = GetNextTankType(tankType);
+
+                    TankController newTank = PoolManager.Instance.GetTankController(nextTankType);
+                    newTank.transform.position = gridTranformNearest.transform.position;
+                    newTank.CurrentTankSpawn = gridTranformNearest;
+                    dicTankSpawn[gridTranformNearest] = newTank.gameObject;
+                }
+                else
+                {
+                    selectedTank.gameObject.GetComponent<TankController>().MoveTankBackToGrid();
+                }
+            }
+
+            selectedTank = null;
         }
     }
 
-    private IEnumerator SpawnEnemies()
+
+    private IEnumerator SpawnEnemies(EnemyType enemyType)
     {
-        int enemyOrder = 50;
-        while (m_countEnemy <= 3)
+        int enemyOrder = 9999;
+        while (true)
         {
-            EnemyController enemyController = SpawnOneEnemy(EnemyType.Monster01);
+            EnemyController enemyController = PoolManager.Instance.GetEnemyController(enemyType);
             Vector3 spawnPos = Vector3.zero;
             spawnPos.y = 9;
             spawnPos.x = Random.Range(-4.7f, 4.7f);
@@ -105,38 +147,82 @@ public class GameManager : MonoBehaviour
 
 
 
-
-    private EnemyController SpawnOneEnemy(EnemyType enemyType)
+    private Transform GetNearestTankSpawn(Transform tankPos)
     {
-        EnemyController resultEnemy = null;
-
-        for (int i = 0; i < enemyPrefabs.Length; i++)
+        float minDistance = 0.5f;
+        Transform cur = null;
+        for (int i = 0; i < tankSpawns.Length; i++)
         {
-            if (enemyPrefabs[i].EnemyType == EnemyType.Monster01)
+            float distance = Vector3.Distance(tankPos.position, tankSpawns[i].position);
+            if ((distance < minDistance))
             {
-                resultEnemy = Instantiate(enemyPrefabs[i], Vector3.zero, Quaternion.identity);
-                m_countEnemy++;
+                minDistance = distance;
+                cur = tankSpawns[i];
             }
         }
+        return cur;
+    }
 
-        return resultEnemy;
+
+    private bool CheckTankInDic(Transform transform)
+    {
+        bool check = true;
+        for (int i = 0;i < dicTankSpawn.Count; i++)
+        {
+            GameObject obj = null ;
+            dicTankSpawn.TryGetValue(tankSpawns[i], out obj);
+            if((tankSpawns[i] == transform) && (obj == null))
+            {
+                check = false;
+            }    
+        }
+        return check;
     }    
 
-
-
-
-    private void SpawnTank(Transform tankSpawn)
+    private TankController GetTankController(Transform transform)
     {
-        Vector3 spawnPos = Vector3.zero;
-
-        for (int i = 0; i < tankPrefabs.Length; i++)
+        TankController tank = null;
+        for (int i = 0; i < dicTankSpawn.Count; i++)
         {
-            if (tankPrefabs[i].TankType == TankType.Tank01)
+            GameObject obj = null;
+            dicTankSpawn.TryGetValue(tankSpawns[i], out obj);
+            if ((tankSpawns[i] == transform))
             {
-                GridsController tankClone = Instantiate(tankPrefabs[i], tankSpawn.position, Quaternion.identity);
-
-                m_countTank++;
+                tank = obj.gameObject.GetComponent<TankController>();
             }
         }
+        return tank;
+    }
+
+    private TankType GetNextTankType(TankType oldType)
+    {
+        TankType tankType = oldType ;
+        switch(oldType)
+        {
+            case TankType.Tank01 : tankType = TankType.Tank02;
+                break;
+            case TankType.Tank02:
+                tankType = TankType.Tank03;
+                break;
+            case TankType.Tank03:
+                tankType = TankType.Tank04;
+                break;
+            case TankType.Tank04:
+                tankType = TankType.Tank05;
+                break;
+            case TankType.Tank05:
+                tankType = TankType.Tank06;
+                break;
+            case TankType.Tank06:
+                tankType = TankType.Tank07;
+                break;
+            case TankType.Tank07:
+                tankType = TankType.Tank08;
+                break;
+            case TankType.Tank08:
+                tankType = TankType.Tank09;
+                break;
+        }    
+        return tankType;
     }
 }

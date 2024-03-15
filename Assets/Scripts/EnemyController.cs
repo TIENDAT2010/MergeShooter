@@ -8,7 +8,6 @@ public class EnemyController : MonoBehaviour
     [SerializeField] private EnemyType enemyType = EnemyType.Monster01;
     [SerializeField] private SpriteRenderer spriteRenderer = null;
     [SerializeField] private Sprite[] sprites = null;
-    [SerializeField] private EnemyDieFx enemyDieFxPrefabs;
 
     public float speed;
     private float damage;
@@ -61,8 +60,9 @@ public class EnemyController : MonoBehaviour
 
     public void Die()
     {
+        EnemyDieFx enemyDieFx  = PoolManager.Instance.GetEnemyDieFx();
+        enemyDieFx.transform.position = transform.position;
         Destroy(gameObject);
-        EnemyDieFx enemyDieFx = Instantiate(enemyDieFxPrefabs,transform.position,Quaternion.identity);
     }
 
 }
