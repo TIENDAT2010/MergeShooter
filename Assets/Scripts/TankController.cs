@@ -50,13 +50,13 @@ public class TankController : MonoBehaviour
 
     private void Start()
     {
-        StartCoroutine(CheckEnemy());        
+        StartCoroutine(FindEnemy());        
     }
 
 
 
 
-    private IEnumerator CheckEnemy()
+    private IEnumerator FindEnemy()
     {
         while (targetEnemy == null)
         {
@@ -69,18 +69,19 @@ public class TankController : MonoBehaviour
                     if ((distanceToPlayer <= rangeFire) && (Mathf.Abs(enemy.transform.position.x - transform.position.x) <= 4))
                     {
                         targetEnemy = enemy;
-                        StartCoroutine(RotateTank());
-                        StartCoroutine(TankFire());
+                        StartCoroutine(RotateToEnemy());
+                        StartCoroutine(ShootEnemy());
                         yield break;
                     }
                 }
             }
             yield return null;
         }
+    }  
 
-    }   
 
-    private IEnumerator TankFire()
+
+    private IEnumerator ShootEnemy()
     {
         while(targetEnemy != null) 
         {
@@ -90,7 +91,6 @@ public class TankController : MonoBehaviour
                 yield return new WaitForSeconds(0.03f);
             }
 
-
             BulletController bullet = PoolManager.Instance.GetBulletController(BulletType.Bullet01);
             bullet.transform.position = bulletSpawnPos.transform.position;
             bullet.transform.up = transform.up;
@@ -98,13 +98,13 @@ public class TankController : MonoBehaviour
 
             if (targetEnemy == null)
             {
-                StartCoroutine(CheckEnemy());
+                StartCoroutine(FindEnemy());
                 yield break;
             }
         }
     }
 
-    private IEnumerator RotateTank()
+    private IEnumerator RotateToEnemy()
     {
         while (targetEnemy != null)
         {
@@ -124,7 +124,7 @@ public class TankController : MonoBehaviour
 
     public void MoveTankBackToGrid()
     {
-        gameObject.GetComponent<TankController>().IsMoving = true;
+        IsMoving = true;
         gameObject.GetComponent<Collider2D>().enabled = false;
         StartCoroutine(MoveTank());
         gameObject.GetComponent<Collider2D>().enabled = true;
@@ -133,7 +133,7 @@ public class TankController : MonoBehaviour
     private IEnumerator MoveTank()
     {
         float t = 0;
-        float moveTime = 1f;
+        float moveTime = 0.5f;
         Vector3 startVector3 = transform.position;
         while (t < moveTime)
         {

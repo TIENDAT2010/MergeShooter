@@ -5,7 +5,6 @@ using UnityEngine;
 public class BulletController : MonoBehaviour
 {
     [SerializeField] private BulletType bulletType = BulletType.Bullet01;
-    [SerializeField] private EnemyController enemy;
     public BulletType BulletType { get => bulletType; }
 
     private void OnTriggerEnter2D(Collider2D col)
@@ -13,7 +12,7 @@ public class BulletController : MonoBehaviour
         if (col.gameObject.CompareTag("Enemy"))
         {
             EnemyController enemy = col.gameObject.GetComponent<EnemyController>();
-            enemy.OneHitBullet(1);
+            enemy.OneHitBullet(5);
             Destroy(gameObject);
         }
     }

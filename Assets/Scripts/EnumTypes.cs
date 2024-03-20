@@ -2,6 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum GameState
+{
+    GameInit = 0,
+    GameStart = 1,
+    CompleteLevel = 2,
+    GameOver = 3,
+}
+
+
 public enum TankType
 {
     Tank01 = 0,

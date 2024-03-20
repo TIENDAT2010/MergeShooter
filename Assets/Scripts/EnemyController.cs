@@ -9,9 +9,9 @@ public class EnemyController : MonoBehaviour
     [SerializeField] private SpriteRenderer spriteRenderer = null;
     [SerializeField] private Sprite[] sprites = null;
 
-    public float speed;
-    private float damage;
-    private float health = 5;
+    private float m_speed;
+    private float m_damage;
+    private float m_health;
 
     public EnemyType EnemyType { get => enemyType; }
 
@@ -39,30 +39,28 @@ public class EnemyController : MonoBehaviour
     {
         while(spriteRenderer.transform.position.y >= -4f)
         {
-            transform.position += Vector3.down * speed * Time.deltaTime;
+            transform.position += Vector3.down * m_speed * Time.deltaTime;
             yield return null;
         }
     }
     
-    public void SetOderInLayer(int oder)
+    public void OnEnemyInit(int oder, float speed, float damage, float health)
     {
         spriteRenderer.sortingOrder = oder;
+        m_speed = speed;
+        m_damage = damage;
+        m_health = health;
     }    
 
     public void OneHitBullet(int damage)
     {
-        health  = health - damage;
-        if(health <= 0)
+        m_health  = m_health - damage;
+        if(m_health <= 0)
         {
-            Die();
+            GameManager.Instance.UpdateDeadEnemy();
+            EnemyDieFx enemyDieFx = PoolManager.Instance.GetEnemyDieFx();
+            enemyDieFx.transform.position = transform.position;
+            Destroy(gameObject);
         }
     }   
-
-    public void Die()
-    {
-        EnemyDieFx enemyDieFx  = PoolManager.Instance.GetEnemyDieFx();
-        enemyDieFx.transform.position = transform.position;
-        Destroy(gameObject);
-    }
-
 }
