@@ -10,6 +10,12 @@ public enum GameState
     GameOver = 3,
 }
 
+public enum ViewType
+{
+    HomeView = 0,
+    GameView = 1,
+}
+
 
 public enum TankType
 {

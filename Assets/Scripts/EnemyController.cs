@@ -2,21 +2,25 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class EnemyController : MonoBehaviour
 {
     [SerializeField] private EnemyType enemyType = EnemyType.Monster01;
     [SerializeField] private SpriteRenderer spriteRenderer = null;
+    [SerializeField] private Image healthBar = null;
     [SerializeField] private Sprite[] sprites = null;
 
     private float m_speed;
     private float m_damage;
     private float m_health;
+    private float m_FisrtHealth;
 
     public EnemyType EnemyType { get => enemyType; }
 
     private void Start()
     {
+        healthBar.fillAmount = 1f;
         StartCoroutine(PlayAnimation());
 
         StartCoroutine(Moving());
@@ -50,11 +54,13 @@ public class EnemyController : MonoBehaviour
         m_speed = speed;
         m_damage = damage;
         m_health = health;
+        m_FisrtHealth = health;
     }    
 
     public void OneHitBullet(int damage)
     {
         m_health  = m_health - damage;
+        healthBar.fillAmount = m_health / m_FisrtHealth; 
         if(m_health <= 0)
         {
             GameManager.Instance.UpdateDeadEnemy();

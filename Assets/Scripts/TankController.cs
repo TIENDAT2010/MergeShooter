@@ -9,12 +9,15 @@ public class TankController : MonoBehaviour
     [SerializeField] private SpriteRenderer spriteRenderer = null;
     [SerializeField] private Sprite[] sprites = null;
     [SerializeField] private GameObject bulletSpawnPos;
-    [SerializeField] private int speedBullet;
     [SerializeField] private float speedFireBullet;
     [SerializeField] private float rangeFire;
-
+    [SerializeField] private int damageTank = 0;
     private GameObject targetEnemy = null;
-    private float health;
+
+    public int SortingOder
+    {
+        set { spriteRenderer.sortingOrder = value; }
+    }
 
 
     private bool m_isMoving = false;
@@ -80,7 +83,6 @@ public class TankController : MonoBehaviour
     }  
 
 
-
     private IEnumerator ShootEnemy()
     {
         while(targetEnemy != null) 
@@ -94,8 +96,8 @@ public class TankController : MonoBehaviour
             BulletController bullet = PoolManager.Instance.GetBulletController(BulletType.Bullet01);
             bullet.transform.position = bulletSpawnPos.transform.position;
             bullet.transform.up = transform.up;
-            bullet.Move(10f);
-
+            bullet.Move(speedFireBullet);
+            bullet.SetDamage(damageTank);
             if (targetEnemy == null)
             {
                 StartCoroutine(FindEnemy());
@@ -128,6 +130,7 @@ public class TankController : MonoBehaviour
         gameObject.GetComponent<Collider2D>().enabled = false;
         StartCoroutine(MoveTank());
         gameObject.GetComponent<Collider2D>().enabled = true;
+        SortingOder = 40;
     }
 
     private IEnumerator MoveTank()
