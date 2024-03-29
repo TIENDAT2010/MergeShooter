@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class BulletController : MonoBehaviour
 {
-    [SerializeField] private BulletType bulletType = BulletType.Bullet01;
-    public BulletType BulletType { get => bulletType; }
+    [SerializeField] private TankType tankType = TankType.Tank01;
+    public TankType TankType { get => tankType; }
     private int damage = 0;
     private void OnTriggerEnter2D(Collider2D col)
     {

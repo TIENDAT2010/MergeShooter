@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dc6caabf55cf9bc4d9a6c6ae25c67cb0, type: 3}
   m_Name: 1
   m_EditorClassIdentifier: 
-  sprites:
-  - {fileID: 21300000, guid: d97cf2700be6fa64ab1cda0f0af44755, type: 3}
+  MainHealth: 100
+  BackGround: {fileID: 0}
   InitTanks: 000000000000000000000000
   waveConfigs:
   - enemySpeed: 1

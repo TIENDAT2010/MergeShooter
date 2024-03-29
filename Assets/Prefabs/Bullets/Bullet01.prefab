@@ -193,5 +193,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 644d64ca7a266d345981c061e08f8620, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bulletType: 0
-  enemy: {fileID: 6026037390526222256, guid: 149a2463f2d83a64c8455683e82d80cb, type: 3}
+  tankType: 0

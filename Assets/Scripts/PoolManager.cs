@@ -10,7 +10,7 @@ public class PoolManager : MonoBehaviour
     [SerializeField] private TankController[] tankPrefabs;
     [SerializeField] private BulletController[] bulletPrefabs;
     [SerializeField] private EnemyDieFx enemyDieFxPrefabs;
-
+    [SerializeField] private CoinEffectController coinEffectPrefabs;
 
     private void Awake()
     {
@@ -54,13 +54,13 @@ public class PoolManager : MonoBehaviour
         return resultTank;
     }
 
-    public BulletController GetBulletController(BulletType bulletType)
+    public BulletController GetBulletController(TankType tankType)
     {
         BulletController resultBullet = null;
 
         for (int i = 0; i < bulletPrefabs.Length; i++)
         {
-            if (bulletPrefabs[i].BulletType == bulletType)
+            if (bulletPrefabs[i].TankType == tankType)
             {
                 resultBullet = Instantiate(bulletPrefabs[i], Vector3.zero, Quaternion.identity);
             }
@@ -74,4 +74,8 @@ public class PoolManager : MonoBehaviour
         return Instantiate(enemyDieFxPrefabs, Vector3.zero, Quaternion.identity);
     }
 
+    public CoinEffectController GetCoinEffectController()
+    {
+        return Instantiate(coinEffectPrefabs, Vector3.zero, Quaternion.identity);
+    }
 }

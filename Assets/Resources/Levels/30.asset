@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dc6caabf55cf9bc4d9a6c6ae25c67cb0, type: 3}
   m_Name: 30
   m_EditorClassIdentifier: 
+  MainHealth: 1700
   BackGround: {fileID: 0}
   InitTanks: 090000000900000009000000
   waveConfigs:

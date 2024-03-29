@@ -260,7 +260,17 @@ MonoBehaviour:
   - {fileID: 4832039915439106426, guid: 437c52e5b8750e34a84ff975bbd73f70, type: 3}
   bulletPrefabs:
   - {fileID: 5772459285833032178, guid: 40465e4631160e7478c2da61d5ce2d46, type: 3}
+  - {fileID: 2431397813809710679, guid: c8b2b1292862307489fcc2eb5f93c752, type: 3}
+  - {fileID: 7408181608710441923, guid: bca02fecc89e42847b126ed30ca2aa0f, type: 3}
+  - {fileID: 2523508913263030105, guid: 120b7c9d27299dc46af5d4d5c4567de0, type: 3}
+  - {fileID: 4584426821746179159, guid: 0b70a42fd9567f24087b02fe119d0b13, type: 3}
+  - {fileID: 3400718678717477237, guid: 512ad5b9919a6654fb67a667ff2993c0, type: 3}
+  - {fileID: 5772459285833032178, guid: 0d7aad0e62aaf7240852e6572fab5b68, type: 3}
+  - {fileID: 5772459285833032178, guid: 19abb74563f3c56438a7a15420c91165, type: 3}
+  - {fileID: 5772459285833032178, guid: 211e1f88023cc814ea7605cc2a836e6e, type: 3}
+  - {fileID: 5772459285833032178, guid: 2b4fcba8ab5def5418a1d74cb0de42ae, type: 3}
   enemyDieFxPrefabs: {fileID: 3307052621351589210, guid: 8031a36f33f5c3447af58e7d22183906, type: 3}
+  coinEffectPrefabs: {fileID: 6419690872860588941, guid: 9e45a6c6b35d2a843854006f9d29243c, type: 3}
 --- !u!4 &246533366
 Transform:
   m_ObjectHideFlags: 0
@@ -562,7 +572,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 10
+  orthographic size: 12
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -840,7 +850,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 2.5, y: 2.5, z: 1}
+  m_LocalScale: {x: 3, y: 3, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -1406,7 +1416,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 1
+  m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 23ab657ae6b4e3e4e96764c5e99568ac, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0

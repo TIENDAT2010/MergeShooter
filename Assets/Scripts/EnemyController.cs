@@ -10,7 +10,7 @@ public class EnemyController : MonoBehaviour
     [SerializeField] private SpriteRenderer spriteRenderer = null;
     [SerializeField] private Image healthBar = null;
     [SerializeField] private Sprite[] sprites = null;
-
+    [SerializeField] private float coinBonus;
     private float m_speed;
     private float m_damage;
     private float m_health;
@@ -24,6 +24,7 @@ public class EnemyController : MonoBehaviour
         StartCoroutine(PlayAnimation());
 
         StartCoroutine(Moving());
+        StartCoroutine(OnAttack());        
     }
 
 
@@ -45,8 +46,21 @@ public class EnemyController : MonoBehaviour
         {
             transform.position += Vector3.down * m_speed * Time.deltaTime;
             yield return null;
+        }            
+    }
+
+    private IEnumerator OnAttack()
+    {
+        while(true)
+        {
+            if(spriteRenderer.transform.position.y <= -3.9f)
+            {
+                ViewManager.Instance.GameView.OnEnemyAttack(m_damage);
+            }
+            yield return new WaitForSeconds(2f);
         }
     }
+        
     
     public void OnEnemyInit(int oder, float speed, float damage, float health)
     {
@@ -67,6 +81,11 @@ public class EnemyController : MonoBehaviour
             EnemyDieFx enemyDieFx = PoolManager.Instance.GetEnemyDieFx();
             enemyDieFx.transform.position = transform.position;
             Destroy(gameObject);
+            CoinEffectController coinEffect = PoolManager.Instance.GetCoinEffectController();
+            coinEffect.transform.position = transform.position + Vector3.up;
+            coinEffect.SetCoinBonus(coinBonus);
+            ViewManager.Instance.GameView.SetCoinText(coinBonus);
         }
     }   
+        
 }

@@ -411,3 +411,4 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 2d73532580b32c44090404564c025152, type: 3}
   - {fileID: 21300000, guid: 9c52a4377bb0b294aa662b371514aea5, type: 3}
   - {fileID: 21300000, guid: ec1da5f31fc14e149ae9444f029a230c, type: 3}
+  coinBonus: 75

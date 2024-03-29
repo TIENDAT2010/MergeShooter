@@ -9,7 +9,8 @@ public class TankController : MonoBehaviour
     [SerializeField] private SpriteRenderer spriteRenderer = null;
     [SerializeField] private Sprite[] sprites = null;
     [SerializeField] private GameObject bulletSpawnPos;
-    [SerializeField] private float speedFireBullet;
+    [SerializeField] private float speedBullet;
+    [SerializeField] private float speedFire;
     [SerializeField] private float rangeFire;
     [SerializeField] private int damageTank = 0;
     private GameObject targetEnemy = null;
@@ -46,7 +47,6 @@ public class TankController : MonoBehaviour
 
 
     public TankType TankType { get => tankType; }
-
 
 
 
@@ -93,11 +93,18 @@ public class TankController : MonoBehaviour
                 yield return new WaitForSeconds(0.03f);
             }
 
-            BulletController bullet = PoolManager.Instance.GetBulletController(BulletType.Bullet01);
+            BulletController bullet = PoolManager.Instance.GetBulletController(TankType);
             bullet.transform.position = bulletSpawnPos.transform.position;
             bullet.transform.up = transform.up;
-            bullet.Move(speedFireBullet);
+            bullet.Move(speedBullet);
             bullet.SetDamage(damageTank);
+
+            while (true)
+            {
+                yield return new WaitForSeconds(speedFire); break;
+            }
+                
+
             if (targetEnemy == null)
             {
                 StartCoroutine(FindEnemy());
@@ -130,13 +137,13 @@ public class TankController : MonoBehaviour
         gameObject.GetComponent<Collider2D>().enabled = false;
         StartCoroutine(MoveTank());
         gameObject.GetComponent<Collider2D>().enabled = true;
-        SortingOder = 40;
+
     }
 
     private IEnumerator MoveTank()
     {
         float t = 0;
-        float moveTime = 0.5f;
+        float moveTime = (Vector3.Distance(transform.position, currentTankSpawn.position) / 20f);
         Vector3 startVector3 = transform.position;
         while (t < moveTime)
         {

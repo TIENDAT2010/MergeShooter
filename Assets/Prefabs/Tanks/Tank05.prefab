@@ -137,8 +137,9 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 19a58e86e1e8f194a9e46ca6d52f3f5a, type: 3}
   - {fileID: 21300000, guid: 30e0fefb7ab078f47a39945078f4ceae, type: 3}
   bulletSpawnPos: {fileID: 16821303397908111}
-  speedFireBullet: 12
-  rangeFire: 15
+  speedBullet: 6
+  speedFire: 0.3
+  rangeFire: 10
   damageTank: 14
 --- !u!1 &4575507159390043818
 GameObject:

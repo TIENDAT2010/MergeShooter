@@ -6,6 +6,7 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "LevelConfig", menuName = "LevelConfiguration/LevelConfig", order = 1)]
 public class LevelConfigSO : ScriptableObject
 {
+    public float MainHealth = 0f;
     public Sprite BackGround = null;
     public List<TankType> InitTanks = new List<TankType>();
     public List<WaveConfig> waveConfigs = new List<WaveConfig>();

@@ -335,6 +335,7 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 312a705e7a770e144ab2c142032f9d53, type: 3}
   - {fileID: 21300000, guid: 4669c70f4ecdcf145a6bbc16d42e6100, type: 3}
   - {fileID: 21300000, guid: 13005ed66e5669e49926bbaae96f3772, type: 3}
+  coinBonus: 220
 --- !u!1 &9210493788854770331
 GameObject:
   m_ObjectHideFlags: 0
