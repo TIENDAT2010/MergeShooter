@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class ViewManager : MonoBehaviour
@@ -9,6 +10,7 @@ public class ViewManager : MonoBehaviour
     [SerializeField] private HomeView homeViewPrefab;
     [SerializeField] private GameView gameViewPrefab;
 
+    public static OnDestroy instance;
     public HomeView HomeView { private set; get; }
     public GameView GameView { private set; get; }
 
@@ -34,8 +36,6 @@ public class ViewManager : MonoBehaviour
 
             GameView = Instantiate(gameViewPrefab, transform,false);
             GameView.OnHide();
-
-            currentView = HomeView;
         }
     }
 
@@ -43,7 +43,8 @@ public class ViewManager : MonoBehaviour
 
     public void SetActiveView(ViewType viewType)
     {
-        currentView.OnHide();
+        if (currentView != null)
+            currentView.OnHide();
         switch(viewType)
         {
             case ViewType.HomeView:

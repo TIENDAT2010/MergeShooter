@@ -2,19 +2,18 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
 
-public class CoinEffectController : MonoBehaviour
+public class DamageEffectController : MonoBehaviour
 {
-    [SerializeField] private TextMeshProUGUI m_CoinText;
+    [SerializeField] private TextMeshProUGUI damageEffectText = null;
     [SerializeField] private CanvasGroup m_CanvasGroup;
 
     private void Start()
     {
-        StartCoroutine(MoveCoin());
+        StartCoroutine(MoveDamageEffect());
     }
 
-    private IEnumerator MoveCoin()
+    private IEnumerator MoveDamageEffect()
     {
         float t = 0;
         float moveTime = 1f;
@@ -29,11 +28,11 @@ public class CoinEffectController : MonoBehaviour
             transform.position = newPos;
             yield return null;
         }
-            Destroy(gameObject);
+        Destroy(gameObject);
     }
 
-    public void SetCoinBonus(float coin)
+    public void SetDamageEffcet(float damage)
     {
-        m_CoinText.text = coin.ToString();
+        damageEffectText.text = "-" + damage.ToString();
     }
 }

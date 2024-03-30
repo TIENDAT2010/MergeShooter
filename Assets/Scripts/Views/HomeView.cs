@@ -7,7 +7,7 @@ public class HomeView : BaseView
 {
     public override void OnShow()
     {
-        base.OnShow();
+        gameObject.SetActive(true);
     }
 
     public override void OnHide() 

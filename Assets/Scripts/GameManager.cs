@@ -35,29 +35,35 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
         Application.targetFrameRate = 60;
-        m_state = GameState.GameInit;
         CurrentLevel = PlayerPrefs.GetInt(PlayerPrefsKey.LEVEL_KEY, 1);
+       
         ViewManager.Instance.SetActiveView(ViewType.GameView);
+
+
+        levelConfig = Resources.Load("Levels/" + CurrentLevel.ToString(), typeof(LevelConfigSO)) as LevelConfigSO;
+
+        MainHealth = levelConfig.MainHealth;
 
         for (int i = 0; i < tankSpawns.Length; i++)
         {
             dicTankSpawn.Add(tankSpawns[i], null);
         }
 
-        levelConfig = Resources.Load("Levels/" + CurrentLevel.ToString(), typeof(LevelConfigSO)) as LevelConfigSO;
-
-        MainHealth = levelConfig.MainHealth;
 
         for (int i = 0; i < levelConfig.InitTanks.Count; i++)
         {
             SpawnTank(levelConfig.InitTanks[i]);
         }
         TankTypeToRandom = levelConfig.InitTanks[Random.Range(0, levelConfig.InitTanks.Count)];
+
+        m_state = GameState.GameStart;
+
+        StartCoroutine(SpawnEnemies());
     }
 
     private void Update()
     {
-        if(m_state == GameState.GameStart)
+        if(m_state == GameState.GameStart && ViewManager.Instance.GameView.m_GameOver == false)
         {
             Vector3 mousePos = UnityEngine.Camera.main.ScreenToWorldPoint(Input.mousePosition);
             if (Input.GetMouseButtonDown(0))
@@ -133,27 +139,24 @@ public class GameManager : MonoBehaviour
     }
 
 
-    public void GameStart()
-    {
-        m_state = GameState.GameStart;
-        StartCoroutine(SpawnEnemies());
-    }
-
     public void SpawnTank(TankType tankType)
     {
-        for (int i = 0; i < dicTankSpawn.Count; i++)
+        if(ViewManager.Instance.GameView.m_GameOver == false)
         {
-            Transform gridTranform = tankSpawns[i];
-            GameObject valueTank = null;
-            dicTankSpawn.TryGetValue(gridTranform, out valueTank);
-            if (valueTank == null)
+            for (int i = 0; i < dicTankSpawn.Count; i++)
             {
-                TankController tank = PoolManager.Instance.GetTankController(tankType);
-                dicTankSpawn[gridTranform] = tank.gameObject;
-                tank.gameObject.transform.position = gridTranform.position;
-                tank.gameObject.SetActive(true);
-                tank.CurrentTankSpawn = gridTranform;
-                break;
+                Transform gridTranform = tankSpawns[i];
+                GameObject valueTank = null;
+                dicTankSpawn.TryGetValue(gridTranform, out valueTank);
+                if (valueTank == null)
+                {
+                    TankController tank = PoolManager.Instance.GetTankController(tankType);
+                    dicTankSpawn[gridTranform] = tank.gameObject;
+                    tank.gameObject.transform.position = gridTranform.position;
+                    tank.gameObject.SetActive(true);
+                    tank.CurrentTankSpawn = gridTranform;
+                    break;
+                }
             }
         }
     }
@@ -164,7 +167,7 @@ public class GameManager : MonoBehaviour
         int enemyOrder = 100;
         int waveIndex = 0;
         List<WaveConfig> waveConfigs = levelConfig.waveConfigs;
-        while (true)
+        while (ViewManager.Instance.GameView.m_GameOver == false)
         {
             WaveConfig waveConfig = waveConfigs[waveIndex];
             for (int i = 0;i < waveConfig.enemyConfigs.Count;i++)
@@ -175,7 +178,7 @@ public class GameManager : MonoBehaviour
                 spawnPos.y = 9;
                 spawnPos.x = Random.Range(-4.7f, 4.7f);
                 enemyController.transform.position = spawnPos;
-                enemyController.OnEnemyInit(enemyOrder,waveConfig.enemySpeed,enemyConfig.damage,enemyConfig.health);
+                enemyController.OnEnemyInit(enemyOrder,enemyConfig.damage,enemyConfig.health);
                 enemyOrder--;
                 m_enemyCount++;
                 yield return new WaitForSeconds(1);

@@ -11,7 +11,8 @@ public class EnemyController : MonoBehaviour
     [SerializeField] private Image healthBar = null;
     [SerializeField] private Sprite[] sprites = null;
     [SerializeField] private float coinBonus;
-    private float m_speed;
+    [SerializeField] private float speedAttack;
+    [SerializeField] private float m_speedMove;
     private float m_damage;
     private float m_health;
     private float m_FisrtHealth;
@@ -22,7 +23,6 @@ public class EnemyController : MonoBehaviour
     {
         healthBar.fillAmount = 1f;
         StartCoroutine(PlayAnimation());
-
         StartCoroutine(Moving());
         StartCoroutine(OnAttack());        
     }
@@ -30,7 +30,7 @@ public class EnemyController : MonoBehaviour
 
     private IEnumerator PlayAnimation()
     {
-        while (true)
+        while (ViewManager.Instance.GameView.m_GameOver == false)
         {
             for (int i = 0; i < sprites.Length; i++)
             {
@@ -42,30 +42,33 @@ public class EnemyController : MonoBehaviour
 
     private IEnumerator Moving()
     {
-        while(spriteRenderer.transform.position.y >= -4f)
+        while(spriteRenderer.transform.position.y >= -4f && ViewManager.Instance.GameView.m_GameOver == false) 
         {
-            transform.position += Vector3.down * m_speed * Time.deltaTime;
+            transform.position += Vector3.down * m_speedMove * Time.deltaTime;
             yield return null;
         }            
     }
 
     private IEnumerator OnAttack()
     {
-        while(true)
+        while(ViewManager.Instance.GameView.m_GameOver == false)
         {
             if(spriteRenderer.transform.position.y <= -3.9f)
             {
                 ViewManager.Instance.GameView.OnEnemyAttack(m_damage);
+                DamageEffectController damageEffect = PoolManager.Instance.GetDamageEffectController();
+                damageEffect.transform.position = transform.position + Vector3.up;
+                damageEffect.SetDamageEffcet(m_damage);
+
             }
-            yield return new WaitForSeconds(2f);
+            yield return new WaitForSeconds(speedAttack);
         }
     }
         
     
-    public void OnEnemyInit(int oder, float speed, float damage, float health)
+    public void OnEnemyInit(int oder, float damage, float health)
     {
         spriteRenderer.sortingOrder = oder;
-        m_speed = speed;
         m_damage = damage;
         m_health = health;
         m_FisrtHealth = health;

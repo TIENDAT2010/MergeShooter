@@ -61,7 +61,7 @@ public class TankController : MonoBehaviour
 
     private IEnumerator FindEnemy()
     {
-        while (targetEnemy == null)
+        while (targetEnemy == null && ViewManager.Instance.GameView.m_GameOver == false)
         {
             if (m_isMoving == false)
             {
@@ -85,7 +85,7 @@ public class TankController : MonoBehaviour
 
     private IEnumerator ShootEnemy()
     {
-        while(targetEnemy != null) 
+        while(targetEnemy != null && ViewManager.Instance.GameView.m_GameOver == false) 
         {
             for (int i = 0; i < sprites.Length; i++)
             {
@@ -115,7 +115,7 @@ public class TankController : MonoBehaviour
 
     private IEnumerator RotateToEnemy()
     {
-        while (targetEnemy != null)
+        while (targetEnemy != null && ViewManager.Instance.GameView.m_GameOver == false)
         {
             transform.up = (targetEnemy.transform.position - transform.position).normalized;
             yield return null;
@@ -126,9 +126,6 @@ public class TankController : MonoBehaviour
     {
         Destroy(gameObject);
     }
-
-
-
 
 
     public void MoveTankBackToGrid()

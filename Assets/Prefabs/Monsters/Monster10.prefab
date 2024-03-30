@@ -412,3 +412,5 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 919a9920f3eb168448e00ef92ea6227f, type: 3}
   - {fileID: 21300000, guid: 9a62bfe0fe1e2c746b16c29cf75184be, type: 3}
   coinBonus: 250
+  speedAttack: 1.1
+  m_speedMove: 1.4

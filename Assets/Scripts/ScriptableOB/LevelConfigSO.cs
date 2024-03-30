@@ -16,7 +16,6 @@ public class LevelConfigSO : ScriptableObject
 [Serializable]
 public class WaveConfig
 {
-    public float enemySpeed;
     public List<EnemyConfig> enemyConfigs = new List<EnemyConfig>();
 }
 

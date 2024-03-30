@@ -11,6 +11,7 @@ public class PoolManager : MonoBehaviour
     [SerializeField] private BulletController[] bulletPrefabs;
     [SerializeField] private EnemyDieFx enemyDieFxPrefabs;
     [SerializeField] private CoinEffectController coinEffectPrefabs;
+    [SerializeField] private DamageEffectController damageEffectPrefabs;
 
     private void Awake()
     {
@@ -77,5 +78,10 @@ public class PoolManager : MonoBehaviour
     public CoinEffectController GetCoinEffectController()
     {
         return Instantiate(coinEffectPrefabs, Vector3.zero, Quaternion.identity);
+    }
+
+    public DamageEffectController GetDamageEffectController()
+    {
+        return Instantiate(damageEffectPrefabs, Vector3.zero, Quaternion.identity);
     }
 }
