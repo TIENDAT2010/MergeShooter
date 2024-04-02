@@ -53,11 +53,14 @@ public class TankController : MonoBehaviour
 
     private void Start()
     {
-        StartCoroutine(FindEnemy());        
+        StartGame();
     }
 
-
-
+    public void StartGame()
+    {
+        StartCoroutine(FindEnemy());
+    }
+        
 
     private IEnumerator FindEnemy()
     {
@@ -69,7 +72,7 @@ public class TankController : MonoBehaviour
                 foreach (GameObject enemy in enemies)
                 {
                     float distanceToPlayer = Vector3.Distance(this.transform.position, enemy.transform.position);
-                    if ((distanceToPlayer <= rangeFire) && (Mathf.Abs(enemy.transform.position.x - transform.position.x) <= 4))
+                    if ((distanceToPlayer <= rangeFire) && (Mathf.Abs(enemy.transform.position.x - transform.position.x) <= 4) && enemy.activeSelf == true)
                     {
                         targetEnemy = enemy;
                         StartCoroutine(RotateToEnemy());
@@ -92,16 +95,17 @@ public class TankController : MonoBehaviour
                 spriteRenderer.sprite = sprites[i];
                 yield return new WaitForSeconds(0.03f);
             }
-
-            BulletController bullet = PoolManager.Instance.GetBulletController(TankType);
-            bullet.transform.position = bulletSpawnPos.transform.position;
-            bullet.transform.up = transform.up;
-            bullet.Move(speedBullet);
-            bullet.SetDamage(damageTank);
+            
+            SpawnBullet();
 
             while (true)
             {
                 yield return new WaitForSeconds(speedFire); break;
+            }
+            
+            if(targetEnemy.activeSelf == false)
+            {
+                targetEnemy = null;
             }
                 
 
@@ -134,7 +138,7 @@ public class TankController : MonoBehaviour
         gameObject.GetComponent<Collider2D>().enabled = false;
         StartCoroutine(MoveTank());
         gameObject.GetComponent<Collider2D>().enabled = true;
-
+        StartGame();
     }
 
     private IEnumerator MoveTank()
@@ -151,5 +155,14 @@ public class TankController : MonoBehaviour
             yield return null;
         }
         m_isMoving = false;
+    }
+
+    private void SpawnBullet()
+    {
+        BulletController bulletspawn = PoolManager.Instance.GetBulletController(tankType);
+        bulletspawn.transform.position = bulletSpawnPos.transform.position;
+        bulletspawn.transform.up = transform.up;
+        bulletspawn.Move(speedBullet);
+        bulletspawn.SetDamage(damageTank);
     }
 }

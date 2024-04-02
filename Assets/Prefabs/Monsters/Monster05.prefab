@@ -314,7 +314,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemyType: 4
   spriteRenderer: {fileID: 3854416240434665286}
-  healthBar: {fileID: 0}
+  healthBar: {fileID: 3294418204124907396}
   sprites:
   - {fileID: 21300000, guid: 812408e5cd0cace41b861de03d28f493, type: 3}
   - {fileID: 21300000, guid: 36d4cf429205b794b92b4a84b07c2c14, type: 3}

@@ -59,6 +59,15 @@ public enum BulletType
     Bullet10 = 9,
 }
 
+public enum BossType
+{
+    Boss01 = 0,
+    Boss02 = 1,
+    Boss03 = 2,
+    Boss04 = 3,
+    Boss05 = 4,
+}
+
 public class EnumTypes 
 {
     

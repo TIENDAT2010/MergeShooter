@@ -269,6 +269,8 @@ MonoBehaviour:
   - {fileID: 5772459285833032178, guid: 19abb74563f3c56438a7a15420c91165, type: 3}
   - {fileID: 5772459285833032178, guid: 211e1f88023cc814ea7605cc2a836e6e, type: 3}
   - {fileID: 5772459285833032178, guid: 2b4fcba8ab5def5418a1d74cb0de42ae, type: 3}
+  bossPrefabs:
+  - {fileID: 8351639225448822815, guid: c12855d06f20c4c4b808f25208b4bbd3, type: 3}
   enemyDieFxPrefabs: {fileID: 3307052621351589210, guid: 8031a36f33f5c3447af58e7d22183906, type: 3}
   coinEffectPrefabs: {fileID: 6419690872860588941, guid: 9e45a6c6b35d2a843854006f9d29243c, type: 3}
   damageEffectPrefabs: {fileID: 6128480541487394828, guid: 33365e383ed13c840b98d663876b894e, type: 3}
@@ -1579,5 +1581,5 @@ SceneRoots:
   - {fileID: 943904941}
   - {fileID: 2124988652}
   - {fileID: 390440568}
-  - {fileID: 1934116961}
   - {fileID: 246533366}
+  - {fileID: 1934116961}

@@ -389,7 +389,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemyType: 9
   spriteRenderer: {fileID: 8285974427798683927}
-  healthBar: {fileID: 0}
+  healthBar: {fileID: 9120575411277563676}
   sprites:
   - {fileID: 21300000, guid: b2684d556a25dea4fa6e82535bec5845, type: 3}
   - {fileID: 21300000, guid: 7a598be280791e84dbb0e9726d7533f8, type: 3}

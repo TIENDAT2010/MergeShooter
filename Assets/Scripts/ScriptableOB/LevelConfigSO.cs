@@ -10,6 +10,7 @@ public class LevelConfigSO : ScriptableObject
     public Sprite BackGround = null;
     public List<TankType> InitTanks = new List<TankType>();
     public List<WaveConfig> waveConfigs = new List<WaveConfig>();
+    public List<BossConfig> bossConfigs = new List<BossConfig>();
 }
 
 
@@ -19,9 +20,17 @@ public class WaveConfig
     public List<EnemyConfig> enemyConfigs = new List<EnemyConfig>();
 }
 
+
 [Serializable]
 public class EnemyConfig
 {
     public EnemyType enemyType;
+    public float damage, health;
+}
+
+[Serializable]
+public class BossConfig
+{
+    public BossType bossType;
     public float damage, health;
 }

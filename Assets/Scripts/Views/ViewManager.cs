@@ -9,8 +9,8 @@ public class ViewManager : MonoBehaviour
 
     [SerializeField] private HomeView homeViewPrefab;
     [SerializeField] private GameView gameViewPrefab;
+    [SerializeField] private GameObject eventSystemPrefab;
 
-    public static OnDestroy instance;
     public HomeView HomeView { private set; get; }
     public GameView GameView { private set; get; }
 
@@ -20,25 +20,24 @@ public class ViewManager : MonoBehaviour
     {
         if (Instance != null)
         {
-            Instance = null;
             DestroyImmediate(gameObject);
         }
         else 
         {
             Instance = this;
+            GameObject eventSystem = Instantiate(eventSystemPrefab);
+            DontDestroyOnLoad(eventSystem);
             DontDestroyOnLoad(gameObject);
-        }
+            if (transform.childCount == 0)
+            {
+                HomeView = Instantiate(homeViewPrefab, transform, false);
+                HomeView.OnShow();
 
-        if (transform.childCount == 1)
-        {
-            HomeView = Instantiate(homeViewPrefab, transform,false );
-            HomeView.OnShow();
-
-            GameView = Instantiate(gameViewPrefab, transform,false);
-            GameView.OnHide();
+                GameView = Instantiate(gameViewPrefab, transform, false);
+                GameView.OnHide();
+            }
         }
     }
-
 
 
     public void SetActiveView(ViewType viewType)

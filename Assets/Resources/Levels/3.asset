@@ -16,8 +16,7 @@ MonoBehaviour:
   BackGround: {fileID: 0}
   InitTanks: 000000000000000000000000
   waveConfigs:
-  - enemySpeed: 1
-    enemyConfigs:
+  - enemyConfigs:
     - enemyType: 0
       damage: 2
       health: 15
@@ -36,34 +35,7 @@ MonoBehaviour:
     - enemyType: 0
       damage: 2
       health: 15
-  - enemySpeed: 1
-    enemyConfigs:
-    - enemyType: 0
-      damage: 2
-      health: 15
-    - enemyType: 0
-      damage: 2
-      health: 15
-    - enemyType: 0
-      damage: 2
-      health: 15
-    - enemyType: 0
-      damage: 2
-      health: 15
-    - enemyType: 0
-      damage: 2
-      health: 15
-    - enemyType: 0
-      damage: 2
-      health: 15
-    - enemyType: 0
-      damage: 2
-      health: 15
-    - enemyType: 0
-      damage: 2
-      health: 15
-  - enemySpeed: 1
-    enemyConfigs:
+  - enemyConfigs:
     - enemyType: 0
       damage: 2
       health: 15
@@ -88,14 +60,7 @@ MonoBehaviour:
     - enemyType: 0
       damage: 2
       health: 15
-    - enemyType: 0
-      damage: 2
-      health: 15
-    - enemyType: 0
-      damage: 2
-      health: 15
-  - enemySpeed: 1
-    enemyConfigs:
+  - enemyConfigs:
     - enemyType: 0
       damage: 2
       health: 15
@@ -126,14 +91,7 @@ MonoBehaviour:
     - enemyType: 0
       damage: 2
       health: 15
-    - enemyType: 0
-      damage: 2
-      health: 15
-    - enemyType: 0
-      damage: 2
-      health: 15
-  - enemySpeed: 1
-    enemyConfigs:
+  - enemyConfigs:
     - enemyType: 0
       damage: 2
       health: 15
@@ -170,6 +128,7 @@ MonoBehaviour:
     - enemyType: 0
       damage: 2
       health: 15
+  - enemyConfigs:
     - enemyType: 0
       damage: 2
       health: 15
@@ -179,3 +138,43 @@ MonoBehaviour:
     - enemyType: 0
       damage: 2
       health: 15
+    - enemyType: 0
+      damage: 2
+      health: 15
+    - enemyType: 0
+      damage: 2
+      health: 15
+    - enemyType: 0
+      damage: 2
+      health: 15
+    - enemyType: 0
+      damage: 2
+      health: 15
+    - enemyType: 0
+      damage: 2
+      health: 15
+    - enemyType: 0
+      damage: 2
+      health: 15
+    - enemyType: 0
+      damage: 2
+      health: 15
+    - enemyType: 0
+      damage: 2
+      health: 15
+    - enemyType: 0
+      damage: 2
+      health: 15
+    - enemyType: 0
+      damage: 2
+      health: 15
+    - enemyType: 0
+      damage: 2
+      health: 15
+    - enemyType: 0
+      damage: 2
+      health: 15
+  bossConfigs:
+  - bossType: 0
+    damage: 10
+    health: 2000

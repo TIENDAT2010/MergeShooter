@@ -11,11 +11,21 @@ public class GameManager : MonoBehaviour
     private Dictionary<Transform, GameObject> dicTankSpawn = new Dictionary<Transform, GameObject>();
     private LevelConfigSO levelConfig = null;
     private Transform selectedTankPos = null;
+
+    public int CurrentCoin 
+    {
+        get { return PlayerPrefs.GetInt(PlayerPrefsKey.COIN_KEY, 0); }
+        set
+        {
+            PlayerPrefs.SetInt(PlayerPrefsKey.COIN_KEY, value);
+        }
+    }
     public float MainHealth { private set; get; }
     public int CurrentLevel { private set; get; }
     public TankType TankTypeToRandom { get ; private set ; }
 
     private int m_enemyCount = 0;
+    private int m_bossCount = 0;
     private GameState m_state;
 
     private void Awake()
@@ -36,13 +46,12 @@ public class GameManager : MonoBehaviour
     {
         Application.targetFrameRate = 60;
         CurrentLevel = PlayerPrefs.GetInt(PlayerPrefsKey.LEVEL_KEY, 1);
-       
         ViewManager.Instance.SetActiveView(ViewType.GameView);
-
 
         levelConfig = Resources.Load("Levels/" + CurrentLevel.ToString(), typeof(LevelConfigSO)) as LevelConfigSO;
 
         MainHealth = levelConfig.MainHealth;
+
 
         for (int i = 0; i < tankSpawns.Length; i++)
         {
@@ -106,6 +115,7 @@ public class GameManager : MonoBehaviour
                             dicTankSpawn[selectedTank.CurrentTankSpawn] = null;
                             selectedTank.CurrentTankSpawn = gridTranformNearest;
                             selectedTank.IsMoving = false;
+                            selectedTank.StartGame();
                         }
                         else
                         {
@@ -125,6 +135,7 @@ public class GameManager : MonoBehaviour
                                 newTank.transform.position = gridTranformNearest.transform.position;
                                 newTank.CurrentTankSpawn = gridTranformNearest;
                                 dicTankSpawn[gridTranformNearest] = newTank.gameObject;
+                                newTank.StartGame();
                             }
                             else
                             {
@@ -200,6 +211,27 @@ public class GameManager : MonoBehaviour
         {
             yield return null;
         }
+
+        List<BossConfig> m_bossConfigs = levelConfig.bossConfigs;
+        for(int i = 0; i < m_bossConfigs.Count; i++)
+        {
+            BossConfig bossConfig = m_bossConfigs[i];
+            BossController boss = PoolManager.Instance.GetBossController(bossConfig.bossType);
+            Vector3 spawnPos = Vector3.zero;
+            spawnPos.y = 9;
+            spawnPos.x = Random.Range(-3f, 3f);
+            boss.transform.position = spawnPos;
+            boss.OnBossInit(enemyOrder, bossConfig.damage, bossConfig.health);
+            enemyOrder--;
+            m_bossCount++;
+            yield return new WaitForSeconds(1);
+        }
+
+        while ((m_enemyCount > 0) && (m_bossCount > 0))
+        {
+            yield return null;
+        }
+
         yield return new WaitForSeconds(2);
         CurrentLevel++;
         PlayerPrefs.SetInt(PlayerPrefsKey.LEVEL_KEY, CurrentLevel);
@@ -212,6 +244,11 @@ public class GameManager : MonoBehaviour
     {
         m_enemyCount--;
     }    
+
+    public void UpdateDeadBoss()
+    {
+        m_bossCount--;
+    }
 
 
 

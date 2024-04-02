@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 
 public class PoolManager : MonoBehaviour
 {
@@ -9,10 +10,14 @@ public class PoolManager : MonoBehaviour
     [SerializeField] private EnemyController[] enemyPrefabs;
     [SerializeField] private TankController[] tankPrefabs;
     [SerializeField] private BulletController[] bulletPrefabs;
+    [SerializeField] private BossController[] bossPrefabs;
     [SerializeField] private EnemyDieFx enemyDieFxPrefabs;
     [SerializeField] private CoinEffectController coinEffectPrefabs;
     [SerializeField] private DamageEffectController damageEffectPrefabs;
 
+
+    private List<BulletController> listBullet = new List<BulletController>();
+    private List<EnemyController> listEnemy = new List<EnemyController>();
     private void Awake()
     {
         if (Instance != null)
@@ -26,17 +31,33 @@ public class PoolManager : MonoBehaviour
         }
     }
 
-    public EnemyController GetEnemyController(EnemyType enemyType)
-    {
-        EnemyController resultEnemy = null;
 
-        for (int i = 0; i < enemyPrefabs.Length; i++)
+    public BossController GetBossController(BossType bossType)
+    {
+        BossController resultBoss = null;
+
+        for (int i = 0; i < bossPrefabs.Length; i++)
         {
-            if (enemyPrefabs[i].EnemyType == enemyType)
+            if (bossPrefabs[i].BossType == bossType)
             {
-                resultEnemy = Instantiate(enemyPrefabs[i], Vector3.zero, Quaternion.identity);
+                resultBoss = Instantiate(bossPrefabs[i], Vector3.zero, Quaternion.identity);
             }
         }
+        return resultBoss;
+    }
+
+
+    public EnemyController GetEnemyController(EnemyType enemyType)
+    {
+        EnemyController resultEnemy = listEnemy.Where(a => a.EnemyType.Equals(enemyType) && !a.gameObject.activeSelf).FirstOrDefault();
+
+        if (resultEnemy == null)
+        {
+            EnemyController prefab = enemyPrefabs.Where(a => a.EnemyType.Equals(enemyType)).FirstOrDefault();
+            resultEnemy = Instantiate(prefab, Vector3.zero, Quaternion.identity);
+            listEnemy.Add(resultEnemy);
+        }
+        resultEnemy.gameObject.SetActive(true);
         return resultEnemy;
     }
 
@@ -55,17 +76,19 @@ public class PoolManager : MonoBehaviour
         return resultTank;
     }
 
+
+
     public BulletController GetBulletController(TankType tankType)
     {
-        BulletController resultBullet = null;
+        BulletController resultBullet = listBullet.Where(a => a.TankType.Equals(tankType) && !a.gameObject.activeSelf).FirstOrDefault();
 
-        for (int i = 0; i < bulletPrefabs.Length; i++)
+        if(resultBullet == null)
         {
-            if (bulletPrefabs[i].TankType == tankType)
-            {
-                resultBullet = Instantiate(bulletPrefabs[i], Vector3.zero, Quaternion.identity);
-            }
+            BulletController prefab = bulletPrefabs.Where(a => a.TankType.Equals(tankType)).FirstOrDefault();
+            resultBullet = Instantiate(prefab, Vector3.zero, Quaternion.identity);
+            listBullet.Add(resultBullet);
         }
+        resultBullet.gameObject.SetActive(true);
         return resultBullet;
     }
 

@@ -13,8 +13,15 @@ public class BulletController : MonoBehaviour
         {
             EnemyController enemy = col.gameObject.GetComponent<EnemyController>();
             enemy.OneHitBullet(damage);
-            Destroy(gameObject);
+            gameObject.SetActive(false);
         }
+        if (col.gameObject.CompareTag("Boss"))
+        {
+            BossController boss = col.gameObject.GetComponent<BossController>();
+            boss.OneHitBullet(damage);
+            gameObject.SetActive(false);
+        }
+            
     }
 
     public void SetDamage(int dg)
@@ -22,7 +29,6 @@ public class BulletController : MonoBehaviour
         damage = dg;
     }
         
-
     public void Move(float speed)
     {
         StartCoroutine(MoveBullet(speed));
@@ -37,7 +43,7 @@ public class BulletController : MonoBehaviour
 
             if ((transform.position.y > 11f) || (transform.position.x > 6f) || (transform.position.x < -6f))
             {
-                Destroy(gameObject);
+                gameObject.SetActive(false);
             }
             yield return null;
         }
