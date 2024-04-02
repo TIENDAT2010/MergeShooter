@@ -53,18 +53,13 @@ public class TankController : MonoBehaviour
 
     private void Start()
     {
-        StartGame();
-    }
-
-    public void StartGame()
-    {
         StartCoroutine(FindEnemy());
     }
         
 
     private IEnumerator FindEnemy()
     {
-        while (targetEnemy == null && ViewManager.Instance.GameView.m_GameOver == false)
+        while (targetEnemy == null && GameManager.Instance.IsGameOver() == false)
         {
             if (m_isMoving == false)
             {
@@ -80,6 +75,18 @@ public class TankController : MonoBehaviour
                         yield break;
                     }
                 }
+                GameObject[] bosses = GameObject.FindGameObjectsWithTag("Boss");
+                foreach(GameObject boss in bosses)
+                {
+                    float distanceToPlayer = Vector3.Distance(this.transform.position, boss.transform.position);
+                    if ((distanceToPlayer <= rangeFire) && (Mathf.Abs(boss.transform.position.x - transform.position.x) <= 4) && boss.activeSelf == true)
+                    {
+                        targetEnemy = boss;
+                        StartCoroutine(RotateToEnemy());
+                        StartCoroutine(ShootEnemy());
+                        yield break;
+                    }
+                }
             }
             yield return null;
         }
@@ -88,7 +95,7 @@ public class TankController : MonoBehaviour
 
     private IEnumerator ShootEnemy()
     {
-        while(targetEnemy != null && ViewManager.Instance.GameView.m_GameOver == false) 
+        while(targetEnemy != null)
         {
             for (int i = 0; i < sprites.Length; i++)
             {
@@ -119,8 +126,8 @@ public class TankController : MonoBehaviour
 
     private IEnumerator RotateToEnemy()
     {
-        while (targetEnemy != null && ViewManager.Instance.GameView.m_GameOver == false)
-        {
+        while (targetEnemy != null)
+        { 
             transform.up = (targetEnemy.transform.position - transform.position).normalized;
             yield return null;
         }
@@ -138,7 +145,7 @@ public class TankController : MonoBehaviour
         gameObject.GetComponent<Collider2D>().enabled = false;
         StartCoroutine(MoveTank());
         gameObject.GetComponent<Collider2D>().enabled = true;
-        StartGame();
+
     }
 
     private IEnumerator MoveTank()

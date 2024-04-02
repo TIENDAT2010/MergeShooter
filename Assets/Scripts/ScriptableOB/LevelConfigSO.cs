@@ -8,6 +8,8 @@ public class LevelConfigSO : ScriptableObject
 {
     public float MainHealth = 0f;
     public Sprite BackGround = null;
+    public int CointToBuyTank = 0;
+    public List<TankType> SpawnTanks = new List<TankType>();
     public List<TankType> InitTanks = new List<TankType>();
     public List<WaveConfig> waveConfigs = new List<WaveConfig>();
     public List<BossConfig> bossConfigs = new List<BossConfig>();

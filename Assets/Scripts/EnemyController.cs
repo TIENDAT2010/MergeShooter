@@ -64,7 +64,7 @@ public class EnemyController : MonoBehaviour
     {
         while (gameObject.activeSelf)
         {
-            ViewManager.Instance.GameView.OnEnemyAttack(m_damage);
+            GameManager.Instance.OnEnemyAttack(m_damage);
             DamageEffectController damageEffect = PoolManager.Instance.GetDamageEffectController();
             damageEffect.transform.position = transform.position + Vector3.up;
             damageEffect.SetDamageEffcet(m_damage);
@@ -84,6 +84,7 @@ public class EnemyController : MonoBehaviour
             GameManager.Instance.UpdateDeadEnemy();
             EnemyDieFx enemyDieFx = PoolManager.Instance.GetEnemyDieFx();
             enemyDieFx.transform.position = transform.position;
+
 
 
             CoinEffectController coinEffect = PoolManager.Instance.GetCoinEffectController();

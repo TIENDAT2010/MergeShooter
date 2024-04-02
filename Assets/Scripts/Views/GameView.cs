@@ -17,29 +17,17 @@ public class GameView : BaseView
     [SerializeField] private GameObject m_PauseGamePanel = null;
 
 
-    private float m_MaxmainHP = 0f;
-    private float m_PreMainHP = 0f;
-
-    public bool m_GameOver { private set; get; } = false;
-
-
     private void Update()
     {
-        healthText.text = "HP : " + m_PreMainHP.ToString();
+        healthText.text = "HP : " + GameManager.Instance.MainHealth.ToString();
         coinText.text = GameManager.Instance.CurrentCoin.ToString();
-    }
 
-    public void OnEnemyAttack(float damage)
-    {
-        m_PreMainHP = m_PreMainHP - damage;
-        mainHealthBar.fillAmount = m_PreMainHP / m_MaxmainHP;
-        if(m_PreMainHP == 0f)
+        mainHealthBar.fillAmount = GameManager.Instance.MainHealth / GameManager.Instance.BaseHealth;
+        if(GameManager.Instance.MainHealth <= 0)
         {
             m_GameOverPanel.SetActive(true);
-            m_GameOver = true;
         }
     }
-
 
     public override void OnShow()
     {
@@ -47,9 +35,6 @@ public class GameView : BaseView
         m_GameOverPanel.SetActive(false);
         m_PauseGamePanel.SetActive(false);
         levelText.text = "Level: " + GameManager.Instance.CurrentLevel.ToString();
-
-        m_MaxmainHP = GameManager.Instance.MainHealth;
-        m_PreMainHP = m_MaxmainHP;
         mainHealthBar.fillAmount = 1f;
     }
 
@@ -91,12 +76,7 @@ public class GameView : BaseView
 
     public void OnClickBuyTanks()
     {
-        if(GameManager.Instance.CurrentCoin >= 100)
-        {
-            TankType tankType = GameManager.Instance.TankTypeToRandom;
-            GameManager.Instance.SpawnTank(tankType);
-            GameManager.Instance.CurrentCoin -= 100;
-        }
+        GameManager.Instance.BuyTank();
     }
 
     public void ResumeGame()

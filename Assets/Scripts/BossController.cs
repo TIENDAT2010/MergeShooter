@@ -19,23 +19,23 @@ public class BossController : MonoBehaviour
 
     public BossType BossType { get => bossType; }
 
-    private void Start()
-    {
-        StartGame();
-    }
 
-    public void StartGame()
+
+    public void OnBossInit(int oder, float damage, float health)
     {
+        spriteRenderer.sortingOrder = oder;
+        m_damage = damage;
+        m_health = health;
+        m_FisrtHealth = health;
         healthBar.fillAmount = 1f;
         StartCoroutine(PlayAnimation());
         StartCoroutine(Moving());
-        StartCoroutine(OnAttack());
     }
 
 
     private IEnumerator PlayAnimation()
     {
-        while (ViewManager.Instance.GameView.m_GameOver == false)
+        while (gameObject.activeSelf)
         {
             for (int i = 0; i < sprites.Length; i++)
             {
@@ -47,37 +47,30 @@ public class BossController : MonoBehaviour
 
     private IEnumerator Moving()
     {
-        while (spriteRenderer.transform.position.y >= -4f && ViewManager.Instance.GameView.m_GameOver == false)
+        while (spriteRenderer.transform.position.y >= -4f && gameObject.activeSelf)
         {
             transform.position += Vector3.down * m_speedMove * Time.deltaTime;
             yield return null;
+        }
+        if(transform.position.y <= -3.9f)
+        {
+            StartCoroutine(OnAttack());
+            yield break;
         }
     }
 
     private IEnumerator OnAttack()
     {
-        while (ViewManager.Instance.GameView.m_GameOver == false)
+        while(gameObject.activeSelf)
         {
-            if (spriteRenderer.transform.position.y <= -3.9f)
-            {
-                ViewManager.Instance.GameView.OnEnemyAttack(m_damage);
-                DamageEffectController damageEffect = PoolManager.Instance.GetDamageEffectController();
-                damageEffect.transform.position = transform.position + Vector3.up;
-                damageEffect.SetDamageEffcet(m_damage);
-
-            }
+            GameManager.Instance.OnEnemyAttack(m_damage);
+            DamageEffectController damageEffect = PoolManager.Instance.GetDamageEffectController();
+            damageEffect.transform.position = transform.position + Vector3.up;
+            damageEffect.SetDamageEffcet(m_damage);
             yield return new WaitForSeconds(speedAttack);
         }
     }
 
-
-    public void OnBossInit(int oder, float damage, float health)
-    {
-        spriteRenderer.sortingOrder = oder;
-        m_damage = damage;
-        m_health = health;
-        m_FisrtHealth = health;
-    }
 
     public void OneHitBullet(int damage)
     {
@@ -92,7 +85,7 @@ public class BossController : MonoBehaviour
             CoinEffectController coinEffect = PoolManager.Instance.GetCoinEffectController();
             coinEffect.transform.position = transform.position + Vector3.up;
             coinEffect.SetCoinBonus(coinBonus);
-            GameManager.Instance.CurrentCoin += coinBonus;
-        }
+            GameManager.Instance.CurrentCoin += coinBonus;            
+        }       
     }
 }

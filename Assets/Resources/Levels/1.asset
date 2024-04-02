@@ -14,84 +14,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   MainHealth: 100
   BackGround: {fileID: 0}
+  CointToBuyTank: 100
+  SpawnTanks: 00000000
   InitTanks: 000000000000000000000000
   waveConfigs:
   - enemyConfigs:
     - enemyType: 0
       damage: 2
-      health: 15
+      health: 20
     - enemyType: 0
       damage: 2
-      health: 15
-    - enemyType: 0
-      damage: 2
-      health: 15
-    - enemyType: 0
-      damage: 2
-      health: 15
-    - enemyType: 0
-      damage: 2
-      health: 15
-    - enemyType: 0
-      damage: 2
-      health: 15
-  - enemyConfigs:
-    - enemyType: 0
-      damage: 2
-      health: 15
-    - enemyType: 0
-      damage: 2
-      health: 15
-    - enemyType: 0
-      damage: 2
-      health: 15
-    - enemyType: 0
-      damage: 2
-      health: 15
-    - enemyType: 0
-      damage: 2
-      health: 15
-    - enemyType: 0
-      damage: 2
-      health: 15
-    - enemyType: 0
-      damage: 2
-      health: 15
-    - enemyType: 0
-      damage: 2
-      health: 15
-  - enemyConfigs:
-    - enemyType: 0
-      damage: 2
-      health: 15
-    - enemyType: 0
-      damage: 2
-      health: 15
-    - enemyType: 0
-      damage: 2
-      health: 15
-    - enemyType: 0
-      damage: 2
-      health: 15
-    - enemyType: 0
-      damage: 2
-      health: 15
-    - enemyType: 0
-      damage: 2
-      health: 15
-    - enemyType: 0
-      damage: 2
-      health: 15
-    - enemyType: 0
-      damage: 2
-      health: 15
-    - enemyType: 0
-      damage: 2
-      health: 15
-    - enemyType: 0
-      damage: 2
-      health: 15
+      health: 20
   bossConfigs:
   - bossType: 0
     damage: 10
-    health: 1000
+    health: 100

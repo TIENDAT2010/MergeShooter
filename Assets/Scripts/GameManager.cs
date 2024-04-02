@@ -20,12 +20,19 @@ public class GameManager : MonoBehaviour
             PlayerPrefs.SetInt(PlayerPrefsKey.COIN_KEY, value);
         }
     }
-    public float MainHealth { private set; get; }
+    public float MainHealth
+    { 
+        get { return m_mainHealth; }
+
+        set { m_mainHealth = value; }
+    }
     public int CurrentLevel { private set; get; }
+    public float BaseHealth { private set; get; }   
     public TankType TankTypeToRandom { get ; private set ; }
 
     private int m_enemyCount = 0;
     private int m_bossCount = 0;
+    private float m_mainHealth = 0;
     private GameState m_state;
 
     private void Awake()
@@ -49,9 +56,8 @@ public class GameManager : MonoBehaviour
         ViewManager.Instance.SetActiveView(ViewType.GameView);
 
         levelConfig = Resources.Load("Levels/" + CurrentLevel.ToString(), typeof(LevelConfigSO)) as LevelConfigSO;
-
-        MainHealth = levelConfig.MainHealth;
-
+        BaseHealth = levelConfig.MainHealth;
+        MainHealth = BaseHealth;
 
         for (int i = 0; i < tankSpawns.Length; i++)
         {
@@ -72,7 +78,7 @@ public class GameManager : MonoBehaviour
 
     private void Update()
     {
-        if(m_state == GameState.GameStart && ViewManager.Instance.GameView.m_GameOver == false)
+        if(m_state == GameState.GameStart && IsGameOver() == false)
         {
             Vector3 mousePos = UnityEngine.Camera.main.ScreenToWorldPoint(Input.mousePosition);
             if (Input.GetMouseButtonDown(0))
@@ -115,7 +121,6 @@ public class GameManager : MonoBehaviour
                             dicTankSpawn[selectedTank.CurrentTankSpawn] = null;
                             selectedTank.CurrentTankSpawn = gridTranformNearest;
                             selectedTank.IsMoving = false;
-                            selectedTank.StartGame();
                         }
                         else
                         {
@@ -135,7 +140,6 @@ public class GameManager : MonoBehaviour
                                 newTank.transform.position = gridTranformNearest.transform.position;
                                 newTank.CurrentTankSpawn = gridTranformNearest;
                                 dicTankSpawn[gridTranformNearest] = newTank.gameObject;
-                                newTank.StartGame();
                             }
                             else
                             {
@@ -152,7 +156,7 @@ public class GameManager : MonoBehaviour
 
     public void SpawnTank(TankType tankType)
     {
-        if(ViewManager.Instance.GameView.m_GameOver == false)
+        if(IsGameOver() == false)
         {
             for (int i = 0; i < dicTankSpawn.Count; i++)
             {
@@ -178,7 +182,7 @@ public class GameManager : MonoBehaviour
         int enemyOrder = 100;
         int waveIndex = 0;
         List<WaveConfig> waveConfigs = levelConfig.waveConfigs;
-        while (ViewManager.Instance.GameView.m_GameOver == false)
+        while (IsGameOver() == false)
         {
             WaveConfig waveConfig = waveConfigs[waveIndex];
             for (int i = 0;i < waveConfig.enemyConfigs.Count;i++)
@@ -211,6 +215,7 @@ public class GameManager : MonoBehaviour
         {
             yield return null;
         }
+        yield return new WaitForSeconds(2f);
 
         List<BossConfig> m_bossConfigs = levelConfig.bossConfigs;
         for(int i = 0; i < m_bossConfigs.Count; i++)
@@ -227,7 +232,7 @@ public class GameManager : MonoBehaviour
             yield return new WaitForSeconds(1);
         }
 
-        while ((m_enemyCount > 0) && (m_bossCount > 0))
+        while (m_bossCount > 0)
         {
             yield return null;
         }
@@ -236,6 +241,8 @@ public class GameManager : MonoBehaviour
         CurrentLevel++;
         PlayerPrefs.SetInt(PlayerPrefsKey.LEVEL_KEY, CurrentLevel);
         ViewManager.Instance.GameView.OnCompleteLevel();
+        yield break;
+
     }
 
              
@@ -307,6 +314,38 @@ public class GameManager : MonoBehaviour
         }
         return tank;
     }
+
+
+    public void OnEnemyAttack(float damage)
+    {
+        MainHealth = MainHealth - damage;
+    }
+
+    public bool IsGameOver()
+    {
+        if (m_mainHealth == 0)
+        {
+            return true;
+        }            
+        else
+        {
+            return false;
+        }           
+    }
+
+
+    public void BuyTank()
+    {
+        if(CurrentCoin >= levelConfig.CointToBuyTank)
+        {
+            int randomIdx = Random.Range(0, levelConfig.SpawnTanks.Count);
+            TankType tankType = levelConfig.SpawnTanks[randomIdx];
+            SpawnTank(tankType);
+            CurrentCoin -= levelConfig.CointToBuyTank;
+        }
+    }
+
+
 
     private TankType GetNextTankType(TankType oldType)
     {
