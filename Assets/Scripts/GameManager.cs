@@ -26,6 +26,8 @@ public class GameManager : MonoBehaviour
 
         set { m_mainHealth = value; }
     }
+
+    public GameState GameState { private set; get; }
     public int CurrentLevel { private set; get; }
     public float BaseHealth { private set; get; }   
     public TankType TankTypeToRandom { get ; private set ; }
@@ -33,7 +35,7 @@ public class GameManager : MonoBehaviour
     private int m_enemyCount = 0;
     private int m_bossCount = 0;
     private float m_mainHealth = 0;
-    private GameState m_state;
+    private int m_waveIndex = 0;
 
     private void Awake()
     {
@@ -51,6 +53,7 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
+        GameState = GameState.GameInit;
         Application.targetFrameRate = 60;
         CurrentLevel = PlayerPrefs.GetInt(PlayerPrefsKey.LEVEL_KEY, 1);
         ViewManager.Instance.SetActiveView(ViewType.GameView);
@@ -71,14 +74,13 @@ public class GameManager : MonoBehaviour
         }
         TankTypeToRandom = levelConfig.InitTanks[Random.Range(0, levelConfig.InitTanks.Count)];
 
-        m_state = GameState.GameStart;
 
-        StartCoroutine(SpawnEnemies());
+        Invoke(nameof(GameStart), 1f);
     }
 
     private void Update()
     {
-        if(m_state == GameState.GameStart && IsGameOver() == false)
+        if(GameState == GameState.GameStart && IsGameOver() == false)
         {
             Vector3 mousePos = UnityEngine.Camera.main.ScreenToWorldPoint(Input.mousePosition);
             if (Input.GetMouseButtonDown(0))
@@ -154,6 +156,13 @@ public class GameManager : MonoBehaviour
     }
 
 
+    public void GameStart()
+    {
+        GameState = GameState.GameStart;
+        ViewManager.Instance.GameView.SetWaveTextEnemy(levelConfig.waveConfigs.Count, m_waveIndex);
+    }    
+
+
     public void SpawnTank(TankType tankType)
     {
         if(IsGameOver() == false)
@@ -177,15 +186,18 @@ public class GameManager : MonoBehaviour
     }
 
 
+    public void SpawnEnemy()
+    {
+        StartCoroutine(SpawnEnemies());
+    }
+
     private IEnumerator SpawnEnemies()
     {
         int enemyOrder = 100;
-        int waveIndex = 0;
-        List<WaveConfig> waveConfigs = levelConfig.waveConfigs;
-        while (IsGameOver() == false)
+        while(IsGameOver() == false)
         {
-            WaveConfig waveConfig = waveConfigs[waveIndex];
-            for (int i = 0;i < waveConfig.enemyConfigs.Count;i++)
+            WaveConfig waveConfig = levelConfig.waveConfigs[m_waveIndex];
+            for (int i = 0; i < waveConfig.enemyConfigs.Count; i++)
             {
                 EnemyConfig enemyConfig = waveConfig.enemyConfigs[i];
                 EnemyController enemyController = PoolManager.Instance.GetEnemyController(enemyConfig.enemyType);
@@ -193,68 +205,78 @@ public class GameManager : MonoBehaviour
                 spawnPos.y = 9;
                 spawnPos.x = Random.Range(-4.7f, 4.7f);
                 enemyController.transform.position = spawnPos;
-                enemyController.OnEnemyInit(enemyOrder,enemyConfig.damage,enemyConfig.health);
+                enemyController.OnEnemyInit(enemyOrder, enemyConfig.damage, enemyConfig.health);
                 enemyOrder--;
                 m_enemyCount++;
                 yield return new WaitForSeconds(1);
             }
-
-            while (m_enemyCount > 0)
-            {
-                yield return null;
-            }
-            yield return new WaitForSeconds(1);
-            waveIndex++;
-            if(waveIndex >= waveConfigs.Count)
-            {
-                break;
-            }
+            yield break;
         }
+    }
 
-        while (m_enemyCount > 0)
-        {
-            yield return null;
-        }
-        yield return new WaitForSeconds(2f);
+  
+    
+    public void SpawnBoss()
+    {
+        StartCoroutine(SpawnBossEnemy());
+    }    
 
-        List<BossConfig> m_bossConfigs = levelConfig.bossConfigs;
-        for(int i = 0; i < m_bossConfigs.Count; i++)
+    private IEnumerator SpawnBossEnemy()
+    {
+        int bossOrder = 100;
+        for (int i = 0; i < levelConfig.bossConfig.Count; i++)
         {
-            BossConfig bossConfig = m_bossConfigs[i];
+            BossConfig bossConfig = levelConfig.bossConfig[i];
             BossController boss = PoolManager.Instance.GetBossController(bossConfig.bossType);
             Vector3 spawnPos = Vector3.zero;
             spawnPos.y = 9;
             spawnPos.x = Random.Range(-3f, 3f);
             boss.transform.position = spawnPos;
-            boss.OnBossInit(enemyOrder, bossConfig.damage, bossConfig.health);
-            enemyOrder--;
+            boss.OnBossInit(bossOrder, bossConfig.damage, bossConfig.health);
+            bossOrder--;
             m_bossCount++;
             yield return new WaitForSeconds(1);
         }
-
-        while (m_bossCount > 0)
-        {
-            yield return null;
-        }
-
-        yield return new WaitForSeconds(2);
-        CurrentLevel++;
-        PlayerPrefs.SetInt(PlayerPrefsKey.LEVEL_KEY, CurrentLevel);
-        ViewManager.Instance.GameView.OnCompleteLevel();
         yield break;
-
     }
 
-             
+
 
     public void UpdateDeadEnemy()
     {
         m_enemyCount--;
+        if(m_enemyCount == 0)
+        {
+            m_waveIndex++;
+            if(m_waveIndex == levelConfig.waveConfigs.Count)
+            {
+                if(levelConfig.bossConfig.Count == 0)
+                {
+                    CurrentLevel++;
+                    PlayerPrefs.SetInt(PlayerPrefsKey.LEVEL_KEY, CurrentLevel);
+                    ViewManager.Instance.GameView.OnCompleteLevel();
+                }
+                else
+                {
+                    ViewManager.Instance.GameView.SetWaveTextBoss();
+                }    
+            }
+            else
+            {
+                ViewManager.Instance.GameView.SetWaveTextEnemy(levelConfig.waveConfigs.Count, m_waveIndex);
+            }    
+        }
     }    
 
     public void UpdateDeadBoss()
     {
         m_bossCount--;
+        if(m_bossCount == 0)
+        {
+            CurrentLevel++;
+            PlayerPrefs.SetInt(PlayerPrefsKey.LEVEL_KEY, CurrentLevel);
+            ViewManager.Instance.GameView.OnCompleteLevel();
+        }
     }
 
 

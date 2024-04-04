@@ -105,12 +105,9 @@ public class TankController : MonoBehaviour
             
             SpawnBullet();
 
-            while (true)
-            {
-                yield return new WaitForSeconds(speedFire); break;
-            }
-            
-            if(targetEnemy.activeSelf == false)
+            yield return new WaitForSeconds(speedFire);
+
+            if (targetEnemy.activeSelf == false)
             {
                 targetEnemy = null;
             }

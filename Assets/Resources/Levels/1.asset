@@ -25,7 +25,14 @@ MonoBehaviour:
     - enemyType: 0
       damage: 2
       health: 20
-  bossConfigs:
+  - enemyConfigs:
+    - enemyType: 0
+      damage: 2
+      health: 20
+    - enemyType: 0
+      damage: 2
+      health: 20
+  bossConfig:
   - bossType: 0
     damage: 10
-    health: 100
+    health: 1000

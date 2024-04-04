@@ -12,7 +12,7 @@ public class LevelConfigSO : ScriptableObject
     public List<TankType> SpawnTanks = new List<TankType>();
     public List<TankType> InitTanks = new List<TankType>();
     public List<WaveConfig> waveConfigs = new List<WaveConfig>();
-    public List<BossConfig> bossConfigs = new List<BossConfig>();
+    public List<BossConfig> bossConfig = new List<BossConfig>();
 }
 
 

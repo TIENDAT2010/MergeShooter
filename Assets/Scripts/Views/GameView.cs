@@ -13,6 +13,7 @@ public class GameView : BaseView
     [SerializeField] private Image mainHealthBar = null;
     [SerializeField] private Text healthText = null;
     [SerializeField] private TextMeshProUGUI coinText = null;
+    [SerializeField] private TextMeshProUGUI waveText = null;
     [SerializeField] private GameObject m_GameOverPanel = null;
     [SerializeField] private GameObject m_PauseGamePanel = null;
 
@@ -31,6 +32,7 @@ public class GameView : BaseView
 
     public override void OnShow()
     {
+        waveText.gameObject.SetActive(false);
         m_CompleteLevelPanel.SetActive(false);
         m_GameOverPanel.SetActive(false);
         m_PauseGamePanel.SetActive(false);
@@ -89,5 +91,57 @@ public class GameView : BaseView
     {
         Time.timeScale = 1f;
         SceneManager.LoadScene(0);
+    }
+    
+    public void SetWaveTextEnemy(int totalWave, int currentWave)
+    {
+        waveText.text = "Wave : " + (currentWave+1).ToString() + " - " + totalWave.ToString();
+        waveText.gameObject.SetActive(true);
+        StartCoroutine(TextAnimation(0));
+    }
+
+    private IEnumerator TextAnimation(int a)
+    {
+        while (waveText.gameObject.activeSelf)
+        {
+            float t = 0;
+            float moveTime = 1f;
+            Vector3 startVector3 = Vector3.zero;
+            Vector3 endVector3 = new Vector3(2, 2, 0);
+            while (t < moveTime)
+            {
+                t += Time.deltaTime;
+                float factor = t / moveTime;
+                waveText.transform.localScale = Vector3.Lerp(startVector3, endVector3, factor);
+                yield return null;
+            }
+            t = 0;
+            while (t < moveTime)
+            {
+                t += Time.deltaTime;
+                float factor = t / moveTime;
+                waveText.transform.localScale = Vector3.Lerp(endVector3, startVector3, factor);
+                yield return null;
+            }
+            break;
+        }
+
+        yield return new WaitForSeconds(1f);
+        waveText.gameObject.SetActive(false);
+        if (a == 0)
+        {
+            GameManager.Instance.SpawnEnemy();
+        }
+        else
+        {
+            GameManager.Instance.SpawnBoss();
+        }     
+    }    
+    
+    public void SetWaveTextBoss()
+    {
+        waveText.text = "Boss is Coming !!!";
+        waveText.gameObject.SetActive(true);
+        StartCoroutine(TextAnimation(1));
     }    
 }
