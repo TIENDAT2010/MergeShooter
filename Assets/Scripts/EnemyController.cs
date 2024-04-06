@@ -49,8 +49,12 @@ public class EnemyController : MonoBehaviour
     {
         while(gameObject.activeSelf) 
         {
+            while (GameManager.Instance.GameState == GameState.GamePause)
+            {
+                yield return null;
+            }
             transform.position += Vector3.down * m_speedMove * Time.deltaTime;
-            yield return null;
+            yield return null;              
 
             if(transform.position.y <= -4f)
             {
@@ -64,6 +68,11 @@ public class EnemyController : MonoBehaviour
     {
         while (gameObject.activeSelf)
         {
+            while (GameManager.Instance.GameState == GameState.GamePause)
+            {
+                yield return null;
+            }
+
             GameManager.Instance.OnEnemyAttack(m_damage);
             DamageEffectController damageEffect = PoolManager.Instance.GetDamageEffectController();
             damageEffect.transform.position = transform.position + Vector3.up;

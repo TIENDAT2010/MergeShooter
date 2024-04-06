@@ -25,7 +25,25 @@ MonoBehaviour:
     - enemyType: 0
       damage: 2
       health: 20
+    - enemyType: 0
+      damage: 2
+      health: 20
+    - enemyType: 0
+      damage: 2
+      health: 20
+    - enemyType: 0
+      damage: 2
+      health: 20
   - enemyConfigs:
+    - enemyType: 0
+      damage: 2
+      health: 20
+    - enemyType: 0
+      damage: 2
+      health: 20
+    - enemyType: 0
+      damage: 2
+      health: 20
     - enemyType: 0
       damage: 2
       health: 20

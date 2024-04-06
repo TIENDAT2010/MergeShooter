@@ -71,7 +71,7 @@ public class GameView : BaseView
 
     public void OnClickPauseGameBtn()
     {
-        Time.timeScale = 0f;
+        GameManager.Instance.GamePause();
         m_PauseGamePanel.SetActive(true);
     }
 
@@ -83,13 +83,12 @@ public class GameView : BaseView
 
     public void ResumeGame()
     {
-        Time.timeScale = 1f;
+        GameManager.Instance.GameResume();
         m_PauseGamePanel.SetActive(false);
     }
 
     public void BackToMenu()
     {
-        Time.timeScale = 1f;
         SceneManager.LoadScene(0);
     }
     

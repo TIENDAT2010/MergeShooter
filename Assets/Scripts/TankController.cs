@@ -15,6 +15,7 @@ public class TankController : MonoBehaviour
     [SerializeField] private int damageTank = 0;
     private GameObject targetEnemy = null;
 
+
     public int SortingOder
     {
         set { spriteRenderer.sortingOrder = value; }
@@ -32,60 +33,59 @@ public class TankController : MonoBehaviour
     }
 
 
-    private Transform currentTankSpawn = null;
-    public Transform CurrentTankSpawn
-    {
-        set 
-        {
-            currentTankSpawn = value; 
-        }
-        get
-        {
-            return currentTankSpawn;
-        }
-    }
-
 
     public TankType TankType { get => tankType; }
 
 
-
-
-    private void Start()
+    public void OnTankInit()
     {
         StartCoroutine(FindEnemy());
     }
-        
+
+
+    public void OnTankDestroy()
+    {
+        Destroy(gameObject);
+    }
+
+    public void OnTankMove()
+    {
+        m_isMoving = true;
+        targetEnemy = null;
+    }    
+
 
     private IEnumerator FindEnemy()
     {
         while (targetEnemy == null && GameManager.Instance.IsGameOver() == false)
         {
-            if (m_isMoving == false)
+            while (GameManager.Instance.GameState == GameState.GamePause || m_isMoving == true)
             {
-                GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
-                foreach (GameObject enemy in enemies)
+                yield return null;
+            }
+
+            GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
+            foreach (GameObject enemy in enemies)
+            {
+                float distanceToPlayer = Vector3.Distance(this.transform.position, enemy.transform.position);
+                if ((distanceToPlayer <= rangeFire) && (Mathf.Abs(enemy.transform.position.x - transform.position.x) <= 4) && enemy.activeSelf == true)
                 {
-                    float distanceToPlayer = Vector3.Distance(this.transform.position, enemy.transform.position);
-                    if ((distanceToPlayer <= rangeFire) && (Mathf.Abs(enemy.transform.position.x - transform.position.x) <= 4) && enemy.activeSelf == true)
-                    {
-                        targetEnemy = enemy;
-                        StartCoroutine(RotateToEnemy());
-                        StartCoroutine(ShootEnemy());
-                        yield break;
-                    }
+                    targetEnemy = enemy;
+                    StartCoroutine(RotateToEnemy());
+                    StartCoroutine(ShootEnemy());
+                    yield break;
                 }
-                GameObject[] bosses = GameObject.FindGameObjectsWithTag("Boss");
-                foreach(GameObject boss in bosses)
+            }
+            GameObject[] bosses = GameObject.FindGameObjectsWithTag("Boss");
+            foreach (GameObject boss in bosses)
+            {
+                float distanceToPlayer = Vector3.Distance(this.transform.position, boss.transform.position);
+                if ((distanceToPlayer <= rangeFire) && (Mathf.Abs(boss.transform.position.x - transform.position.x) <= 4) && boss.activeSelf == true)
                 {
-                    float distanceToPlayer = Vector3.Distance(this.transform.position, boss.transform.position);
-                    if ((distanceToPlayer <= rangeFire) && (Mathf.Abs(boss.transform.position.x - transform.position.x) <= 4) && boss.activeSelf == true)
-                    {
-                        targetEnemy = boss;
-                        StartCoroutine(RotateToEnemy());
-                        StartCoroutine(ShootEnemy());
-                        yield break;
-                    }
+                    targetEnemy = boss;
+                    StartCoroutine(RotateToEnemy());
+                    StartCoroutine(ShootEnemy());
+                    yield break;
                 }
             }
             yield return null;
@@ -102,24 +102,32 @@ public class TankController : MonoBehaviour
                 spriteRenderer.sprite = sprites[i];
                 yield return new WaitForSeconds(0.03f);
             }
-            
+
+            while (GameManager.Instance.GameState == GameState.GamePause && m_isMoving)
+            {
+                yield return null;
+            }
+
             SpawnBullet();
 
             yield return new WaitForSeconds(speedFire);
 
-            if (targetEnemy.activeSelf == false)
+            if(targetEnemy != null)
             {
-                targetEnemy = null;
+                if (targetEnemy.activeSelf == false)
+                {
+                    targetEnemy = null;
+                }
             }
-                
-
-            if (targetEnemy == null)
+            
+            if(targetEnemy == null)
             {
                 StartCoroutine(FindEnemy());
                 yield break;
             }
         }
     }
+
 
     private IEnumerator RotateToEnemy()
     {
@@ -130,36 +138,34 @@ public class TankController : MonoBehaviour
         }
     }
 
-    public void DestroyTank()
-    {
-        Destroy(gameObject);
-    }
 
 
-    public void MoveTankBackToGrid()
+
+    public void MoveTankBackToGrid(Vector3 targetPos)
     {
-        IsMoving = true;
+        OnTankMove();
         gameObject.GetComponent<Collider2D>().enabled = false;
-        StartCoroutine(MoveTank());
+        StartCoroutine(MoveTank(targetPos));
         gameObject.GetComponent<Collider2D>().enabled = true;
-
     }
 
-    private IEnumerator MoveTank()
+    private IEnumerator MoveTank(Vector3 targetPos)
     {
         float t = 0;
-        float moveTime = (Vector3.Distance(transform.position, currentTankSpawn.position) / 20f);
+        float moveTime = (Vector3.Distance(transform.position, targetPos) / 20f);
         Vector3 startVector3 = transform.position;
         while (t < moveTime)
         {
             t += Time.deltaTime;
             float factor = t / moveTime;
-            Vector3 newPos = Vector3.Lerp(startVector3,currentTankSpawn.position, factor);
+            Vector3 newPos = Vector3.Lerp(startVector3, targetPos, factor);
             transform.position = newPos;
             yield return null;
         }
         m_isMoving = false;
+        OnTankInit();
     }
+
 
     private void SpawnBullet()
     {

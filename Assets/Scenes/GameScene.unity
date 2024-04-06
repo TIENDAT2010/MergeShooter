@@ -133,6 +133,7 @@ GameObject:
   m_Component:
   - component: {fileID: 174715799}
   - component: {fileID: 174715800}
+  - component: {fileID: 174715801}
   m_Layer: 0
   m_Name: TankSpawn01
   m_TagString: Untagged
@@ -207,6 +208,18 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &174715801
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 174715798}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f101a2af231f49446a6f5acef5877226, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &246533364
 GameObject:
   m_ObjectHideFlags: 0
@@ -298,7 +311,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 390440568}
-  - component: {fileID: 390440567}
+  - component: {fileID: 390440569}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -306,31 +319,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &390440567
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 390440566}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 017a7aa8d17e7044eb3bc0c4cd4f8772, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  tankSpawns:
-  - {fileID: 174715799}
-  - {fileID: 866477322}
-  - {fileID: 1407128127}
-  - {fileID: 478653966}
-  - {fileID: 1440584975}
-  - {fileID: 1508323260}
-  - {fileID: 1410560140}
-  - {fileID: 1988620955}
-  - {fileID: 1535829919}
-  - {fileID: 1671290015}
-  - {fileID: 765584124}
-  - {fileID: 504788700}
 --- !u!4 &390440568
 Transform:
   m_ObjectHideFlags: 0
@@ -346,6 +334,31 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &390440569
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 390440566}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 017a7aa8d17e7044eb3bc0c4cd4f8772, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ListTankSpawns:
+  - {fileID: 174715801}
+  - {fileID: 866477324}
+  - {fileID: 1407128129}
+  - {fileID: 478653968}
+  - {fileID: 1440584977}
+  - {fileID: 1508323262}
+  - {fileID: 1410560142}
+  - {fileID: 1988620957}
+  - {fileID: 1535829921}
+  - {fileID: 1671290017}
+  - {fileID: 765584126}
+  - {fileID: 504788702}
 --- !u!1 &478653965
 GameObject:
   m_ObjectHideFlags: 0
@@ -356,6 +369,7 @@ GameObject:
   m_Component:
   - component: {fileID: 478653966}
   - component: {fileID: 478653967}
+  - component: {fileID: 478653968}
   m_Layer: 0
   m_Name: TankSpawn04
   m_TagString: Untagged
@@ -430,6 +444,18 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &478653968
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 478653965}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f101a2af231f49446a6f5acef5877226, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &504788699
 GameObject:
   m_ObjectHideFlags: 0
@@ -440,6 +466,7 @@ GameObject:
   m_Component:
   - component: {fileID: 504788700}
   - component: {fileID: 504788701}
+  - component: {fileID: 504788702}
   m_Layer: 0
   m_Name: TankSpawn12
   m_TagString: Untagged
@@ -514,6 +541,18 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &504788702
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 504788699}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f101a2af231f49446a6f5acef5877226, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0
@@ -616,6 +655,7 @@ GameObject:
   m_Component:
   - component: {fileID: 765584124}
   - component: {fileID: 765584125}
+  - component: {fileID: 765584126}
   m_Layer: 0
   m_Name: TankSpawn11
   m_TagString: Untagged
@@ -690,6 +730,18 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &765584126
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 765584123}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f101a2af231f49446a6f5acef5877226, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &866477321
 GameObject:
   m_ObjectHideFlags: 0
@@ -700,6 +752,7 @@ GameObject:
   m_Component:
   - component: {fileID: 866477322}
   - component: {fileID: 866477323}
+  - component: {fileID: 866477324}
   m_Layer: 0
   m_Name: TankSpawn02
   m_TagString: Untagged
@@ -774,6 +827,18 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &866477324
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 866477321}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f101a2af231f49446a6f5acef5877226, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &943904939
 GameObject:
   m_ObjectHideFlags: 0
@@ -868,6 +933,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1407128127}
   - component: {fileID: 1407128128}
+  - component: {fileID: 1407128129}
   m_Layer: 0
   m_Name: TankSpawn03
   m_TagString: Untagged
@@ -942,6 +1008,18 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &1407128129
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1407128126}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f101a2af231f49446a6f5acef5877226, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1410560139
 GameObject:
   m_ObjectHideFlags: 0
@@ -952,6 +1030,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1410560140}
   - component: {fileID: 1410560141}
+  - component: {fileID: 1410560142}
   m_Layer: 0
   m_Name: TankSpawn07
   m_TagString: Untagged
@@ -1026,6 +1105,18 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &1410560142
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1410560139}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f101a2af231f49446a6f5acef5877226, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1440584974
 GameObject:
   m_ObjectHideFlags: 0
@@ -1036,6 +1127,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1440584975}
   - component: {fileID: 1440584976}
+  - component: {fileID: 1440584977}
   m_Layer: 0
   m_Name: TankSpawn05
   m_TagString: Untagged
@@ -1110,6 +1202,18 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &1440584977
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1440584974}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f101a2af231f49446a6f5acef5877226, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1508323259
 GameObject:
   m_ObjectHideFlags: 0
@@ -1120,6 +1224,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1508323260}
   - component: {fileID: 1508323261}
+  - component: {fileID: 1508323262}
   m_Layer: 0
   m_Name: TankSpawn06
   m_TagString: Untagged
@@ -1194,6 +1299,18 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &1508323262
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1508323259}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f101a2af231f49446a6f5acef5877226, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1535829918
 GameObject:
   m_ObjectHideFlags: 0
@@ -1204,6 +1321,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1535829919}
   - component: {fileID: 1535829920}
+  - component: {fileID: 1535829921}
   m_Layer: 0
   m_Name: TankSpawn09
   m_TagString: Untagged
@@ -1278,6 +1396,18 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &1535829921
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1535829918}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f101a2af231f49446a6f5acef5877226, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1671290014
 GameObject:
   m_ObjectHideFlags: 0
@@ -1288,6 +1418,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1671290015}
   - component: {fileID: 1671290016}
+  - component: {fileID: 1671290017}
   m_Layer: 0
   m_Name: TankSpawn10
   m_TagString: Untagged
@@ -1362,6 +1493,18 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &1671290017
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1671290014}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f101a2af231f49446a6f5acef5877226, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1934116959
 GameObject:
   m_ObjectHideFlags: 0
@@ -1456,6 +1599,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1988620955}
   - component: {fileID: 1988620956}
+  - component: {fileID: 1988620957}
   m_Layer: 0
   m_Name: TankSpawn08
   m_TagString: Untagged
@@ -1530,6 +1674,18 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &1988620957
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1988620954}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f101a2af231f49446a6f5acef5877226, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2124988651
 GameObject:
   m_ObjectHideFlags: 0

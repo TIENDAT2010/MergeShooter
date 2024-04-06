@@ -8,6 +8,7 @@ public enum GameState
     GameStart = 1,
     CompleteLevel = 2,
     GameOver = 3,
+    GamePause = 4,
 }
 
 public enum ViewType

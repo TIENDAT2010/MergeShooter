@@ -39,6 +39,11 @@ public class BulletController : MonoBehaviour
     {
         while (gameObject.activeSelf)
         {
+            while (GameManager.Instance.GameState == GameState.GamePause)
+            {
+                yield return null;
+            }
+
             transform.position += transform.up * speed * Time.deltaTime;
 
             if ((transform.position.y > 11f) || (transform.position.x > 6f) || (transform.position.x < -6f))

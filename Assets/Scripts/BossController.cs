@@ -47,6 +47,11 @@ public class BossController : MonoBehaviour
 
     private IEnumerator Moving()
     {
+        while (GameManager.Instance.GameState == GameState.GamePause)
+        {
+            yield return null;
+        }
+
         while (spriteRenderer.transform.position.y >= -4f && gameObject.activeSelf)
         {
             transform.position += Vector3.down * m_speedMove * Time.deltaTime;
@@ -63,6 +68,11 @@ public class BossController : MonoBehaviour
     {
         while(gameObject.activeSelf)
         {
+            while (GameManager.Instance.GameState == GameState.GamePause)
+            {
+                yield return null;
+            }
+
             GameManager.Instance.OnEnemyAttack(m_damage);
             DamageEffectController damageEffect = PoolManager.Instance.GetDamageEffectController();
             damageEffect.transform.position = transform.position + Vector3.up;
