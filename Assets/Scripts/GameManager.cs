@@ -52,6 +52,7 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
+        Debug.Log("aaaaa");
         GameState = GameState.GameInit;
         Application.targetFrameRate = 60;
         CurrentLevel = PlayerPrefs.GetInt(PlayerPrefsKey.LEVEL_KEY, 1);
