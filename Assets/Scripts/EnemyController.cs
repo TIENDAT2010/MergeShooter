@@ -6,13 +6,19 @@ using UnityEngine.UI;
 
 public class EnemyController : MonoBehaviour
 {
-    [SerializeField] private EnemyType enemyType = EnemyType.Monster01;
-    [SerializeField] private SpriteRenderer spriteRenderer = null;
-    [SerializeField] private Image healthBar = null;
-    [SerializeField] private Sprite[] sprites = null;
+    [Header("Enemy Configs")]
     [SerializeField] private int coinBonus;
     [SerializeField] private float speedAttack;
     [SerializeField] private float m_speedMove;
+
+    [Header("Enemy References")]
+    [SerializeField] private EnemyType enemyType = EnemyType.Monster01;
+    [SerializeField] private SpriteRenderer spriteRenderer = null;
+    [SerializeField] private Image healthBar = null;
+    [SerializeField] private Material normalMaterial = null;
+    [SerializeField] private Material whiteMaterial = null;
+    [SerializeField] private Sprite[] sprites = null;
+
     private float m_damage;
     private float m_health;
     private float m_FisrtHealth;
@@ -23,6 +29,7 @@ public class EnemyController : MonoBehaviour
     public void OnEnemyInit(int oder, float damage, float health)
     {
         spriteRenderer.sortingOrder = oder;
+        spriteRenderer.material = normalMaterial;
         m_damage = damage;
         m_health = health;
         m_FisrtHealth = health;
@@ -103,5 +110,16 @@ public class EnemyController : MonoBehaviour
 
             gameObject.SetActive(false);
         }
-    }     
+        else
+        {
+            StartCoroutine(ChangeMaterial());
+        }    
+    }
+    
+    private IEnumerator ChangeMaterial()
+    {
+        spriteRenderer.material = whiteMaterial;
+        yield return new WaitForSeconds(0.02f);
+        spriteRenderer.material = normalMaterial;
+    }    
 }

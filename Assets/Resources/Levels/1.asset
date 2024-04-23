@@ -51,6 +51,6 @@ MonoBehaviour:
       damage: 2
       health: 20
   bossConfig:
-  - bossType: 0
+  - bossType: 2
     damage: 10
     health: 1000

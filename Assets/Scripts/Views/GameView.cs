@@ -129,7 +129,7 @@ public class GameView : BaseView
         waveText.gameObject.SetActive(false);
         if (a == 0)
         {
-            GameManager.Instance.SpawnEnemy();
+            GameManager.Instance.SpawnNextWave();
         }
         else
         {

@@ -6,13 +6,19 @@ using UnityEngine.UI;
 
 public class BossController : MonoBehaviour
 {
-    [SerializeField] private BossType bossType = BossType.Boss01;
-    [SerializeField] private SpriteRenderer spriteRenderer = null;
-    [SerializeField] private Image healthBar = null;
-    [SerializeField] private Sprite[] sprites = null;
+    [Header("Boss Configs")]
     [SerializeField] private int coinBonus;
     [SerializeField] private float speedAttack;
     [SerializeField] private float m_speedMove;
+
+    [Header("Boss References")]
+    [SerializeField] private BossType bossType = BossType.Boss01;
+    [SerializeField] private SpriteRenderer spriteRenderer = null;
+    [SerializeField] private Material normalMaterial = null;
+    [SerializeField] private Material whiteMaterial = null;
+    [SerializeField] private Image healthBar = null;
+    [SerializeField] private Sprite[] sprites = null;
+
     private float m_damage;
     private float m_health;
     private float m_FisrtHealth;
@@ -23,6 +29,7 @@ public class BossController : MonoBehaviour
 
     public void OnBossInit(int oder, float damage, float health)
     {
+        spriteRenderer.material = normalMaterial;
         spriteRenderer.sortingOrder = oder;
         m_damage = damage;
         m_health = health;
@@ -96,6 +103,17 @@ public class BossController : MonoBehaviour
             coinEffect.transform.position = transform.position + Vector3.up;
             coinEffect.SetCoinBonus(coinBonus);
             GameManager.Instance.CurrentCoin += coinBonus;            
-        }       
+        }
+        else
+        {
+            StartCoroutine(ChangeMaterial());
+        }
+    }
+
+    private IEnumerator ChangeMaterial()
+    {
+        spriteRenderer.material = whiteMaterial;
+        yield return new WaitForSeconds(0.02f);
+        spriteRenderer.material = normalMaterial;
     }
 }

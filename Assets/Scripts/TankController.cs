@@ -9,12 +9,10 @@ public class TankController : MonoBehaviour
     [SerializeField] private SpriteRenderer spriteRenderer = null;
     [SerializeField] private Sprite[] sprites = null;
     [SerializeField] private GameObject bulletSpawnPos;
-    [SerializeField] private float speedBullet;
     [SerializeField] private float speedFire;
     [SerializeField] private float rangeFire;
     [SerializeField] private int damageTank = 0;
     private GameObject targetEnemy = null;
-
 
     public int SortingOder
     {
@@ -100,7 +98,7 @@ public class TankController : MonoBehaviour
             for (int i = 0; i < sprites.Length; i++)
             {
                 spriteRenderer.sprite = sprites[i];
-                yield return new WaitForSeconds(0.03f);
+                yield return new WaitForSeconds(0.01f);
             }
 
             while (GameManager.Instance.GameState == GameState.GamePause && m_isMoving)
@@ -109,7 +107,6 @@ public class TankController : MonoBehaviour
             }
 
             SpawnBullet();
-
             yield return new WaitForSeconds(speedFire);
 
             if(targetEnemy != null)
@@ -172,7 +169,7 @@ public class TankController : MonoBehaviour
         BulletController bulletspawn = PoolManager.Instance.GetBulletController(tankType);
         bulletspawn.transform.position = bulletSpawnPos.transform.position;
         bulletspawn.transform.up = transform.up;
-        bulletspawn.Move(speedBullet);
+        bulletspawn.Move();
         bulletspawn.SetDamage(damageTank);
     }
 }

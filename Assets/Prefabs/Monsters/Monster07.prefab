@@ -387,9 +387,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 62488db7218062740bdde1f4dfaa7f8f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  coinBonus: 150
+  speedAttack: 1.4
+  m_speedMove: 1.1
   enemyType: 6
   spriteRenderer: {fileID: 1416693282382940462}
   healthBar: {fileID: 6551291328710093619}
+  normalMaterial: {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  whiteMaterial: {fileID: 2100000, guid: e73a58f6e2794ae7b1b7e50b7fb811b0, type: 2}
   sprites:
   - {fileID: 21300000, guid: 7e793ca4e1da6344689355a169beae24, type: 3}
   - {fileID: 21300000, guid: 8e9758662e078864dbd9dc0613d44034, type: 3}
@@ -411,6 +416,3 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 77d98651214485d46aadc41f9d0e6154, type: 3}
   - {fileID: 21300000, guid: d617e37cc40e15e4794011a124a571c1, type: 3}
   - {fileID: 21300000, guid: 9452939c449a627479a659f7fbf40bfc, type: 3}
-  coinBonus: 150
-  speedAttack: 1.4
-  m_speedMove: 1.1

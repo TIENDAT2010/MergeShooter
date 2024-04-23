@@ -185,31 +185,26 @@ public class GameManager : MonoBehaviour
     }
 
 
-    public void SpawnEnemy()
+    public void SpawnNextWave()
     {
-        StartCoroutine(SpawnEnemies());
+        m_enemyCount = levelConfig.waveConfigs[m_waveIndex].enemyConfigs.Count;
+        StartCoroutine(SpawnEnemiesOfWave());
     }
-
-    private IEnumerator SpawnEnemies()
+    private IEnumerator SpawnEnemiesOfWave()
     {
         int enemyOrder = 100;
-        while(IsGameOver() == false)
+        WaveConfig waveConfig = levelConfig.waveConfigs[m_waveIndex];
+        for (int i = 0; i < waveConfig.enemyConfigs.Count; i++)
         {
-            WaveConfig waveConfig = levelConfig.waveConfigs[m_waveIndex];
-            for (int i = 0; i < waveConfig.enemyConfigs.Count; i++)
-            {
-                EnemyConfig enemyConfig = waveConfig.enemyConfigs[i];
-                EnemyController enemyController = PoolManager.Instance.GetEnemyController(enemyConfig.enemyType);
-                Vector3 spawnPos = Vector3.zero;
-                spawnPos.y = 9;
-                spawnPos.x = Random.Range(-4.7f, 4.7f);
-                enemyController.transform.position = spawnPos;
-                enemyController.OnEnemyInit(enemyOrder, enemyConfig.damage, enemyConfig.health);
-                enemyOrder--;
-                m_enemyCount++;
-                yield return new WaitForSeconds(1);
-            }
-            yield break;
+            EnemyConfig enemyConfig = waveConfig.enemyConfigs[i];
+            EnemyController enemyController = PoolManager.Instance.GetEnemyController(enemyConfig.enemyType);
+            Vector3 spawnPos = Vector3.zero;
+            spawnPos.y = 9;
+            spawnPos.x = Random.Range(-4.7f, 4.7f);
+            enemyController.transform.position = spawnPos;
+            enemyController.OnEnemyInit(enemyOrder, enemyConfig.damage, enemyConfig.health);
+            enemyOrder--;
+            yield return new WaitForSeconds(1);
         }
     }
 
@@ -244,12 +239,11 @@ public class GameManager : MonoBehaviour
     public void UpdateDeadEnemy()
     {
         m_enemyCount--;
-        if(m_enemyCount == 0)
+        if (m_enemyCount == 0)
         {
-            m_waveIndex++;
-            if(m_waveIndex == levelConfig.waveConfigs.Count)
+            if (m_waveIndex == levelConfig.waveConfigs.Count - 1)
             {
-                if(levelConfig.bossConfig.Count == 0)
+                if (levelConfig.bossConfig.Count == 0)
                 {
                     CurrentLevel++;
                     PlayerPrefs.SetInt(PlayerPrefsKey.LEVEL_KEY, CurrentLevel);
@@ -258,12 +252,13 @@ public class GameManager : MonoBehaviour
                 else
                 {
                     ViewManager.Instance.GameView.SetWaveTextBoss();
-                }    
+                }
             }
             else
             {
+                m_waveIndex++;
                 ViewManager.Instance.GameView.SetWaveTextEnemy(levelConfig.waveConfigs.Count, m_waveIndex);
-            }    
+            }  
         }
     }    
 

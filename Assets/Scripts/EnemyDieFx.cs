@@ -20,7 +20,7 @@ public class EnemyDieFx : MonoBehaviour
                 spriteRenderer.sprite = enemyDieFx[i];
                 yield return new WaitForSeconds(0.05f);
             }
-            yield return new WaitForSeconds(0.5f);
+            yield return new WaitForSeconds(0.2f);
             Destroy(gameObject);
             yield break;
         }

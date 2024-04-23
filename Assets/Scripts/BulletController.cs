@@ -29,14 +29,15 @@ public class BulletController : MonoBehaviour
         damage = dg;
     }
         
-    public void Move(float speed)
+    public void Move()
     {
-        StartCoroutine(MoveBullet(speed));
+        StartCoroutine(MoveBullet());
     }
 
 
-    private IEnumerator MoveBullet(float speed)
+    private IEnumerator MoveBullet()
     {
+        float speed = 30f;
         while (gameObject.activeSelf)
         {
             while (GameManager.Instance.GameState == GameState.GamePause)
