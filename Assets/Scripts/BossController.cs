@@ -59,12 +59,12 @@ public class BossController : MonoBehaviour
             yield return null;
         }
 
-        while (spriteRenderer.transform.position.y >= -4f && gameObject.activeSelf)
+        while (spriteRenderer.transform.position.y >= -3.5f && gameObject.activeSelf)
         {
             transform.position += Vector3.down * m_speedMove * Time.deltaTime;
             yield return null;
         }
-        if(transform.position.y <= -3.9f)
+        if(transform.position.y <= -3.5f)
         {
             StartCoroutine(OnAttack());
             yield break;
