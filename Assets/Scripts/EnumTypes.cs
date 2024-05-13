@@ -20,16 +20,16 @@ public enum ViewType
 
 public enum TankType
 {
-    Tank01,
-    Tank02,
-    Tank03,
-    Tank04,
-    Tank05,
-    Tank06,
-    Tank07,
-    Tank08,
-    Tank09,
-    Tank10,
+    Tank01 = 0,
+    Tank02 = 1,
+    Tank03 = 2,
+    Tank04 = 3,
+    Tank05 = 4,
+    Tank06 = 5,
+    Tank07 = 6,
+    Tank08 = 7,
+    Tank09 = 8,
+    Tank10 = 9,
 }
 
 public enum EnemyType

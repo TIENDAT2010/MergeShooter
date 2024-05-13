@@ -29,7 +29,7 @@ public class GameManager : MonoBehaviour
     public GameState GameState { private set; get; }
     public int CurrentLevel { private set; get; }
     public float BaseHealth { private set; get; }   
-    public TankType TankTypeToRandom { private set; get ; }
+    public TankType TankTypeToRandom { get ; private set ; }
 
     private int m_enemyCount = 0;
     private int m_bossCount = 0;
@@ -52,6 +52,7 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
+        Debug.Log("aaaaa");
         GameState = GameState.GameInit;
         Application.targetFrameRate = 60;
         CurrentLevel = PlayerPrefs.GetInt(PlayerPrefsKey.LEVEL_KEY, 1);
@@ -61,10 +62,8 @@ public class GameManager : MonoBehaviour
         BaseHealth = levelConfig.MainHealth;
         MainHealth = BaseHealth;
 
-        
         for (int i = 0; i < levelConfig.InitTanks.Count; i++)
         {
-            
             SpawnTank(levelConfig.InitTanks[i]);
         }
         TankTypeToRandom = levelConfig.InitTanks[Random.Range(0, levelConfig.InitTanks.Count)];
