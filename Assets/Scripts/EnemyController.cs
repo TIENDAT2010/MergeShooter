@@ -90,14 +90,14 @@ public class EnemyController : MonoBehaviour
     
    
 
-    public void OneHitBullet(int damage)
+    public void OneHitBullet(float damage)
     {
         m_health  = m_health - damage;
         healthBar.fillAmount = m_health / m_FisrtHealth; 
         if(m_health <= 0)
         {
             GameManager.Instance.UpdateDeadEnemy();
-            EnemyDieFx enemyDieFx = PoolManager.Instance.GetEnemyDieFx();
+            DeadEffectController enemyDieFx = PoolManager.Instance.GetEnemyDieFx();
             enemyDieFx.transform.position = transform.position;
 
 

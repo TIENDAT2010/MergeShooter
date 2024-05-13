@@ -4,13 +4,19 @@ using UnityEngine;
 
 public class TankController : MonoBehaviour
 {
+    [Header("Tank Configs")]
+    [SerializeField] private float fireSpeed = 0.5f;
+    [SerializeField] private float fireRange = 7f;
+    [SerializeField] private float minTankDamage = 1f;
+    [SerializeField] private float maxTankDamage = 2f;
+
+    [Header("Tank References")]
     [SerializeField] private TankType tankType = TankType.Tank01;
     [SerializeField] private SpriteRenderer spriteRenderer = null;
-    [SerializeField] private Sprite[] sprites = null;
+    [SerializeField] private ShootEffectController shootEffect = null;
     [SerializeField] private GameObject bulletSpawnPos;
-    [SerializeField] private float speedFire;
-    [SerializeField] private float rangeFire;
-    [SerializeField] private int damageTank = 0;
+    [SerializeField] private Sprite[] sprites = null;
+
     private GameObject targetEnemy = null;
 
     public int SortingOder
@@ -34,16 +40,13 @@ public class TankController : MonoBehaviour
     public TankType TankType { get => tankType; }
 
 
+
     public void OnTankInit()
     {
         StartCoroutine(FindEnemy());
     }
 
 
-    public void OnTankDestroy()
-    {
-        Destroy(gameObject);
-    }
 
     public void OnTankMove()
     {
@@ -65,7 +68,7 @@ public class TankController : MonoBehaviour
             foreach (GameObject enemy in enemies)
             {
                 float distanceToPlayer = Vector3.Distance(this.transform.position, enemy.transform.position);
-                if ((distanceToPlayer <= rangeFire) && (Mathf.Abs(enemy.transform.position.x - transform.position.x) <= 4) && enemy.activeSelf == true)
+                if ((distanceToPlayer <= fireRange) && (Mathf.Abs(enemy.transform.position.x - transform.position.x) <= 4) && enemy.activeSelf == true)
                 {
                     targetEnemy = enemy;
                     StartCoroutine(RotateToEnemy());
@@ -77,7 +80,7 @@ public class TankController : MonoBehaviour
             foreach (GameObject boss in bosses)
             {
                 float distanceToPlayer = Vector3.Distance(this.transform.position, boss.transform.position);
-                if ((distanceToPlayer <= rangeFire) && (Mathf.Abs(boss.transform.position.x - transform.position.x) <= 4) && boss.activeSelf == true)
+                if ((distanceToPlayer <= fireRange) && (Mathf.Abs(boss.transform.position.x - transform.position.x) <= 4) && boss.activeSelf == true)
                 {
                     targetEnemy = boss;
                     StartCoroutine(RotateToEnemy());
@@ -106,7 +109,7 @@ public class TankController : MonoBehaviour
             }
 
             SpawnBullet();
-            yield return new WaitForSeconds(speedFire);
+            yield return new WaitForSeconds(fireSpeed);
 
             if(targetEnemy != null)
             {
@@ -169,6 +172,6 @@ public class TankController : MonoBehaviour
         bulletspawn.transform.position = bulletSpawnPos.transform.position;
         bulletspawn.transform.up = transform.up;
         bulletspawn.Move();
-        bulletspawn.SetDamage(damageTank);
+        bulletspawn.SetDamage(minTankDamage);
     }
 }

@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 7873611034468660150}
   - component: {fileID: 3307052621351589210}
   m_Layer: 0
-  m_Name: EnemyDieFx
+  m_Name: DeadEffect
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -94,10 +94,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 1929759312076294328}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a5924b03222f1844cbbcd48833cd22c9, type: 3}
+  m_Script: {fileID: 11500000, guid: 010c7e775d2671a45b474899089932c9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemyDieFx:
+  spriteRenderer: {fileID: 7873611034468660150}
+  enemyDieSprites:
   - {fileID: 21300000, guid: b08923b8c1d91ad4f9bec4e62b41aade, type: 3}
   - {fileID: 21300000, guid: a0e86c3da8120ab48917ab17ec36ce9e, type: 3}
   - {fileID: 21300000, guid: d3ab58b16165bb846926d65ac415b4f1, type: 3}
@@ -118,4 +119,3 @@ MonoBehaviour:
   - {fileID: 21300000, guid: f737ac4a68976f34c8342df86082cb94, type: 3}
   - {fileID: 21300000, guid: b48d0d1b3ccdc434caf6e4a5810a5971, type: 3}
   - {fileID: 21300000, guid: b225e2d411bce9949a9228ffca65d030, type: 3}
-  spriteRenderer: {fileID: 7873611034468660150}

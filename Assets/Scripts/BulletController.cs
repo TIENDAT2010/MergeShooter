@@ -6,7 +6,7 @@ public class BulletController : MonoBehaviour
 {
     [SerializeField] private TankType tankType = TankType.Tank01;
     public TankType TankType { get => tankType; }
-    private int damage = 0;
+    private float damage = 0;
     private void OnTriggerEnter2D(Collider2D col)
     {
         if (col.gameObject.CompareTag("Enemy"))
@@ -24,7 +24,7 @@ public class BulletController : MonoBehaviour
             
     }
 
-    public void SetDamage(int dg)
+    public void SetDamage(float dg)
     {
         damage = dg;
     }

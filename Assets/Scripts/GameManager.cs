@@ -124,8 +124,9 @@ public class GameManager : MonoBehaviour
                             if ((newTankSpawn.TankController.TankType == selectedTank.TankType) && (selectedTank.TankType != TankType.Tank10))
                             {
                                 TankType nextTankType = GetNextTankType(selectedTank.TankType);
-                                newTankSpawn.TankController.OnTankDestroy();
-                                selectedTank.OnTankDestroy();
+
+                                Destroy(newTankSpawn.TankController);
+                                Destroy(selectedTank);
 
                                 TankController newTank = PoolManager.Instance.GetTankController(nextTankType);
                                 newTank.transform.position = newTankSpawn.transform.position;

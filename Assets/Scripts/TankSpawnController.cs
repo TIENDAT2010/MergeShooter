@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class TankSpawnController : MonoBehaviour
 {
-    private TankController tankController;
+    private TankController tankController = null;
     public TankController TankController
     {
         get { return tankController; }

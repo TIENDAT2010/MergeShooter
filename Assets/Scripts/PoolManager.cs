@@ -11,7 +11,7 @@ public class PoolManager : MonoBehaviour
     [SerializeField] private TankController[] tankPrefabs;
     [SerializeField] private BulletController[] bulletPrefabs;
     [SerializeField] private BossController[] bossPrefabs;
-    [SerializeField] private EnemyDieFx enemyDieFxPrefabs;
+    [SerializeField] private DeadEffectController enemyDieFxPrefabs;
     [SerializeField] private CoinEffectController coinEffectPrefabs;
     [SerializeField] private DamageEffectController damageEffectPrefabs;
 
@@ -93,7 +93,7 @@ public class PoolManager : MonoBehaviour
     }
 
 
-    public EnemyDieFx GetEnemyDieFx()
+    public DeadEffectController GetEnemyDieFx()
     {
         return Instantiate(enemyDieFxPrefabs, Vector3.zero, Quaternion.identity);
     }
