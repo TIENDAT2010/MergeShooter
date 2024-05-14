@@ -189,7 +189,7 @@ MonoBehaviour:
   m_speedMove: 1
   enemyType: 0
   spriteRenderer: {fileID: 7079549506548264750}
-  healthBar: {fileID: 0}
+  healthBar: {fileID: 3204365520536000148}
   normalMaterial: {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
   whiteMaterial: {fileID: 2100000, guid: e73a58f6e2794ae7b1b7e50b7fb811b0, type: 2}
   sprites:
