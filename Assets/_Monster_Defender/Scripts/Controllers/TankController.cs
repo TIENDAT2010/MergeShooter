@@ -68,18 +68,20 @@ public class TankController : MonoBehaviour
                 yield return null;
             }
 
-            GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
-            foreach (GameObject enemy in enemies)
+            EnemyController[] enemies = FindObjectsOfType<EnemyController>();
+            foreach (EnemyController enemy in enemies)
             {
-                float distanceToPlayer = Vector3.Distance(this.transform.position, enemy.transform.position);
-                if ((distanceToPlayer <= attackRange) && (Mathf.Abs(enemy.transform.position.x - transform.position.x) <= 4) && enemy.activeSelf == true)
+                float distanceToPlayer = Vector3.Distance(transform.position, enemy.transform.position);
+                if ((distanceToPlayer <= attackRange) && (Mathf.Abs(enemy.transform.position.x - transform.position.x) <= 4))
                 {
-                    targetEnemy = enemy;
+                    targetEnemy = enemy.gameObject;
                     StartCoroutine(RotateToEnemy());
                     StartCoroutine(ShootEnemy());
                     yield break;
                 }
             }
+
+
             GameObject[] bosses = GameObject.FindGameObjectsWithTag("Boss");
             foreach (GameObject boss in bosses)
             {

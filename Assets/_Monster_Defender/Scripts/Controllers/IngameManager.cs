@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 public class IngameManager : MonoBehaviour
 {
@@ -30,7 +29,7 @@ public class IngameManager : MonoBehaviour
     }
 
     public GameState GameState { private set; get; }
-    public int CurrentLevel { private set; get; } 
+    public int CurrentLevel { private set; get; }
     public TankType TankTypeToRandom { get ; private set ; }
 
 
@@ -75,6 +74,9 @@ public class IngameManager : MonoBehaviour
         }
         TankTypeToRandom = levelConfig.InitTanks[Random.Range(0, levelConfig.InitTanks.Count)];
 
+
+        //Create the wave items for UI
+        ViewManager.Instance.IngameView.CreateWaveItems(levelConfig.waveConfigs.Count);
 
         //Init GameStart
         Invoke(nameof(GameStart), 1f);
@@ -170,8 +172,8 @@ public class IngameManager : MonoBehaviour
     public void GameStart()
     {
         GameState = GameState.GameStart;
-        StartCoroutine(CRSpawnNextWave());
-        //ViewManager.Instance.GameView.SetWaveTextEnemy(levelConfig.waveConfigs.Count, waveIndex);
+        StartCoroutine(CRSpawnNextWave(1f));
+        ViewManager.Instance.IngameView.ShowTextForFirstWave();
     }
 
 
@@ -218,15 +220,18 @@ public class IngameManager : MonoBehaviour
 
 
 
+
     /// <summary>
     /// Coroutine spawn the next wave.
     /// </summary>
+    /// <param name="delayTime"></param>
     /// <returns></returns>
-    private IEnumerator CRSpawnNextWave()
+    private IEnumerator CRSpawnNextWave(float delayTime)
     {
         enemyAmount = Random.Range(levelConfig.waveConfigs[waveIndex].minEnemyAmount, levelConfig.waveConfigs[waveIndex].maxEnemyAmount);
         int enemyOrder = 100;
         WaveConfig waveConfig = levelConfig.waveConfigs[waveIndex];
+        yield return new WaitForSeconds(delayTime);
         for (int i = 0; i < enemyAmount; i++)
         {
             EnemyController enemyController = PoolManager.Instance.GetEnemyController(GetEnemyType(waveConfig.enemyTypeConfigs));
@@ -348,17 +353,18 @@ public class IngameManager : MonoBehaviour
                 //{
                 //    CurrentLevel++;
                 //    PlayerPrefs.SetInt(PlayerPrefsKey.LEVEL_KEY, CurrentLevel);
-                //    ViewManager.Instance.GameView.OnCompleteLevel();
+                //    ViewManager.Instance.IngameView.OnCompleteLevel();
                 //}
                 //else
                 //{
-                //    ViewManager.Instance.GameView.SetWaveTextBoss();
+                //    ViewManager.Instance.IngameView.SetWaveTextBoss();
                 //}
             }
             else
             {
+                ViewManager.Instance.IngameView.OnWaveCompleted(waveIndex);
                 waveIndex++;
-                ViewManager.Instance.GameView.SetWaveTextEnemy(levelConfig.waveConfigs.Count, waveIndex);
+                StartCoroutine(CRSpawnNextWave(1f));
             }
         }
     }
@@ -370,7 +376,7 @@ public class IngameManager : MonoBehaviour
         {
             CurrentLevel++;
             PlayerPrefs.SetInt(PlayerPrefsKey.LEVEL_KEY, CurrentLevel);
-            ViewManager.Instance.GameView.OnCompleteLevel();
+            //ViewManager.Instance.IngameView.OnCompleteLevel();
         }
     }
 

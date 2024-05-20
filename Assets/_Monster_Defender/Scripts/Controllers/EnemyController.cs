@@ -37,12 +37,13 @@ public class EnemyController : MonoBehaviour
     /// <param name="sortingOrder"></param>
     public void OnEnemyInit(int sortingOrder)
     {
+        isTakingDamage = false;
+        healthBar.fillAmount = 1f;
         spriteRenderer.sortingOrder = sortingOrder;
         spriteRenderer.material = normalMaterial;
         enemyDamage = Random.Range(minDamageAmount, maxDamageAmount);
         totalHealth = Random.Range(minHealthAmount, maxHealthAmount);
         currentHealth = totalHealth;
-        healthBar.fillAmount = 1f;
         StartCoroutine(CRPlayAnimation());
         StartCoroutine(CRMoveDown());
     }

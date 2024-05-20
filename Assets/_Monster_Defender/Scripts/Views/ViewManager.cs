@@ -7,11 +7,11 @@ public class ViewManager : MonoBehaviour
     public static ViewManager Instance { get; private set; }
 
     [SerializeField] private HomeView homeViewPrefab;
-    [SerializeField] private IngameView gameViewPrefab;
+    [SerializeField] private IngameView ingameViewPrefab;
     [SerializeField] private GameObject eventSystemPrefab;
 
     public HomeView HomeView { private set; get; }
-    public IngameView GameView { private set; get; }
+    public IngameView IngameView { private set; get; }
 
     private BaseView currentView = null;
 
@@ -32,8 +32,8 @@ public class ViewManager : MonoBehaviour
                 HomeView = Instantiate(homeViewPrefab, transform, false);
                 HomeView.OnShow();
 
-                GameView = Instantiate(gameViewPrefab, transform, false);
-                GameView.OnHide();
+                IngameView = Instantiate(ingameViewPrefab, transform, false);
+                IngameView.OnHide();
             }
         }
     }
@@ -51,9 +51,9 @@ public class ViewManager : MonoBehaviour
                 currentView = HomeView;
                 break;
             case ViewType.IngameView:
-                GameView.gameObject.SetActive(true);
-                GameView.OnShow();
-                currentView = GameView;
+                IngameView.gameObject.SetActive(true);
+                IngameView.OnShow();
+                currentView = IngameView;
                 break;
         }
     }

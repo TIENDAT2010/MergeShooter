@@ -3,9 +3,18 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using System.Linq;
+using System;
 
 public class IngameView : BaseView
 {
+    [SerializeField] private Text levelText = null;
+    [SerializeField] private Text waveText = null;
+    [SerializeField] private RectTransform wavePanelTrans = null;
+    [SerializeField] private Transform wavesPanelTrans = null;
+
+    [SerializeField] private WaveItemController waveItemControllerPrefab = null;
+
     //[SerializeField] private GameObject m_CompleteLevelPanel = null;
     //[SerializeField] private Text levelText = null;
     //[SerializeField] private Image mainHealthBar = null;
@@ -15,130 +24,147 @@ public class IngameView : BaseView
     //[SerializeField] private GameObject m_GameOverPanel = null;
     //[SerializeField] private GameObject m_PauseGamePanel = null;
 
+    private List<WaveItemController> listActiveWaveItem = new List<WaveItemController>();
+    private List<WaveItemController> listWaveItemController = new List<WaveItemController>();
 
-    private void Update()
+
+    /// <summary>
+    /// ////////////////////////////////////////////// Private Functions
+    /// </summary>
+
+
+    /// <summary>
+    /// Get a WaveItemController object.
+    /// </summary>
+    /// <returns></returns>
+    private WaveItemController GetWaveItemController()
     {
-        //healthText.text = "HP : " + IngameManager.Instance.MainHealth.ToString();
-        //coinText.text = IngameManager.Instance.CurrentCoin.ToString();
+        //Find the object in the list
+        WaveItemController waveItem = listWaveItemController.Where(a => !a.gameObject.activeSelf).FirstOrDefault();
 
-        //mainHealthBar.fillAmount = IngameManager.Instance.MainHealth / IngameManager.Instance.BaseHealth;
-        //if(IngameManager.Instance.MainHealth <= 0)
-        //{
-        //    m_GameOverPanel.SetActive(true);
-        //}
+        if (waveItem == null)
+        {
+            //Instantiate the dead effect
+            waveItem = Instantiate(waveItemControllerPrefab, Vector3.zero, Quaternion.identity);
+            listWaveItemController.Add(waveItem);
+        }
+
+        waveItem.gameObject.SetActive(true);
+        return waveItem;
     }
+
+
+
+
+    /// <summary>
+    /// Coroutine handle the given wave is completed. 
+    /// </summary>
+    /// <param name="waveIndex"></param>
+    /// <returns></returns>
+    private IEnumerator CROnWaveCompleted(int waveIndex)
+    {
+        if (waveIndex < listWaveItemController.Count - 1)
+        {
+            listActiveWaveItem[waveIndex].UpdateSlider();
+            yield return new WaitForSeconds(0.5f);
+            listActiveWaveItem[waveIndex + 1].OnActive(true);
+            StartCoroutine(CRShowWaveText(waveIndex + 2));
+        }
+    }
+
+
+
+    /// <summary>
+    /// Coroutine show the wave text.
+    /// </summary>
+    /// <param name="number"></param>
+    /// <returns></returns>
+    private IEnumerator CRShowWaveText(int number)
+    {
+        Vector2 startPos = new Vector2(1000f, wavePanelTrans.anchoredPosition.y);
+        Vector2 midPos = new Vector2(0f, wavePanelTrans.anchoredPosition.y);
+        Vector2 endPos = new Vector2(-1000f, wavePanelTrans.anchoredPosition.y);
+
+        wavePanelTrans.anchoredPosition = startPos;
+        waveText.text = "WAVE: " + number.ToString();
+
+        float t = 0;
+        float moveTime = 0.5f;
+        while (t < moveTime)
+        {
+            t += Time.deltaTime;
+            float factor = t / moveTime;
+            wavePanelTrans.anchoredPosition = Vector2.Lerp(startPos, midPos, factor);
+            yield return null;
+        }
+
+        yield return new WaitForSeconds(0.5f);
+        t = 0;
+        while (t < moveTime)
+        {
+            t += Time.deltaTime;
+            float factor = t / moveTime;
+            wavePanelTrans.anchoredPosition = Vector2.Lerp(midPos, endPos, factor);
+            yield return null;
+        }
+    }
+
+
+
+    /// <summary>
+    /// ////////////////////////////////////////////// Public Functions
+    /// </summary>
+
 
     public override void OnShow()
     {
-        //waveText.gameObject.SetActive(false);
-        //m_CompleteLevelPanel.SetActive(false);
-        //m_GameOverPanel.SetActive(false);
-        //m_PauseGamePanel.SetActive(false);
-        //levelText.text = "Level: " + IngameManager.Instance.CurrentLevel.ToString();
-        //mainHealthBar.fillAmount = 1f;
+        //Show the level
+        levelText.text = "LEVEL: " + IngameManager.Instance.CurrentLevel.ToString();
+
+        //Hide the wave text
+        wavePanelTrans.anchoredPosition = new Vector2(1000f, wavePanelTrans.anchoredPosition.y);
     }
 
     public override void OnHide() 
-    { 
+    {
+        listActiveWaveItem.Clear();
         gameObject.SetActive(false);
     }
 
-    public void OnCompleteLevel()
+
+    /// <summary>
+    /// Create the wave items with given amount.
+    /// </summary>
+    /// <param name="waveAmount"></param>
+    public void CreateWaveItems(int waveAmount)
     {
-        //m_CompleteLevelPanel.SetActive(true);
-    }    
-
-
-
-    public void OnClickNextLevelButton()
-    {
-        SceneManager.LoadScene(1);
-
-    }
-
-    public void OnClickReplayButton()
-    {
-        SceneManager.LoadScene(1);
-    }
-
-
-    public void OnClickExitButton()
-    {
-        Application.Quit();
-    }
-
-    public void OnClickPauseGameBtn()
-    {
-        IngameManager.Instance.GamePause();
-        //m_PauseGamePanel.SetActive(true);
+        //Create the wave items
+        for (int i = 0; i < waveAmount; i++)
+        {
+            WaveItemController waveItem = GetWaveItemController();
+            waveItem.transform.SetParent(wavesPanelTrans);
+            waveItem.transform.localScale = Vector3.one;
+            listActiveWaveItem.Add(waveItem);
+            waveItem.OnActive(i == 0);
+        }
     }
 
 
-    public void OnClickBuyTanks()
+    /// <summary>
+    /// Show the wave text of the first wave.
+    /// </summary>
+    public void ShowTextForFirstWave()
     {
-        IngameManager.Instance.BuyTank();
+        StartCoroutine(CRShowWaveText(1));
     }
 
-    public void ResumeGame()
-    {
-        IngameManager.Instance.GameResume();
-        //m_PauseGamePanel.SetActive(false);
-    }
 
-    public void BackToMenu()
+    /// <summary>
+    /// Handle UI when the given wave index is completed.
+    /// </summary>
+    /// <param name="waveIndex"></param>
+    public void OnWaveCompleted(int waveIndex)
     {
-        SceneManager.LoadScene(0);
+        StartCoroutine(CROnWaveCompleted(waveIndex));
     }
-    
-    public void SetWaveTextEnemy(int totalWave, int currentWave)
-    {
-        //waveText.text = "Wave : " + (currentWave+1).ToString() + " - " + totalWave.ToString();
-        //waveText.gameObject.SetActive(true);
-        //StartCoroutine(TextAnimation(0));
-    }
-
-    //private IEnumerator TextAnimation(int a)
-    //{
-    //    while (waveText.gameObject.activeSelf)
-    //    {
-    //        float t = 0;
-    //        float moveTime = 1f;
-    //        Vector3 startVector3 = Vector3.zero;
-    //        Vector3 endVector3 = new Vector3(2, 2, 0);
-    //        while (t < moveTime)
-    //        {
-    //            t += Time.deltaTime;
-    //            float factor = t / moveTime;
-    //            waveText.transform.localScale = Vector3.Lerp(startVector3, endVector3, factor);
-    //            yield return null;
-    //        }
-    //        t = 0;
-    //        while (t < moveTime)
-    //        {
-    //            t += Time.deltaTime;
-    //            float factor = t / moveTime;
-    //            waveText.transform.localScale = Vector3.Lerp(endVector3, startVector3, factor);
-    //            yield return null;
-    //        }
-    //        break;
-    //    }
-
-    //    yield return new WaitForSeconds(1f);
-    //    waveText.gameObject.SetActive(false);
-    //    if (a == 0)
-    //    {
-    //        //IngameManager.Instance.SpawnNextWave();
-    //    }
-    //    else
-    //    {
-    //        IngameManager.Instance.SpawnBoss();
-    //    }     
-    //}    
-    
-    //public void SetWaveTextBoss()
-    //{
-    //    waveText.text = "Boss is Coming !!!";
-    //    waveText.gameObject.SetActive(true);
-    //    StartCoroutine(TextAnimation(1));
-    //}    
 }

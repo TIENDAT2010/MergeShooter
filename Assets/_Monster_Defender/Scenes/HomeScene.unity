@@ -238,7 +238,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   homeViewPrefab: {fileID: 2844819487315541388, guid: 273b48f9b36638b459815b763694d499, type: 3}
-  gameViewPrefab: {fileID: 7589563523754500853, guid: 85f62e84a64ebc848890c17754b73e51, type: 3}
+  ingameViewPrefab: {fileID: 7589563523754500853, guid: 85f62e84a64ebc848890c17754b73e51, type: 3}
   eventSystemPrefab: {fileID: 3849683409118527792, guid: b25cb2b7898ce7646ba03eeaf6a0655f, type: 3}
 --- !u!1 &519420028
 GameObject:
