@@ -8,26 +8,27 @@ public class LevelConfigSO : ScriptableObject
 {
     public Sprite BackGround = null;
     public float HealthAmount = 0f;
-    public int CointToBuyTank = 0;
-    public List<TankType> SpawnTanks = new List<TankType>();
     public List<TankType> InitTanks = new List<TankType>();
     public List<WaveConfig> waveConfigs = new List<WaveConfig>();
-    public List<BossConfig> bossConfig = new List<BossConfig>();
+    //public List<BossConfig> bossConfig = new List<BossConfig>();
 }
 
 
 [Serializable]
 public class WaveConfig
 {
-    public List<EnemyConfig> enemyConfigs = new List<EnemyConfig>();
+    public int minEnemyAmount = 8;
+    public int maxEnemyAmount = 15;
+    public float enemyDelayTime = 1f;
+    public List<EnemyTypeConfig> enemyTypeConfigs = new List<EnemyTypeConfig>();
 }
 
 
 [Serializable]
-public class EnemyConfig
+public class EnemyTypeConfig
 {
-    public EnemyType enemyType;
-    public float damage, health;
+    public EnemyType enemyType = EnemyType.Monster10;
+    [Range(0f, 1f)] public float frequency = 0.5f;
 }
 
 [Serializable]

@@ -18,6 +18,8 @@ public class PoolManager : MonoBehaviour
 
     private List<BulletController> listBullet = new List<BulletController>();
     private List<EnemyController> listEnemy = new List<EnemyController>();
+    private List<DamageEffectController> listDamageEffectController = new List<DamageEffectController>();
+
     private void Awake()
     {
         if (Instance != null)
@@ -103,8 +105,26 @@ public class PoolManager : MonoBehaviour
         return Instantiate(coinEffectPrefabs, Vector3.zero, Quaternion.identity);
     }
 
+
+
+
+    /// <summary>
+    /// Get an inactive DamageEffectController object.
+    /// </summary>
+    /// <returns></returns>
     public DamageEffectController GetDamageEffectController()
     {
-        return Instantiate(damageEffectPrefabs, Vector3.zero, Quaternion.identity);
+        //Find the object in the list
+        DamageEffectController damageEffect = listDamageEffectController.Where(a => !a.gameObject.activeSelf).FirstOrDefault();
+
+        if(damageEffect == null)
+        {
+            //Instantiate the damage effect
+            damageEffect = Instantiate(damageEffectPrefabs, Vector3.zero, Quaternion.identity);
+            damageEffect.gameObject.SetActive(false);
+            listDamageEffectController.Add(damageEffect);
+        }
+
+        return damageEffect;
     }
 }

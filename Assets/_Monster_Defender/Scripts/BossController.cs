@@ -79,10 +79,11 @@ public class BossController : MonoBehaviour
                 yield return null;
             }
 
-            IngameManager.Instance.OnEnemyAttack(m_damage);
+            IngameManager.Instance.OnTakeDamage(m_damage);
             DamageEffectController damageEffect = PoolManager.Instance.GetDamageEffectController();
             damageEffect.transform.position = transform.position + Vector3.up;
-            damageEffect.SetDamageEffcet(m_damage);
+            damageEffect.gameObject.SetActive(true);
+            damageEffect.ShowDamageText(m_damage);
             yield return new WaitForSeconds(speedAttack);
         }
     }

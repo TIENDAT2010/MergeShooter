@@ -16,6 +16,9 @@ public class IngameManager : MonoBehaviour
     [SerializeField] private List<TankSpawnController> ListTankSpawns = new List<TankSpawnController>();
 
 
+    public float BulletMovementSpeed => bulletMovementSpeed;
+
+
     private LevelConfigSO levelConfig = null;
     private TankController selectedTank = null;
     private TankSpawnController originalTankSpawn = null;
@@ -30,16 +33,15 @@ public class IngameManager : MonoBehaviour
     }
 
     public GameState GameState { private set; get; }
-    public int CurrentLevel { private set; get; }
-    public float BaseHealth { private set; get; }   
+    public int CurrentLevel { private set; get; } 
     public TankType TankTypeToRandom { get ; private set ; }
+
 
     private float totalHealth = 0;
     private float currentHealth = 0f;
-
-    private int m_enemyCount = 0;
-    private int m_bossCount = 0;
-    private int m_waveIndex = 0;
+    private int enemyAmount = 0;
+    private int bossAmount = 0;
+    private int waveIndex = 0;
 
     private void Awake()
     {
@@ -83,7 +85,7 @@ public class IngameManager : MonoBehaviour
 
     private void Update()
     {
-        if(GameState == GameState.GameStart && IsGameOver() == false)
+        if(GameState == GameState.GameStart)
         {
             Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             if (Input.GetMouseButtonDown(0))
@@ -159,13 +161,20 @@ public class IngameManager : MonoBehaviour
 
 
 
+
+
+    ////////////////////////////////////////////////// State Functions
+
+
+
     /// <summary>
     /// Init GameStart state.
     /// </summary>
     public void GameStart()
     {
         GameState = GameState.GameStart;
-        ViewManager.Instance.GameView.SetWaveTextEnemy(levelConfig.waveConfigs.Count, m_waveIndex);
+        StartCoroutine(CRSpawnNextWave());
+        //ViewManager.Instance.GameView.SetWaveTextEnemy(levelConfig.waveConfigs.Count, waveIndex);
     }
 
 
@@ -187,115 +196,111 @@ public class IngameManager : MonoBehaviour
     }
 
 
+
+    ////////////////////////////////////////////////// Private Functions
+
+
+
+
     private void SpawnTank(TankType tankType)
     {
-        if(IsGameOver() == false)
+        for (int i = 0; i < ListTankSpawns.Count; i++)
         {
-            for (int i = 0; i < ListTankSpawns.Count; i++)
+            TankSpawnController tankSpawn = ListTankSpawns[i].GetComponent<TankSpawnController>();
+            if (tankSpawn.TankController == null)
             {
-                TankSpawnController tankSpawn = ListTankSpawns[i].GetComponent<TankSpawnController>();
-                if (tankSpawn.TankController == null)
-                {
-                    TankController tank = PoolManager.Instance.GetTankController(tankType);
-                    tankSpawn.TankController = tank;
-                    tank.gameObject.transform.position = tankSpawn.gameObject.transform.position;
-                    tank.gameObject.SetActive(true);
-                    tank.OnTankInit();
-                    break;
-                }
+                TankController tank = PoolManager.Instance.GetTankController(tankType);
+                tankSpawn.TankController = tank;
+                tank.gameObject.transform.position = tankSpawn.gameObject.transform.position;
+                tank.gameObject.SetActive(true);
+                tank.OnTankInit();
+                break;
             }
         }
     }
 
 
-    public void SpawnNextWave()
+
+    /// <summary>
+    /// Coroutine spawn the next wave.
+    /// </summary>
+    /// <returns></returns>
+    private IEnumerator CRSpawnNextWave()
     {
-        m_enemyCount = levelConfig.waveConfigs[m_waveIndex].enemyConfigs.Count;
-        StartCoroutine(SpawnEnemiesOfWave());
-    }
-    private IEnumerator SpawnEnemiesOfWave()
-    {
+        enemyAmount = Random.Range(levelConfig.waveConfigs[waveIndex].minEnemyAmount, levelConfig.waveConfigs[waveIndex].maxEnemyAmount);
         int enemyOrder = 100;
-        WaveConfig waveConfig = levelConfig.waveConfigs[m_waveIndex];
-        for (int i = 0; i < waveConfig.enemyConfigs.Count; i++)
+        WaveConfig waveConfig = levelConfig.waveConfigs[waveIndex];
+        for (int i = 0; i < enemyAmount; i++)
         {
-            EnemyConfig enemyConfig = waveConfig.enemyConfigs[i];
-            EnemyController enemyController = PoolManager.Instance.GetEnemyController(enemyConfig.enemyType);
+            EnemyController enemyController = PoolManager.Instance.GetEnemyController(GetEnemyType(waveConfig.enemyTypeConfigs));
             Vector3 spawnPos = Vector3.zero;
-            spawnPos.y = 9;
-            spawnPos.x = Random.Range(-4.7f, 4.7f);
+            spawnPos.y = Camera.main.ViewportToWorldPoint(new Vector2(0f, 1.2f)).y;
+            spawnPos.x = Random.Range(-4.5f, 4.5f);
             enemyController.transform.position = spawnPos;
-            enemyController.OnEnemyInit(enemyOrder, enemyConfig.damage, enemyConfig.health);
+            enemyController.OnEnemyInit(enemyOrder);
             enemyOrder--;
-            yield return new WaitForSeconds(1);
+            yield return new WaitForSeconds(waveConfig.enemyDelayTime);
         }
     }
+
+
+
+    /// <summary>
+    /// Get the EnemyType based on List<EnemyTypeConfig>.
+    /// </summary>
+    /// <param name="enemyConfigs"></param>
+    /// <returns></returns>
+    private EnemyType GetEnemyType(List<EnemyTypeConfig> enemyConfigs)
+    {
+        //Calculate the total frequency
+        float totalFreq = 0;
+        foreach (EnemyTypeConfig configuration in enemyConfigs)
+        {
+            totalFreq += configuration.frequency;
+        }
+
+        float randomFreq = Random.Range(0, totalFreq);
+        for (int i = 0; i < enemyConfigs.Count; i++)
+        {
+            if (randomFreq < enemyConfigs[i].frequency)
+            {
+                return enemyConfigs[i].enemyType;
+            }
+            else
+            {
+                randomFreq -= enemyConfigs[i].frequency;
+            }
+        }
+
+        return enemyConfigs[0].enemyType;
+    }
+
 
   
     
     public void SpawnBoss()
     {
-        StartCoroutine(SpawnBossEnemy());
+        //StartCoroutine(SpawnBossEnemy());
     }    
 
-    private IEnumerator SpawnBossEnemy()
-    {
-        int bossOrder = 100;
-        for (int i = 0; i < levelConfig.bossConfig.Count; i++)
-        {
-            BossConfig bossConfig = levelConfig.bossConfig[i];
-            BossController boss = PoolManager.Instance.GetBossController(bossConfig.bossType);
-            Vector3 spawnPos = Vector3.zero;
-            spawnPos.y = 9;
-            spawnPos.x = Random.Range(-3f, 3f);
-            boss.transform.position = spawnPos;
-            boss.OnBossInit(bossOrder, bossConfig.damage, bossConfig.health);
-            bossOrder--;
-            m_bossCount++;
-            yield return new WaitForSeconds(1);
-        }
-        yield break;
-    }
-
-
-
-    public void UpdateDeadEnemy()
-    {
-        m_enemyCount--;
-        if (m_enemyCount == 0)
-        {
-            if (m_waveIndex == levelConfig.waveConfigs.Count - 1)
-            {
-                if (levelConfig.bossConfig.Count == 0)
-                {
-                    CurrentLevel++;
-                    PlayerPrefs.SetInt(PlayerPrefsKey.LEVEL_KEY, CurrentLevel);
-                    ViewManager.Instance.GameView.OnCompleteLevel();
-                }
-                else
-                {
-                    ViewManager.Instance.GameView.SetWaveTextBoss();
-                }
-            }
-            else
-            {
-                m_waveIndex++;
-                ViewManager.Instance.GameView.SetWaveTextEnemy(levelConfig.waveConfigs.Count, m_waveIndex);
-            }  
-        }
-    }    
-
-    public void UpdateDeadBoss()
-    {
-        m_bossCount--;
-        if(m_bossCount == 0)
-        {
-            CurrentLevel++;
-            PlayerPrefs.SetInt(PlayerPrefsKey.LEVEL_KEY, CurrentLevel);
-            ViewManager.Instance.GameView.OnCompleteLevel();
-        }
-    }
-
+    //private IEnumerator SpawnBossEnemy()
+    //{
+    //    int bossOrder = 100;
+    //    for (int i = 0; i < levelConfig.bossConfig.Count; i++)
+    //    {
+    //        BossConfig bossConfig = levelConfig.bossConfig[i];
+    //        BossController boss = PoolManager.Instance.GetBossController(bossConfig.bossType);
+    //        Vector3 spawnPos = Vector3.zero;
+    //        spawnPos.y = 9;
+    //        spawnPos.x = Random.Range(-3f, 3f);
+    //        boss.transform.position = spawnPos;
+    //        boss.OnBossInit(bossOrder, bossConfig.damage, bossConfig.health);
+    //        bossOrder--;
+    //        bossAmount++;
+    //        yield return new WaitForSeconds(1);
+    //    }
+    //    yield break;
+    //}
 
 
     private TankSpawnController GetNearestTankSpawn(Vector3 tankPos)
@@ -315,33 +320,74 @@ public class IngameManager : MonoBehaviour
     }
    
 
-    public void OnEnemyAttack(float damage)
+
+    ////////////////////////////////////////////////// Public Functions
+
+
+
+
+
+    /// <summary>
+    /// Handle the health bar take damage.
+    /// </summary>
+    /// <param name="damage"></param>
+    public void OnTakeDamage(float damage)
     {
-        MainHealth = MainHealth - damage;
+        currentHealth = Mathf.Clamp(currentHealth - damage, 0f, totalHealth);
+        healthBar.localScale = new Vector3(currentHealth / totalHealth, 1f, 1f);
     }
 
-    public bool IsGameOver()
+
+
+
+    public void UpdateDeadEnemy()
     {
-        if (m_mainHealth == 0)
+        enemyAmount--;
+        if (enemyAmount == 0)
         {
-            return true;
-        }            
-        else
-        {
-            return false;
-        }           
+            if (waveIndex == levelConfig.waveConfigs.Count - 1)
+            {
+                //if (levelConfig.bossConfig.Count == 0)
+                //{
+                //    CurrentLevel++;
+                //    PlayerPrefs.SetInt(PlayerPrefsKey.LEVEL_KEY, CurrentLevel);
+                //    ViewManager.Instance.GameView.OnCompleteLevel();
+                //}
+                //else
+                //{
+                //    ViewManager.Instance.GameView.SetWaveTextBoss();
+                //}
+            }
+            else
+            {
+                waveIndex++;
+                ViewManager.Instance.GameView.SetWaveTextEnemy(levelConfig.waveConfigs.Count, waveIndex);
+            }
+        }
     }
+
+    public void UpdateDeadBoss()
+    {
+        bossAmount--;
+        if (bossAmount == 0)
+        {
+            CurrentLevel++;
+            PlayerPrefs.SetInt(PlayerPrefsKey.LEVEL_KEY, CurrentLevel);
+            ViewManager.Instance.GameView.OnCompleteLevel();
+        }
+    }
+
 
 
     public void BuyTank()
     {
-        if(CurrentCoin >= levelConfig.CointToBuyTank)
-        {
-            int randomIdx = Random.Range(0, levelConfig.SpawnTanks.Count);
-            TankType tankType = levelConfig.SpawnTanks[randomIdx];
-            SpawnTank(tankType);
-            CurrentCoin -= levelConfig.CointToBuyTank;
-        }
+        //if(CurrentCoin >= levelConfig.CointToBuyTank)
+        //{
+        //    int randomIdx = Random.Range(0, levelConfig.SpawnTanks.Count);
+        //    TankType tankType = levelConfig.SpawnTanks[randomIdx];
+        //    SpawnTank(tankType);
+        //    CurrentCoin -= levelConfig.CointToBuyTank;
+        //}
     }
 
 

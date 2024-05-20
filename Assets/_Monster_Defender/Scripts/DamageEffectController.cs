@@ -5,15 +5,28 @@ using UnityEngine.UI;
 
 public class DamageEffectController : MonoBehaviour
 {
-    [SerializeField] private Text damageEffectText = null;
-    [SerializeField] private CanvasGroup m_CanvasGroup;
+    [SerializeField] private Text damageText = null;
+    [SerializeField] private CanvasGroup canvasGroup;
 
-    private void Start()
+
+
+    /// <summary>
+    /// Show the damage text effect.
+    /// </summary>
+    /// <param name="damage"></param>
+    public void ShowDamageText(float damage)
     {
-        StartCoroutine(MoveDamageEffect());
+        damageText.text = "-" + System.Math.Round(damage, 2).ToString();
+        StartCoroutine(CRMoveUp());
+
     }
 
-    private IEnumerator MoveDamageEffect()
+
+    /// <summary>
+    /// Coroutine move this object up and fade out.
+    /// </summary>
+    /// <returns></returns>
+    private IEnumerator CRMoveUp()
     {
         float t = 0;
         float moveTime = 1f;
@@ -24,15 +37,12 @@ public class DamageEffectController : MonoBehaviour
             t += Time.deltaTime;
             float factor = t / moveTime;
             Vector3 newPos = Vector3.Lerp(startVector3, endVector3, factor);
-            m_CanvasGroup.alpha = Mathf.Lerp(1, 0, factor);
+            canvasGroup.alpha = Mathf.Lerp(1f, 0f, factor);
             transform.position = newPos;
             yield return null;
         }
-        Destroy(gameObject);
-    }
 
-    public void SetDamageEffcet(float damage)
-    {
-        damageEffectText.text = "-" + damage.ToString();
+        canvasGroup.alpha = 1f;
+        gameObject.SetActive(false);
     }
 }

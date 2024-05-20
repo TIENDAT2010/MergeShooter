@@ -12,45 +12,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dc6caabf55cf9bc4d9a6c6ae25c67cb0, type: 3}
   m_Name: 1
   m_EditorClassIdentifier: 
-  MainHealth: 100
   BackGround: {fileID: 0}
-  CointToBuyTank: 100
-  SpawnTanks: 00000000
+  HealthAmount: 100
   InitTanks: 000000000000000000000000
   waveConfigs:
-  - enemyConfigs:
+  - minEnemyAmount: 5
+    maxEnemyAmount: 8
+    enemyDelayTime: 1
+    enemyTypeConfigs:
     - enemyType: 0
-      damage: 2
-      health: 20
+      frequency: 1
+  - minEnemyAmount: 6
+    maxEnemyAmount: 10
+    enemyDelayTime: 0.7
+    enemyTypeConfigs:
     - enemyType: 0
-      damage: 2
-      health: 20
-    - enemyType: 0
-      damage: 2
-      health: 20
-    - enemyType: 0
-      damage: 2
-      health: 20
-    - enemyType: 0
-      damage: 2
-      health: 20
-  - enemyConfigs:
-    - enemyType: 0
-      damage: 2
-      health: 20
-    - enemyType: 0
-      damage: 2
-      health: 20
-    - enemyType: 0
-      damage: 2
-      health: 20
-    - enemyType: 0
-      damage: 2
-      health: 20
-    - enemyType: 0
-      damage: 2
-      health: 20
-  bossConfig:
-  - bossType: 2
-    damage: 10
-    health: 1000
+      frequency: 1

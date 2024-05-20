@@ -93,8 +93,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 675931a0ed3363747a8736d653d8b6e6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  fireSpeed: 0.5
+  fireRange: 7
+  minTankDamage: 1
+  maxTankDamage: 2
   tankType: 0
   spriteRenderer: {fileID: 8495777911772262730}
+  shootEffect: {fileID: 8903729200614902476}
+  bulletSpawnPos: {fileID: 8572568032349296862}
   sprites:
   - {fileID: 21300000, guid: b657d70b5654a9941b4372c6f26135a2, type: 3}
   - {fileID: 21300000, guid: f1592473139136c4d8a30736eb989a00, type: 3}
@@ -106,10 +112,6 @@ MonoBehaviour:
   - {fileID: 21300000, guid: b59eab4b52487d041a99995193b3f6ad, type: 3}
   - {fileID: 21300000, guid: b006132fe689d1e4db522106363533c1, type: 3}
   - {fileID: 21300000, guid: 3044cb2d354dfed4baa81d875390b961, type: 3}
-  bulletSpawnPos: {fileID: 8572568032349296862}
-  speedFire: 0.5
-  rangeFire: 6
-  damageTank: 2
 --- !u!1 &7994543002585391078
 GameObject:
   m_ObjectHideFlags: 0
@@ -287,3 +289,14 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 3925845404998552344, guid: 5402d74818fe16a4eaba627d30737245, type: 3}
   m_PrefabInstance: {fileID: 6229996018180759446}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &8903729200614902476 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3307052621351589210, guid: 5402d74818fe16a4eaba627d30737245, type: 3}
+  m_PrefabInstance: {fileID: 6229996018180759446}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 19bebb18e3a88434c8d7da4aed84119f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

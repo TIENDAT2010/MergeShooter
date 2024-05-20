@@ -5,10 +5,10 @@ using UnityEngine;
 public class TankController : MonoBehaviour
 {
     [Header("Tank Configs")]
-    [SerializeField] private float fireSpeed = 0.5f;
-    [SerializeField] private float fireRange = 7f;
-    [SerializeField] private float minTankDamage = 1f;
-    [SerializeField] private float maxTankDamage = 2f;
+    [SerializeField] private float attackRate = 0.5f;
+    [SerializeField] private float attackRange = 7f;
+    [SerializeField] private float minDamageAmount = 1f;
+    [SerializeField] private float maxDamageAmount = 3f;
 
     [Header("Tank References")]
     [SerializeField] private TankType tankType = TankType.Tank01;
@@ -18,6 +18,7 @@ public class TankController : MonoBehaviour
     [SerializeField] private Sprite[] sprites = null;
 
     private GameObject targetEnemy = null;
+    private float damageAmount = 0f;
 
     public int SortingOder
     {
@@ -43,6 +44,8 @@ public class TankController : MonoBehaviour
 
     public void OnTankInit()
     {
+        shootEffect.gameObject.SetActive(false);
+        damageAmount = Random.Range(minDamageAmount, maxDamageAmount);
         StartCoroutine(FindEnemy());
     }
 
@@ -57,7 +60,7 @@ public class TankController : MonoBehaviour
 
     private IEnumerator FindEnemy()
     {
-        while (targetEnemy == null && IngameManager.Instance.IsGameOver() == false)
+        while (targetEnemy == null)
         {
             while (IngameManager.Instance.GameState == GameState.GamePause || m_isMoving == true)
             {
@@ -68,7 +71,7 @@ public class TankController : MonoBehaviour
             foreach (GameObject enemy in enemies)
             {
                 float distanceToPlayer = Vector3.Distance(this.transform.position, enemy.transform.position);
-                if ((distanceToPlayer <= fireRange) && (Mathf.Abs(enemy.transform.position.x - transform.position.x) <= 4) && enemy.activeSelf == true)
+                if ((distanceToPlayer <= attackRange) && (Mathf.Abs(enemy.transform.position.x - transform.position.x) <= 4) && enemy.activeSelf == true)
                 {
                     targetEnemy = enemy;
                     StartCoroutine(RotateToEnemy());
@@ -80,7 +83,7 @@ public class TankController : MonoBehaviour
             foreach (GameObject boss in bosses)
             {
                 float distanceToPlayer = Vector3.Distance(this.transform.position, boss.transform.position);
-                if ((distanceToPlayer <= fireRange) && (Mathf.Abs(boss.transform.position.x - transform.position.x) <= 4) && boss.activeSelf == true)
+                if ((distanceToPlayer <= attackRange) && (Mathf.Abs(boss.transform.position.x - transform.position.x) <= 4) && boss.activeSelf == true)
                 {
                     targetEnemy = boss;
                     StartCoroutine(RotateToEnemy());
@@ -97,6 +100,9 @@ public class TankController : MonoBehaviour
     {
         while(targetEnemy != null)
         {
+            shootEffect.gameObject.SetActive(true);
+            shootEffect.PlayShootEffect();
+
             for (int i = 0; i < sprites.Length; i++)
             {
                 spriteRenderer.sprite = sprites[i];
@@ -109,9 +115,11 @@ public class TankController : MonoBehaviour
             }
 
             SpawnBullet();
-            yield return new WaitForSeconds(fireSpeed);
+            yield return new WaitForSeconds(attackRate);
 
-            if(targetEnemy != null)
+            shootEffect.gameObject.SetActive(false);
+
+            if (targetEnemy != null)
             {
                 if (targetEnemy.activeSelf == false)
                 {
@@ -171,7 +179,7 @@ public class TankController : MonoBehaviour
         BulletController bulletspawn = PoolManager.Instance.GetBulletController(tankType);
         bulletspawn.transform.position = bulletSpawnPos.transform.position;
         bulletspawn.transform.up = transform.up;
-        bulletspawn.Move();
-        bulletspawn.SetDamage(minTankDamage);
+        bulletspawn.gameObject.SetActive(true);
+        bulletspawn.OnInitBullet(damageAmount);
     }
 }
