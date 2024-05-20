@@ -9,6 +9,7 @@ public class TankController : MonoBehaviour
     [SerializeField] private float attackRange = 7f;
     [SerializeField] private float minDamageAmount = 1f;
     [SerializeField] private float maxDamageAmount = 3f;
+    [SerializeField] private float bulletMovementSpeed = 35f;
 
     [Header("Tank References")]
     [SerializeField] private TankType tankType = TankType.Tank01;
@@ -180,6 +181,6 @@ public class TankController : MonoBehaviour
         bulletspawn.transform.position = bulletSpawnPos.transform.position;
         bulletspawn.transform.up = transform.up;
         bulletspawn.gameObject.SetActive(true);
-        bulletspawn.OnInitBullet(damageAmount);
+        bulletspawn.OnInitBullet(damageAmount, bulletMovementSpeed);
     }
 }

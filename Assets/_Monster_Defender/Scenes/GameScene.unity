@@ -527,46 +527,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5d046a0d19fbb414d9b8ba576353df6f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemyPrefabs:
-  - {fileID: 6026037390526222256, guid: 149a2463f2d83a64c8455683e82d80cb, type: 3}
-  - {fileID: 7111951618842916881, guid: 098bcc66ce932714094005e0af73fd63, type: 3}
-  - {fileID: 3737111854172434577, guid: 3a5bfd9ff5b61534a9dba1b5e9597a25, type: 3}
-  - {fileID: 1689493249728958609, guid: af5dab73ea5f0da4690e3ac3f0ed8195, type: 3}
-  - {fileID: 7409384106944250411, guid: 353acbaacf33cea4184a06801a5a0a7b, type: 3}
-  - {fileID: 5570671477776095823, guid: e0d107b19db19f9439f4cd23bcfabada, type: 3}
-  - {fileID: 9047028760077239639, guid: 7346fe73e8ad7f04a9304ca6e90a1777, type: 3}
-  - {fileID: 9115207837501283120, guid: c71bbe770eb22c84583449e395be5199, type: 3}
-  - {fileID: 221227774131958477, guid: 2b3f084967d70fd40b3a05c1641298ef, type: 3}
-  - {fileID: 8740705287918778379, guid: 3edd441db293f5b4baa6c3c3d39a97d1, type: 3}
-  tankPrefabs:
-  - {fileID: 133657313570932202, guid: b09a09cc5878662499fcc07fd960216b, type: 3}
-  - {fileID: 4084926873238867560, guid: d37b954682862954fba8f644a7ace233, type: 3}
-  - {fileID: 419229688960681618, guid: 02cf6b19a20b9fa4a9397298e4a163e0, type: 3}
-  - {fileID: 2022243897340242690, guid: 7da1b2a7f0ef3e84a9a6d7e0928207d8, type: 3}
-  - {fileID: 3834105591255934338, guid: 7f04982da4b44644f8e1f1ba5d0bdce4, type: 3}
-  - {fileID: 3466006887351069129, guid: 43f01d23d5c39404b9c2a7afc4c7ee82, type: 3}
-  - {fileID: 2282013844033162334, guid: bba52e08b1df6364e802c24cac9e3617, type: 3}
-  - {fileID: 5398990204323691634, guid: d5ec7befca503da40bdf64bac4c180b5, type: 3}
-  - {fileID: 6251029322057797436, guid: 4b21fed8536fc0c44bc33344868e26bc, type: 3}
-  - {fileID: 4832039915439106426, guid: 437c52e5b8750e34a84ff975bbd73f70, type: 3}
-  bulletPrefabs:
-  - {fileID: 5772459285833032178, guid: 40465e4631160e7478c2da61d5ce2d46, type: 3}
-  - {fileID: 2431397813809710679, guid: c8b2b1292862307489fcc2eb5f93c752, type: 3}
-  - {fileID: 7408181608710441923, guid: bca02fecc89e42847b126ed30ca2aa0f, type: 3}
-  - {fileID: 2523508913263030105, guid: 120b7c9d27299dc46af5d4d5c4567de0, type: 3}
-  - {fileID: 4584426821746179159, guid: 0b70a42fd9567f24087b02fe119d0b13, type: 3}
-  - {fileID: 3400718678717477237, guid: 512ad5b9919a6654fb67a667ff2993c0, type: 3}
-  - {fileID: 5772459285833032178, guid: 0d7aad0e62aaf7240852e6572fab5b68, type: 3}
-  - {fileID: 5772459285833032178, guid: 19abb74563f3c56438a7a15420c91165, type: 3}
-  - {fileID: 5772459285833032178, guid: 211e1f88023cc814ea7605cc2a836e6e, type: 3}
-  - {fileID: 5772459285833032178, guid: 2b4fcba8ab5def5418a1d74cb0de42ae, type: 3}
-  bossPrefabs:
-  - {fileID: 8351639225448822815, guid: c12855d06f20c4c4b808f25208b4bbd3, type: 3}
-  - {fileID: 3852221600960751897, guid: e49b10a1299e3a14bab3589b9ba9086d, type: 3}
-  - {fileID: 3852221600960751897, guid: bb0aab15a0e71aa40bb949a35f80022c, type: 3}
-  enemyDieFxPrefabs: {fileID: 3307052621351589210, guid: 8031a36f33f5c3447af58e7d22183906, type: 3}
+  deadEffectControllerPrefab: {fileID: 3307052621351589210, guid: 8031a36f33f5c3447af58e7d22183906, type: 3}
   coinEffectPrefabs: {fileID: 6419690872860588941, guid: 9e45a6c6b35d2a843854006f9d29243c, type: 3}
-  damageEffectPrefabs: {fileID: 6128480541487394828, guid: 33365e383ed13c840b98d663876b894e, type: 3}
+  damageEffectControllerPrefab: {fileID: 6128480541487394828, guid: 33365e383ed13c840b98d663876b894e, type: 3}
+  bulletEffectControllerPrefab: {fileID: 1694087181198114795, guid: 76ca568187164c949ab1fe0adc392fb0, type: 3}
+  enemyControllerPrefabs:
+  - {fileID: 6026037390526222256, guid: 149a2463f2d83a64c8455683e82d80cb, type: 3}
+  tankControllerPrefabs:
+  - {fileID: 133657313570932202, guid: b09a09cc5878662499fcc07fd960216b, type: 3}
+  bulletControllerPrefabs:
+  - {fileID: 5772459285833032178, guid: 40465e4631160e7478c2da61d5ce2d46, type: 3}
+  bossControllerPrefabs: []
 --- !u!4 &246533366
 Transform:
   m_ObjectHideFlags: 0
@@ -626,7 +597,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c9c1522599c383f478060b4794f3afe6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bulletMovementSpeed: 70
   healthBar: {fileID: 149540726}
   ListTankSpawns:
   - {fileID: 990511925}

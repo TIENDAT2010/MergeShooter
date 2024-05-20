@@ -9,10 +9,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3925845404998552344}
-  - component: {fileID: 7873611034468660150}
   - component: {fileID: 3307052621351589210}
   m_Layer: 0
-  m_Name: ShootEffect
+  m_Name: Shoot_Effect
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -30,16 +29,73 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 2205903579790823215}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!212 &7873611034468660150
-SpriteRenderer:
+--- !u!114 &3307052621351589210
+MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1929759312076294328}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 19bebb18e3a88434c8d7da4aed84119f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  spriteRenderer: {fileID: 6594915789395552331}
+  effectSprites:
+  - {fileID: 21300000, guid: 885a872883f689b4b92caa4416e8fbd9, type: 3}
+  - {fileID: 21300002, guid: 885a872883f689b4b92caa4416e8fbd9, type: 3}
+  - {fileID: 21300004, guid: 885a872883f689b4b92caa4416e8fbd9, type: 3}
+  - {fileID: 21300006, guid: 885a872883f689b4b92caa4416e8fbd9, type: 3}
+  - {fileID: 21300008, guid: 885a872883f689b4b92caa4416e8fbd9, type: 3}
+  - {fileID: 21300010, guid: 885a872883f689b4b92caa4416e8fbd9, type: 3}
+  - {fileID: 21300012, guid: 885a872883f689b4b92caa4416e8fbd9, type: 3}
+  - {fileID: 21300014, guid: 885a872883f689b4b92caa4416e8fbd9, type: 3}
+  - {fileID: 21300016, guid: 885a872883f689b4b92caa4416e8fbd9, type: 3}
+--- !u!1 &7564965668430295609
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2205903579790823215}
+  - component: {fileID: 6594915789395552331}
+  - component: {fileID: 8025549798250944881}
+  m_Layer: 0
+  m_Name: Sprite
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2205903579790823215
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7564965668430295609}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0.7071068, w: 0.7071068}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 3925845404998552344}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 90}
+--- !u!212 &6594915789395552331
+SpriteRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7564965668430295609}
   m_Enabled: 1
   m_CastShadows: 0
   m_ReceiveShadows: 0
@@ -74,7 +130,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 39
-  m_Sprite: {fileID: 21300000, guid: e8bffa11d4fcbfe4ca3bb56d9ab503c5, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 885a872883f689b4b92caa4416e8fbd9, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -85,32 +141,17 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &3307052621351589210
+--- !u!114 &8025549798250944881
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1929759312076294328}
+  m_GameObject: {fileID: 7564965668430295609}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 19bebb18e3a88434c8d7da4aed84119f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spriteRenderer: {fileID: 7873611034468660150}
-  tankShootSprites:
-  - {fileID: 21300000, guid: e8bffa11d4fcbfe4ca3bb56d9ab503c5, type: 3}
-  - {fileID: 21300000, guid: 217a52dc841082148bf1cc513152790c, type: 3}
-  - {fileID: 21300000, guid: 382c5de071c6f4548935cc81f8ddd095, type: 3}
-  - {fileID: 21300000, guid: bc578a5ed11d8a04bbd2bda1f2e00b80, type: 3}
-  - {fileID: 21300000, guid: e63a06a500330f54fbccdb0f949fd797, type: 3}
-  - {fileID: 21300000, guid: faae8f6eb4decac4aaaec155ca4a67cf, type: 3}
-  - {fileID: 21300000, guid: 57232151672248c42ae96b3fc7e8457c, type: 3}
-  - {fileID: 21300000, guid: 9001b3f0bb864c044907b774d64abcfc, type: 3}
-  - {fileID: 21300000, guid: 29a0b359cf73beb45877689f89164fc2, type: 3}
-  - {fileID: 21300000, guid: 6714029b80be571459ec66f69661b39f, type: 3}
-  - {fileID: 21300000, guid: 6378ba9ecbee911499e62b5bc83f4c50, type: 3}
-  - {fileID: 21300000, guid: 2c954c37279afa045a49afbaabedc93b, type: 3}
-  - {fileID: 21300000, guid: e185fdacd33ebe34bbfdcd72e2a511e2, type: 3}
-  - {fileID: 21300000, guid: d5f736b5e0fe18f468e385bfe83d415c, type: 3}
-  - {fileID: 21300000, guid: 46dcbf1e022ab354ba51112ca5a559b8, type: 3}
+  spriteRenderer: {fileID: 6594915789395552331}
+  effectSprites: []

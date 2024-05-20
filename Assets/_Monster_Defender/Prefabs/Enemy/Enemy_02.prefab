@@ -171,7 +171,7 @@ GameObject:
   - component: {fileID: 2520585968156082145}
   - component: {fileID: 884440382896579320}
   - component: {fileID: 7111951618842916881}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Enemy_02
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -242,9 +242,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 62488db7218062740bdde1f4dfaa7f8f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  coinBonus: 60
-  speedAttack: 1.9
-  m_speedMove: 0.6
+  attackRate: 1
+  movementSpeed: 7
+  minDamageAmount: 1
+  maxDamageAmount: 2
+  minHealthAmount: 5
+  maxHealthAmount: 10
   enemyType: 1
   spriteRenderer: {fileID: 7930477394239705569}
   healthBar: {fileID: 5815403720541999349}

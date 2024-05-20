@@ -5,7 +5,7 @@ using UnityEngine;
 public class ShootEffectController : MonoBehaviour
 {
     [SerializeField] private SpriteRenderer spriteRenderer = null;
-    [SerializeField] private Sprite[] tankShootSprites = null;
+    [SerializeField] private Sprite[] effectSprites = null;
 
 
 
@@ -25,11 +25,8 @@ public class ShootEffectController : MonoBehaviour
     /// <returns></returns>
     private IEnumerator ShootEffect()
     {
-        for (int i = 0; i < tankShootSprites.Length; i++)
-        {
-            spriteRenderer.sprite = tankShootSprites[i];
-            yield return null;
-        }
+        spriteRenderer.sprite = effectSprites[Random.Range(0, effectSprites.Length)];
+        yield return null;
         spriteRenderer.enabled = false;
     }
 }

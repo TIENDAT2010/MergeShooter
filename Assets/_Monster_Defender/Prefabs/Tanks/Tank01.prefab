@@ -93,10 +93,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 675931a0ed3363747a8736d653d8b6e6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  fireSpeed: 0.5
-  fireRange: 7
-  minTankDamage: 1
-  maxTankDamage: 2
+  attackRate: 0.5
+  attackRange: 7
+  minDamageAmount: 1
+  maxDamageAmount: 3
   tankType: 0
   spriteRenderer: {fileID: 8495777911772262730}
   shootEffect: {fileID: 8903729200614902476}
@@ -245,7 +245,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3925845404998552344, guid: 5402d74818fe16a4eaba627d30737245, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 1.1
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3925845404998552344, guid: 5402d74818fe16a4eaba627d30737245, type: 3}
       propertyPath: m_LocalPosition.z

@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 7873611034468660150}
   - component: {fileID: 3307052621351589210}
   m_Layer: 0
-  m_Name: DeadEffect
+  m_Name: Dead_Effect
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

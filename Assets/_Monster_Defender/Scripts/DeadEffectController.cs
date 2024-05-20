@@ -27,9 +27,9 @@ public class DeadEffectController : MonoBehaviour
         for (int i = 0; i < enemyDieSprites.Length; i++)
         {
             spriteRenderer.sprite = enemyDieSprites[i];
-            yield return new WaitForSeconds(0.05f);
+            yield return null;
         }
         yield return new WaitForSeconds(0.1f);
-        Destroy(gameObject);
+        gameObject.SetActive(false);
     }
 }

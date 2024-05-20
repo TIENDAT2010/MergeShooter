@@ -96,7 +96,7 @@ public class BossController : MonoBehaviour
         if (m_health <= 0)
         {
             IngameManager.Instance.UpdateDeadBoss();
-            DeadEffectController enemyDieFx = PoolManager.Instance.GetEnemyDieFx();
+            DeadEffectController enemyDieFx = PoolManager.Instance.GetDeadEffectController();
             enemyDieFx.transform.position = transform.position;
             gameObject.SetActive(false);
             CoinEffectController coinEffect = PoolManager.Instance.GetCoinEffectController();

@@ -7,18 +7,22 @@ public class PoolManager : MonoBehaviour
 {
     public static PoolManager Instance {  get; private set; }
 
-    [SerializeField] private EnemyController[] enemyPrefabs;
-    [SerializeField] private TankController[] tankPrefabs;
-    [SerializeField] private BulletController[] bulletPrefabs;
-    [SerializeField] private BossController[] bossPrefabs;
-    [SerializeField] private DeadEffectController enemyDieFxPrefabs;
-    [SerializeField] private CoinEffectController coinEffectPrefabs;
-    [SerializeField] private DamageEffectController damageEffectPrefabs;
+    [SerializeField] private DeadEffectController deadEffectControllerPrefab = null;
+    [SerializeField] private CoinEffectController coinEffectPrefabs = null;
+    [SerializeField] private DamageEffectController damageEffectControllerPrefab = null;
+    [SerializeField] private BulletEffectController bulletEffectControllerPrefab = null;
+    [SerializeField] private EnemyController[] enemyControllerPrefabs = null;
+    [SerializeField] private TankController[] tankControllerPrefabs = null;
+    [SerializeField] private BulletController[] bulletControllerPrefabs = null;
+    [SerializeField] private BossController[] bossControllerPrefabs = null;
 
 
-    private List<BulletController> listBullet = new List<BulletController>();
-    private List<EnemyController> listEnemy = new List<EnemyController>();
+    private List<TankController> listTankController = new List<TankController>();
+    private List<BulletController> listBulletController = new List<BulletController>();
+    private List<EnemyController> listEnemyController = new List<EnemyController>();
+    private List<DeadEffectController> listDeadEffectController = new List<DeadEffectController>();
     private List<DamageEffectController> listDamageEffectController = new List<DamageEffectController>();
+    private List<BulletEffectController> listBulletEffectController = new List<BulletEffectController>();
 
     private void Awake()
     {
@@ -38,66 +42,102 @@ public class PoolManager : MonoBehaviour
     {
         BossController resultBoss = null;
 
-        for (int i = 0; i < bossPrefabs.Length; i++)
+        for (int i = 0; i < bossControllerPrefabs.Length; i++)
         {
-            if (bossPrefabs[i].BossType == bossType)
+            if (bossControllerPrefabs[i].BossType == bossType)
             {
-                resultBoss = Instantiate(bossPrefabs[i], Vector3.zero, Quaternion.identity);
+                resultBoss = Instantiate(bossControllerPrefabs[i], Vector3.zero, Quaternion.identity);
             }
         }
         return resultBoss;
     }
 
 
+
+    /// <summary>
+    /// Get an EnemyController object.
+    /// </summary>
+    /// <param name="enemyType"></param>
+    /// <returns></returns>
     public EnemyController GetEnemyController(EnemyType enemyType)
     {
-        EnemyController resultEnemy = listEnemy.Where(a => a.EnemyType.Equals(enemyType) && !a.gameObject.activeSelf).FirstOrDefault();
+        //Find object in the list
+        EnemyController resultEnemy = listEnemyController.Where(a => a.EnemyType.Equals(enemyType) && !a.gameObject.activeSelf).FirstOrDefault();
 
         if (resultEnemy == null)
         {
-            EnemyController prefab = enemyPrefabs.Where(a => a.EnemyType.Equals(enemyType)).FirstOrDefault();
+            //Instantiate the enemy
+            EnemyController prefab = enemyControllerPrefabs.Where(a => a.EnemyType.Equals(enemyType)).FirstOrDefault();
             resultEnemy = Instantiate(prefab, Vector3.zero, Quaternion.identity);
-            listEnemy.Add(resultEnemy);
+            listEnemyController.Add(resultEnemy);
         }
         resultEnemy.gameObject.SetActive(true);
         return resultEnemy;
     }
 
 
+    /// <summary>
+    /// Get a TankController object.
+    /// </summary>
+    /// <param name="tankType"></param>
+    /// <returns></returns>
     public TankController GetTankController(TankType tankType)
     {
-        TankController resultTank = null;
+        //Find object in the list
+        TankController resultTank = listTankController.Where(a => a.TankType.Equals(tankType) && !a.gameObject.activeSelf).FirstOrDefault(); ;
 
-        for (int i = 0; i < tankPrefabs.Length; i++)
+        if (resultTank == null)
         {
-            if (tankPrefabs[i].TankType == tankType)
-            {
-                resultTank = Instantiate(tankPrefabs[i], Vector3.zero, Quaternion.identity);
-            }
+            //Instantiate the tank
+            TankController prefab = tankControllerPrefabs.Where(a => a.TankType.Equals(tankType)).FirstOrDefault();
+            resultTank = Instantiate(prefab, Vector3.zero, Quaternion.identity);
+            listTankController.Add(resultTank);
         }
+        resultTank.gameObject.SetActive(true);
         return resultTank;
     }
 
 
-
+    /// <summary>
+    /// Get a BulletController object.
+    /// </summary>
+    /// <param name="tankType"></param>
+    /// <returns></returns>
     public BulletController GetBulletController(TankType tankType)
     {
-        BulletController resultBullet = listBullet.Where(a => a.TankType.Equals(tankType) && !a.gameObject.activeSelf).FirstOrDefault();
+        //Find object in the list
+        BulletController resultBullet = listBulletController.Where(a => a.TankType.Equals(tankType) && !a.gameObject.activeSelf).FirstOrDefault();
 
         if(resultBullet == null)
         {
-            BulletController prefab = bulletPrefabs.Where(a => a.TankType.Equals(tankType)).FirstOrDefault();
+            //Instantiate the bullet
+            BulletController prefab = bulletControllerPrefabs.Where(a => a.TankType.Equals(tankType)).FirstOrDefault();
             resultBullet = Instantiate(prefab, Vector3.zero, Quaternion.identity);
-            listBullet.Add(resultBullet);
+            listBulletController.Add(resultBullet);
         }
         resultBullet.gameObject.SetActive(true);
         return resultBullet;
     }
 
 
-    public DeadEffectController GetEnemyDieFx()
+    /// <summary>
+    /// Get a DeadEffectController object.
+    /// </summary>
+    /// <returns></returns>
+    public DeadEffectController GetDeadEffectController()
     {
-        return Instantiate(enemyDieFxPrefabs, Vector3.zero, Quaternion.identity);
+        //Find the object in the list
+        DeadEffectController deadEffect = listDeadEffectController.Where(a => !a.gameObject.activeSelf).FirstOrDefault();
+
+        if (deadEffect == null)
+        {
+            //Instantiate the dead effect
+            deadEffect = Instantiate(deadEffectControllerPrefab, Vector3.zero, Quaternion.identity);
+            listDeadEffectController.Add(deadEffect);
+        }
+
+        deadEffect.gameObject.SetActive(true);
+        return deadEffect;
     }
 
     public CoinEffectController GetCoinEffectController()
@@ -109,7 +149,7 @@ public class PoolManager : MonoBehaviour
 
 
     /// <summary>
-    /// Get an inactive DamageEffectController object.
+    /// Get a DamageEffectController object.
     /// </summary>
     /// <returns></returns>
     public DamageEffectController GetDamageEffectController()
@@ -120,11 +160,32 @@ public class PoolManager : MonoBehaviour
         if(damageEffect == null)
         {
             //Instantiate the damage effect
-            damageEffect = Instantiate(damageEffectPrefabs, Vector3.zero, Quaternion.identity);
-            damageEffect.gameObject.SetActive(false);
+            damageEffect = Instantiate(damageEffectControllerPrefab, Vector3.zero, Quaternion.identity);
             listDamageEffectController.Add(damageEffect);
         }
 
+        damageEffect.gameObject.SetActive(true);
         return damageEffect;
+    }
+
+
+    /// <summary>
+    /// Get a BulletEffectController object.
+    /// </summary>
+    /// <returns></returns>
+    public BulletEffectController GetBulletEffectController()
+    {
+        //Find the object in the list
+        BulletEffectController bulletEffect = listBulletEffectController.Where(a => !a.gameObject.activeSelf).FirstOrDefault();
+
+        if (bulletEffect == null)
+        {
+            //Instantiate the damage effect
+            bulletEffect = Instantiate(bulletEffectControllerPrefab, Vector3.zero, Quaternion.identity);
+            listBulletEffectController.Add(bulletEffect);
+        }
+
+        bulletEffect.gameObject.SetActive(true);
+        return bulletEffect;
     }
 }

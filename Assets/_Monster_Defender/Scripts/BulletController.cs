@@ -5,38 +5,20 @@ using UnityEngine;
 public class BulletController : MonoBehaviour
 {
     [SerializeField] private TankType tankType = TankType.Tank01;
+    [SerializeField] private LayerMask enemyLayerMask = new LayerMask();
+    [SerializeField] private LayerMask bossLayerMask = new LayerMask();
     public TankType TankType { get => tankType; }
-
     private float bulletDamage = 0;
-
-
-
-    private void OnTriggerEnter2D(Collider2D col)
-    {
-        if (col.gameObject.CompareTag("Enemy"))
-        {
-            EnemyController enemy = col.gameObject.GetComponent<EnemyController>();
-            enemy.OnTakeDamage(bulletDamage);
-            gameObject.SetActive(false);
-        }
-        if (col.gameObject.CompareTag("Boss"))
-        {
-            BossController boss = col.gameObject.GetComponent<BossController>();
-            boss.OneHitBullet(bulletDamage);
-            gameObject.SetActive(false);
-        }
-            
-    }
-
-
-
+    private float bulletSpeed = 0;
 
     /// <summary>
     /// Init this bullet with parameters.
     /// </summary>
     /// <param name="damage"></param>
-    public void OnInitBullet(float damage)
+    /// <param name="speed"></param>
+    public void OnInitBullet(float damage, float speed)
     {
+        bulletSpeed = speed;
         bulletDamage = damage;
         StartCoroutine(CRMoveBullet());
     }
@@ -48,7 +30,6 @@ public class BulletController : MonoBehaviour
     /// <returns></returns>
     private IEnumerator CRMoveBullet()
     {
-        float speed = IngameManager.Instance.BulletMovementSpeed;
         while (gameObject.activeSelf)
         {
             //Stop moving on Pause game state 
@@ -58,7 +39,38 @@ public class BulletController : MonoBehaviour
             }
 
             //Move using transform.up
-            transform.position += transform.up * speed * Time.deltaTime;
+            transform.position += transform.up * bulletSpeed * Time.deltaTime;
+
+
+            //Check collide with enemy
+            Collider2D enemyCollider2D = Physics2D.OverlapCircle(transform.position + transform.up * 0.1f, 0.15f, enemyLayerMask);
+            if (enemyCollider2D != null)
+            {
+                //Enemy take damage
+                EnemyController enemy = enemyCollider2D.gameObject.GetComponent<EnemyController>();
+                enemy.OnTakeDamage(bulletDamage);
+
+                //Play effect and siable this bullet
+                BulletEffectController bulletEffect = PoolManager.Instance.GetBulletEffectController();
+                bulletEffect.transform.position = transform.position;
+                bulletEffect.PlayBulletExplodeEffect();
+                gameObject.SetActive(false);
+            }
+
+            //Check collide with boss
+            Collider2D bossCollider2D = Physics2D.OverlapCircle(transform.position + transform.up * 0.1f, 0.15f, bossLayerMask);
+            if (bossCollider2D != null)
+            {
+                //Boss take damage
+                BossController boss = bossCollider2D.gameObject.GetComponent<BossController>();
+                boss.OneHitBullet(bulletDamage);
+
+                //Play effect and siable this bullet
+                BulletEffectController bulletEffect = PoolManager.Instance.GetBulletEffectController();
+                bulletEffect.transform.position = transform.position;
+                bulletEffect.PlayBulletExplodeEffect();
+                gameObject.SetActive(false);
+            }
 
 
             //Check and disable this bullet

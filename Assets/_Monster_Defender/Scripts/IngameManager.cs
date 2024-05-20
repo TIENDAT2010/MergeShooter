@@ -7,16 +7,13 @@ public class IngameManager : MonoBehaviour
 {
     public static IngameManager Instance { get; private set; }
 
-    [Header("Ingame Configs")]
-    [SerializeField] private float bulletMovementSpeed = 70f;
+    //[Header("Ingame Configs")]
+    //[SerializeField] private float bulletMovementSpeed = 70f;
 
 
     [Header("Ingame References")]
     [SerializeField] private Transform healthBar = null;
     [SerializeField] private List<TankSpawnController> ListTankSpawns = new List<TankSpawnController>();
-
-
-    public float BulletMovementSpeed => bulletMovementSpeed;
 
 
     private LevelConfigSO levelConfig = null;

@@ -115,7 +115,7 @@ public class EnemyController : MonoBehaviour
 
             //Create damage text effect
             DamageEffectController damageEffect = PoolManager.Instance.GetDamageEffectController();
-            damageEffect.transform.position = transform.position + Vector3.up;
+            damageEffect.transform.position = transform.position + Vector3.down * 0.6f;
             damageEffect.gameObject.SetActive(true);
             damageEffect.ShowDamageText(enemyDamage);
 
@@ -154,9 +154,13 @@ public class EnemyController : MonoBehaviour
         healthBar.fillAmount = currentHealth / totalHealth;
         if (currentHealth <= 0)
         {
+            //Update dead enemy
             IngameManager.Instance.UpdateDeadEnemy();
-            DeadEffectController enemyDieFx = PoolManager.Instance.GetEnemyDieFx();
-            enemyDieFx.transform.position = transform.position;
+
+            //Create the effect
+            DeadEffectController deadEffect = PoolManager.Instance.GetDeadEffectController();
+            deadEffect.transform.position = transform.position;
+            deadEffect.PlayDeadEffect();
 
             //CoinEffectController coinEffect = PoolManager.Instance.GetCoinEffectController();
             //coinEffect.transform.position = transform.position + Vector3.up;
