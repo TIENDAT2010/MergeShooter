@@ -19,7 +19,7 @@ public class BulletEffectController : MonoBehaviour
 
 
     /// <summary>
-    /// Coroutine change the sprites to create explode effect.
+    /// Coroutine change the animationSprites to create explode effect.
     /// </summary>
     /// <returns></returns>
     private IEnumerator CRPlaySprites()

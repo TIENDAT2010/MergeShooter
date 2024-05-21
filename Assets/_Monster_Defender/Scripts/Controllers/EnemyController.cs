@@ -51,7 +51,7 @@ public class EnemyController : MonoBehaviour
 
 
     /// <summary>
-    /// Coroutine play the animation by changing the sprites.
+    /// Coroutine play the animation by changing the animationSprites.
     /// </summary>
     /// <returns></returns>
     private IEnumerator CRPlayAnimation()

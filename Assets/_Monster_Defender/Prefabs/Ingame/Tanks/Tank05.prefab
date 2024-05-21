@@ -40,11 +40,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2836842953317216581}
-  - component: {fileID: 8960977853913324756}
   - component: {fileID: 3834105591255934338}
   m_Layer: 0
   m_Name: Tank05
-  m_TagString: Tank
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -66,51 +65,6 @@ Transform:
   - {fileID: 2751521528564214809}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!61 &8960977853913324756
-BoxCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2964940831778953575}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_ForceSendLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ForceReceiveLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ContactCaptureLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_CallbackLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: -0.011913538, y: -0.09084004}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0, y: 0}
-    oldSize: {x: 0, y: 0}
-    newSize: {x: 0, y: 0}
-    adaptiveTilingThreshold: 0
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  serializedVersion: 2
-  m_Size: {x: 1.2323122, y: 1.18168}
-  m_EdgeRadius: 0
 --- !u!114 &3834105591255934338
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -123,24 +77,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 675931a0ed3363747a8736d653d8b6e6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  attackRate: 0.5
+  attackRange: 7
+  minDamageAmount: 1
+  maxDamageAmount: 3
+  bulletMovementSpeed: 35
   tankType: 4
   spriteRenderer: {fileID: 3690016371565083315}
-  sprites:
-  - {fileID: 21300000, guid: ac7c53828fed9464d921d6f9ba3ccfd4, type: 3}
-  - {fileID: 21300000, guid: 428d8809a4e612443ae6b9729f716aea, type: 3}
-  - {fileID: 21300000, guid: 60aa958ebea1ce5418cfe0f2811303b0, type: 3}
-  - {fileID: 21300000, guid: 89296594540dd3a48959e3462a39ce88, type: 3}
-  - {fileID: 21300000, guid: 669c1fc949a05bb4382852a5c48c941b, type: 3}
-  - {fileID: 21300000, guid: 5421a6dec8237c9458bb0519b1ae62da, type: 3}
-  - {fileID: 21300000, guid: 87490cb29e22d464a8fb774d689abb70, type: 3}
-  - {fileID: 21300000, guid: d6b779e5674486544b6c9d74653a00c0, type: 3}
-  - {fileID: 21300000, guid: 19a58e86e1e8f194a9e46ca6d52f3f5a, type: 3}
-  - {fileID: 21300000, guid: 30e0fefb7ab078f47a39945078f4ceae, type: 3}
-  bulletSpawnPos: {fileID: 16821303397908111}
-  speedBullet: 6
-  speedFire: 0.3
-  rangeFire: 10
-  damageTank: 14
+  shootEffect: {fileID: 0}
+  bulletSpawnTrans: {fileID: 0}
+  tankIdleSprite: {fileID: 0}
+  animationSprites: []
 --- !u!1 &4575507159390043818
 GameObject:
   m_ObjectHideFlags: 0

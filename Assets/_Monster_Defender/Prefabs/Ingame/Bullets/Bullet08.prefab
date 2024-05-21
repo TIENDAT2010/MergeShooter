@@ -98,7 +98,7 @@ GameObject:
   - component: {fileID: 5772459285833032178}
   m_Layer: 0
   m_Name: Bullet08
-  m_TagString: Bullet
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -194,3 +194,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tankType: 7
+  enemyLayerMask:
+    serializedVersion: 2
+    m_Bits: 0
+  bossLayerMask:
+    serializedVersion: 2
+    m_Bits: 0

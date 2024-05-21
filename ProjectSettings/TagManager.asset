@@ -3,11 +3,7 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags:
-  - Enemy
-  - Tank
-  - Bullet
-  - Boss
+  tags: []
   layers:
   - Default
   - TransparentFX

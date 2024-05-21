@@ -38,6 +38,23 @@ public class PoolManager : MonoBehaviour
     }
 
 
+
+    /// <summary>
+    /// Find all active enemies.
+    /// </summary>
+    /// <returns></returns>
+    public List<EnemyController> FindActiveEnemies()
+    {
+        List<EnemyController> listResult = new List<EnemyController>();
+        foreach(EnemyController enemy in listEnemyController)
+        {
+            if (enemy.gameObject.activeSelf) { listResult.Add(enemy); }
+        }
+        return listResult;
+    }
+
+
+
     public BossController GetBossController(BossType bossType)
     {
         BossController resultBoss = null;

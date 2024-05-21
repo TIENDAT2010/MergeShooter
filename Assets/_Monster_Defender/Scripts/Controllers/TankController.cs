@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -15,151 +16,60 @@ public class TankController : MonoBehaviour
     [SerializeField] private TankType tankType = TankType.Tank01;
     [SerializeField] private SpriteRenderer spriteRenderer = null;
     [SerializeField] private ShootEffectController shootEffect = null;
-    [SerializeField] private GameObject bulletSpawnPos;
-    [SerializeField] private Sprite[] sprites = null;
-
-    private GameObject targetEnemy = null;
-    private float damageAmount = 0f;
-
-    public int SortingOder
-    {
-        set { spriteRenderer.sortingOrder = value; }
-    }
-
-
-    private bool m_isMoving = false;
-    public bool IsMoving
-    {
-        set 
-        {
-            targetEnemy = null;
-            m_isMoving = value; 
-        }
-    }
-
-
+    [SerializeField] private Transform bulletSpawnTrans;
+    [SerializeField] private Sprite tankIdleSprite = null;
+    [SerializeField] private Sprite[] animationSprites = null;
 
     public TankType TankType { get => tankType; }
+    public int SortingOder { set { spriteRenderer.sortingOrder = value; } }
+
+    private float damageAmount = 0f;
 
 
 
+    /// <summary>
+    /// Init this tank.
+    /// </summary>
     public void OnTankInit()
     {
         shootEffect.gameObject.SetActive(false);
-        damageAmount = Random.Range(minDamageAmount, maxDamageAmount);
-        StartCoroutine(FindEnemy());
+        damageAmount = UnityEngine.Random.Range(minDamageAmount, maxDamageAmount);
+        StartCoroutine(CRAttackEnemy());
     }
 
 
 
-    public void OnTankMove()
+    /// <summary>
+    /// Set selected for this tank.
+    /// </summary>
+    /// <param name="selected"></param>
+    /// <param name="targetPos"></param>
+    /// <param name="snapToTarget"></param>
+    public void SetSelected(bool selected, Vector2 targetPos, bool snapToTarget)
     {
-        m_isMoving = true;
-        targetEnemy = null;
-    }    
-
-
-    private IEnumerator FindEnemy()
-    {
-        while (targetEnemy == null)
+        if (selected)
         {
-            while (IngameManager.Instance.GameState == GameState.GamePause || m_isMoving == true)
-            {
-                yield return null;
-            }
-
-            EnemyController[] enemies = FindObjectsOfType<EnemyController>();
-            foreach (EnemyController enemy in enemies)
-            {
-                float distanceToPlayer = Vector3.Distance(transform.position, enemy.transform.position);
-                if ((distanceToPlayer <= attackRange) && (Mathf.Abs(enemy.transform.position.x - transform.position.x) <= 4))
-                {
-                    targetEnemy = enemy.gameObject;
-                    StartCoroutine(RotateToEnemy());
-                    StartCoroutine(ShootEnemy());
-                    yield break;
-                }
-            }
-
-
-            GameObject[] bosses = GameObject.FindGameObjectsWithTag("Boss");
-            foreach (GameObject boss in bosses)
-            {
-                float distanceToPlayer = Vector3.Distance(this.transform.position, boss.transform.position);
-                if ((distanceToPlayer <= attackRange) && (Mathf.Abs(boss.transform.position.x - transform.position.x) <= 4) && boss.activeSelf == true)
-                {
-                    targetEnemy = boss;
-                    StartCoroutine(RotateToEnemy());
-                    StartCoroutine(ShootEnemy());
-                    yield break;
-                }
-            }
-            yield return null;
+            StopAllCoroutines();
+            transform.up = Vector2.up;
+            spriteRenderer.sprite = tankIdleSprite;
         }
-    }  
-
-
-    private IEnumerator ShootEnemy()
-    {
-        while(targetEnemy != null)
+        else
         {
-            shootEffect.gameObject.SetActive(true);
-            shootEffect.PlayShootEffect();
-
-            for (int i = 0; i < sprites.Length; i++)
-            {
-                spriteRenderer.sprite = sprites[i];
-                yield return new WaitForSeconds(0.01f);
+            if (snapToTarget) 
+            { 
+                transform.position = targetPos;
             }
-
-            while (IngameManager.Instance.GameState == GameState.GamePause && m_isMoving)
-            {
-                yield return null;
-            }
-
-            SpawnBullet();
-            yield return new WaitForSeconds(attackRate);
-
-            shootEffect.gameObject.SetActive(false);
-
-            if (targetEnemy != null)
-            {
-                if (targetEnemy.activeSelf == false)
-                {
-                    targetEnemy = null;
-                }
-            }
-            
-            if(targetEnemy == null)
-            {
-                StartCoroutine(FindEnemy());
-                yield break;
-            }
+            else { StartCoroutine(CRMoveToTarget(targetPos)); }
         }
     }
 
 
-    private IEnumerator RotateToEnemy()
-    {
-        while (targetEnemy != null)
-        { 
-            transform.up = (targetEnemy.transform.position - transform.position).normalized;
-            yield return null;
-        }
-    }
-
-
-
-
-    public void MoveTankBackToGrid(Vector3 targetPos)
-    {
-        OnTankMove();
-        gameObject.GetComponent<Collider2D>().enabled = false;
-        StartCoroutine(MoveTank(targetPos));
-        gameObject.GetComponent<Collider2D>().enabled = true;
-    }
-
-    private IEnumerator MoveTank(Vector3 targetPos)
+    /// <summary>
+    /// Coroutine move this tank to the target position.
+    /// </summary>
+    /// <param name="targetPos"></param>
+    /// <returns></returns>
+    private IEnumerator CRMoveToTarget(Vector2 targetPos)
     {
         float t = 0;
         float moveTime = (Vector3.Distance(transform.position, targetPos) / 20f);
@@ -172,17 +82,87 @@ public class TankController : MonoBehaviour
             transform.position = newPos;
             yield return null;
         }
-        m_isMoving = false;
-        OnTankInit();
+
+        StartCoroutine(CRAttackEnemy());
     }
 
 
-    private void SpawnBullet()
+
+    /// <summary>
+    /// Coroutine attack the enemy.
+    /// </summary>
+    /// <returns></returns>
+    private IEnumerator CRAttackEnemy()
     {
-        BulletController bulletspawn = PoolManager.Instance.GetBulletController(tankType);
-        bulletspawn.transform.position = bulletSpawnPos.transform.position;
-        bulletspawn.transform.up = transform.up;
-        bulletspawn.gameObject.SetActive(true);
-        bulletspawn.OnInitBullet(damageAmount, bulletMovementSpeed);
+        EnemyController targetEnemy = null;
+        while (gameObject.activeSelf)
+        {
+            //Stop at Pause state
+            while (IngameManager.Instance.GameState == GameState.GamePause)
+            {
+                yield return null;
+            }
+
+
+            //Rotate back to Vector2.up and return idle sprite
+            transform.up = Vector2.up;
+            spriteRenderer.sprite = tankIdleSprite;
+
+
+            //Find the closest enemy
+            List<EnemyController> activeEnemies = PoolManager.Instance.FindActiveEnemies();
+            foreach (EnemyController enemy in activeEnemies)
+            {
+                float distanceToPlayer = Vector3.Distance(transform.position, enemy.transform.position);
+                if ((distanceToPlayer <= attackRange) && (Mathf.Abs(enemy.transform.position.x - transform.position.x) <= 4))
+                {
+                    targetEnemy = enemy;
+                    break;
+                }
+            }
+
+
+
+
+
+            float timeCount = 0;
+            while (targetEnemy != null && targetEnemy.gameObject.activeSelf && gameObject.activeSelf)
+            {
+                //Rotate to the enemy
+                transform.up = (targetEnemy.transform.position - transform.position).normalized;
+
+                timeCount -= Time.deltaTime;
+                if (timeCount <= 0)
+                {
+                    //Reset timeCount
+                    timeCount = attackRate;
+
+
+                    //Play the shoot effect.
+                    shootEffect.gameObject.SetActive(true);
+                    shootEffect.PlayShootEffect();
+                    for (int i = 0; i < animationSprites.Length; i++)
+                    {
+                        spriteRenderer.sprite = animationSprites[i];
+                        yield return null;
+                    }
+                    shootEffect.gameObject.SetActive(false);
+
+
+                    //Spawn the bullet
+                    BulletController bulletspawn = PoolManager.Instance.GetBulletController(tankType);
+                    bulletspawn.transform.position = bulletSpawnTrans.transform.position;
+                    bulletspawn.transform.up = transform.up;
+                    bulletspawn.gameObject.SetActive(true);
+                    bulletspawn.OnInitBullet(damageAmount, bulletMovementSpeed);
+                }
+
+                yield return null;
+                if (!targetEnemy.gameObject.activeSelf) { break; }
+            }
+
+
+            yield return null;
+        }
     }
 }
