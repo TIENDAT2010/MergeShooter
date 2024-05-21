@@ -19,7 +19,7 @@ public class EnemyController : MonoBehaviour
     [SerializeField] private Image healthBar = null;
     [SerializeField] private Material normalMaterial = null;
     [SerializeField] private Material whiteMaterial = null;
-    [SerializeField] private Sprite[] sprites = null;
+    [SerializeField] private Sprite[] animationSprites = null;
 
     private float enemyDamage;
     private float totalHealth;
@@ -58,9 +58,9 @@ public class EnemyController : MonoBehaviour
     {
         while (gameObject.activeSelf)
         {
-            for (int i = 0; i < sprites.Length; i++)
+            for (int i = 0; i < animationSprites.Length; i++)
             {
-                spriteRenderer.sprite = sprites[i];
+                spriteRenderer.sprite = animationSprites[i];
                 yield return new WaitForSeconds(0.01f);
             }
         }
@@ -83,7 +83,7 @@ public class EnemyController : MonoBehaviour
                 yield return null;
             }
 
-            //Moving down
+            //CRMoveDown down
             transform.position += Vector3.down * movementSpeed * Time.deltaTime;
             yield return null;
 
@@ -145,7 +145,7 @@ public class EnemyController : MonoBehaviour
 
 
     /// <summary>
-    /// 
+    /// Coroutine take damage.
     /// </summary>
     /// <param name="damage"></param>
     /// <returns></returns>
@@ -163,11 +163,7 @@ public class EnemyController : MonoBehaviour
             deadEffect.transform.position = transform.position;
             deadEffect.PlayDeadEffect();
 
-            //CoinEffectController coinEffect = PoolManager.Instance.GetCoinEffectController();
-            //coinEffect.transform.position = transform.position + Vector3.up;
-            //coinEffect.SetCoinBonus(coinBonus);
-            //IngameManager.Instance.CurrentCoin += coinBonus;
-
+            //Disable this enemy
             gameObject.SetActive(false);
         }
         else

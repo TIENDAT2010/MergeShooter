@@ -6,9 +6,12 @@ using UnityEngine.UI;
 public class BossController : MonoBehaviour
 {
     [Header("Boss Configs")]
-    [SerializeField] private int coinBonus;
-    [SerializeField] private float speedAttack;
-    [SerializeField] private float m_speedMove;
+    [SerializeField] private float attackRate = 0.5f;
+    [SerializeField] private float movementSpeed = 3f;
+    [SerializeField] private float minDamageAmount = 2f;
+    [SerializeField] private float maxDamageAmount = 6f;
+    [SerializeField] private float minHealthAmount = 25f;
+    [SerializeField] private float maxHealthAmount = 40f;
 
     [Header("Boss References")]
     [SerializeField] private BossType bossType = BossType.Boss01;
@@ -16,104 +19,153 @@ public class BossController : MonoBehaviour
     [SerializeField] private Material normalMaterial = null;
     [SerializeField] private Material whiteMaterial = null;
     [SerializeField] private Image healthBar = null;
-    [SerializeField] private Sprite[] sprites = null;
+    [SerializeField] private Sprite[] animationSprites = null;
 
-    private float m_damage;
-    private float m_health;
-    private float m_FisrtHealth;
+    public BossType BossType => bossType;
 
-    public BossType BossType { get => bossType; }
+    private float bossDamage;
+    private float totalHealth;
+    private float currentHealth;
+    private bool isTakingDamage = false;
 
 
 
-    public void OnBossInit(int oder, float damage, float health)
+    /// <summary>
+    /// Handle init the boss.
+    /// </summary>
+    /// <param name="sortingOrder"></param>
+    public void OnBossInit(int sortingOrder)
     {
-        spriteRenderer.material = normalMaterial;
-        spriteRenderer.sortingOrder = oder;
-        m_damage = damage;
-        m_health = health;
-        m_FisrtHealth = health;
+        bossDamage = Random.Range(minDamageAmount, maxDamageAmount);
+        totalHealth = Random.Range(minHealthAmount, maxHealthAmount); ;
+        currentHealth = totalHealth;
         healthBar.fillAmount = 1f;
-        StartCoroutine(PlayAnimation());
-        StartCoroutine(Moving());
+        spriteRenderer.material = normalMaterial;
+        spriteRenderer.sortingOrder = sortingOrder;
+        StartCoroutine(CRPlayAnimation());
+        StartCoroutine(CRMoveDown());
     }
 
 
-    private IEnumerator PlayAnimation()
+
+    /// <summary>
+    /// Coroutine play the bounce animation.
+    /// </summary>
+    /// <returns></returns>
+    private IEnumerator CRPlayAnimation()
     {
         while (gameObject.activeSelf)
         {
-            for (int i = 0; i < sprites.Length; i++)
+            for (int i = 0; i < animationSprites.Length; i++)
             {
-                spriteRenderer.sprite = sprites[i];
+                spriteRenderer.sprite = animationSprites[i];
                 yield return new WaitForSeconds(0.02f);
             }
         }
     }
 
-    private IEnumerator Moving()
-    {
-        while (IngameManager.Instance.GameState == GameState.GamePause)
-        {
-            yield return null;
-        }
 
-        while (spriteRenderer.transform.position.y >= -3.5f && gameObject.activeSelf)
-        {
-            transform.position += Vector3.down * m_speedMove * Time.deltaTime;
-            yield return null;
-        }
-        if(transform.position.y <= -3.5f)
-        {
-            StartCoroutine(OnAttack());
-            yield break;
-        }
-    }
 
-    private IEnumerator OnAttack()
+    /// <summary>
+    /// Coroutine move this boss down toward the tanks.
+    /// </summary>
+    /// <returns></returns>
+    private IEnumerator CRMoveDown()
     {
-        while(gameObject.activeSelf)
+        while (gameObject.activeSelf)
         {
+            //Stop moving on Pause game state
             while (IngameManager.Instance.GameState == GameState.GamePause)
             {
                 yield return null;
             }
 
-            IngameManager.Instance.OnTakeDamage(m_damage);
+            //CRMoveDown down
+            transform.position += Vector3.down * movementSpeed * Time.deltaTime;
+            yield return null;
+
+            //Stop moving at the health bar -> start the attack
+            if (transform.position.y <= -4f)
+            {
+                StartCoroutine(CROnAttack());
+                yield break;
+            }
+        }
+    }
+
+
+
+    /// <summary>
+    /// Coroutine attack the health bar.
+    /// </summary>
+    /// <returns></returns>
+    private IEnumerator CROnAttack()
+    {
+        while(gameObject.activeSelf)
+        {
+            //Stop attacking on Pause game state
+            while (IngameManager.Instance.GameState == GameState.GamePause)
+            {
+                yield return null;
+            }
+
+            IngameManager.Instance.OnTakeDamage(bossDamage);
+
+            //Create damage effect
             DamageEffectController damageEffect = PoolManager.Instance.GetDamageEffectController();
             damageEffect.transform.position = transform.position + Vector3.up;
             damageEffect.gameObject.SetActive(true);
-            damageEffect.ShowDamageText(m_damage);
-            yield return new WaitForSeconds(speedAttack);
+            damageEffect.ShowDamageText(bossDamage);
+
+
+            yield return new WaitForSeconds(attackRate);
         }
     }
 
 
-    public void OneHitBullet(float damage)
+    /// <summary>
+    /// Handle this boss take damage.
+    /// </summary>
+    /// <param name="damage"></param>
+    public void OnTakeDamage(float damage)
     {
-        m_health = m_health - damage;
-        healthBar.fillAmount = m_health / m_FisrtHealth;
-        if (m_health <= 0)
+        if (!isTakingDamage)
         {
-            IngameManager.Instance.UpdateDeadBoss();
-            DeadEffectController enemyDieFx = PoolManager.Instance.GetDeadEffectController();
-            enemyDieFx.transform.position = transform.position;
+            isTakingDamage = true;
+            StartCoroutine(CROnTakeDamage(damage));
+        }
+    }
+
+
+
+    /// <summary>
+    /// Coroutine take damage.
+    /// </summary>
+    /// <param name="damage"></param>
+    /// <returns></returns>
+    private IEnumerator CROnTakeDamage(float damage)
+    {
+        currentHealth = Mathf.Clamp(currentHealth - damage, 0f, totalHealth);
+        healthBar.fillAmount = currentHealth / totalHealth;
+        if (currentHealth <= 0)
+        {
+            //Update dead enemy
+            IngameManager.Instance.UpdateDeadEnemy();
+
+            //Create the effect
+            DeadEffectController deadEffect = PoolManager.Instance.GetDeadEffectController();
+            deadEffect.transform.position = transform.position;
+            deadEffect.PlayDeadEffect();
+
+            //Disable this boss
             gameObject.SetActive(false);
-            CoinEffectController coinEffect = PoolManager.Instance.GetCoinEffectController();
-            coinEffect.transform.position = transform.position + Vector3.up;
-            coinEffect.SetCoinBonus(coinBonus);
-            IngameManager.Instance.CurrentCoin += coinBonus;            
         }
         else
         {
-            StartCoroutine(ChangeMaterial());
+            spriteRenderer.material = whiteMaterial;
+            yield return null;
+            spriteRenderer.material = normalMaterial;
+            isTakingDamage = false;
         }
-    }
-
-    private IEnumerator ChangeMaterial()
-    {
-        spriteRenderer.material = whiteMaterial;
-        yield return new WaitForSeconds(0.02f);
-        spriteRenderer.material = normalMaterial;
     }
 }

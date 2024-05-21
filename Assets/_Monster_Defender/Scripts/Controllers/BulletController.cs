@@ -63,7 +63,7 @@ public class BulletController : MonoBehaviour
             {
                 //Boss take damage
                 BossController boss = bossCollider2D.gameObject.GetComponent<BossController>();
-                boss.OneHitBullet(bulletDamage);
+                boss.OnTakeDamage(bulletDamage);
 
                 //Play effect and siable this bullet
                 BulletEffectController bulletEffect = PoolManager.Instance.GetBulletEffectController();

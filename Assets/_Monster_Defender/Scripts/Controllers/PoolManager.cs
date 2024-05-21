@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
+using UnityEditorInternal.Profiling.Memory.Experimental.FileFormat;
 
 public class PoolManager : MonoBehaviour
 {
@@ -20,6 +21,7 @@ public class PoolManager : MonoBehaviour
     private List<TankController> listTankController = new List<TankController>();
     private List<BulletController> listBulletController = new List<BulletController>();
     private List<EnemyController> listEnemyController = new List<EnemyController>();
+    private List<BossController> listBossController = new List<BossController>();
     private List<DeadEffectController> listDeadEffectController = new List<DeadEffectController>();
     private List<DamageEffectController> listDamageEffectController = new List<DamageEffectController>();
     private List<BulletEffectController> listBulletEffectController = new List<BulletEffectController>();
@@ -55,17 +57,25 @@ public class PoolManager : MonoBehaviour
 
 
 
+    /// <summary>
+    /// Get an BossController object.
+    /// </summary>
+    /// <param name="bossType"></param>
+    /// <returns></returns>
     public BossController GetBossController(BossType bossType)
     {
-        BossController resultBoss = null;
+        //Find object in the list
+        BossController resultBoss = listBossController.Where(a => !a.gameObject.activeSelf && a.BossType == bossType).FirstOrDefault();
 
-        for (int i = 0; i < bossControllerPrefabs.Length; i++)
+        if (resultBoss == null)
         {
-            if (bossControllerPrefabs[i].BossType == bossType)
-            {
-                resultBoss = Instantiate(bossControllerPrefabs[i], Vector3.zero, Quaternion.identity);
-            }
+            //Instantiate the boss
+            BossController prefab = bossControllerPrefabs.Where(a => a.BossType.Equals(bossType)).FirstOrDefault();
+            resultBoss = Instantiate(prefab, Vector3.zero, Quaternion.identity);
+            listBossController.Add(resultBoss);
         }
+
+        resultBoss.gameObject.SetActive(true);
         return resultBoss;
     }
 
