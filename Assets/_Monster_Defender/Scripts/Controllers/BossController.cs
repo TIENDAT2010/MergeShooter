@@ -36,6 +36,7 @@ public class BossController : MonoBehaviour
     /// <param name="sortingOrder"></param>
     public void OnBossInit(int sortingOrder)
     {
+        isTakingDamage = false;
         bossDamage = Random.Range(minDamageAmount, maxDamageAmount);
         totalHealth = Random.Range(minHealthAmount, maxHealthAmount); ;
         currentHealth = totalHealth;
@@ -61,6 +62,8 @@ public class BossController : MonoBehaviour
                 spriteRenderer.sprite = animationSprites[i];
                 yield return new WaitForSeconds(0.02f);
             }
+
+            if (animationSprites.Length == 0) { yield return null; }
         }
     }
 
@@ -85,7 +88,7 @@ public class BossController : MonoBehaviour
             yield return null;
 
             //Stop moving at the health bar -> start the attack
-            if (transform.position.y <= -4f)
+            if (transform.position.y <= -3.15f)
             {
                 StartCoroutine(CROnAttack());
                 yield break;
@@ -150,7 +153,7 @@ public class BossController : MonoBehaviour
         if (currentHealth <= 0)
         {
             //Update dead enemy
-            IngameManager.Instance.UpdateDeadEnemy();
+            IngameManager.Instance.UpdateDeadBoss();
 
             //Create the effect
             DeadEffectController deadEffect = PoolManager.Instance.GetDeadEffectController();

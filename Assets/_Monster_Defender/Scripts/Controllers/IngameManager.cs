@@ -30,14 +30,15 @@ public class IngameManager : MonoBehaviour
 
     public GameState GameState { private set; get; }
     public int CurrentLevel { private set; get; }
-    public TankType TankTypeToRandom { get ; private set ; }
+    public bool IsActiveBoss { private set; get; }
 
 
     private float totalHealth = 0;
     private float currentHealth = 0f;
     private int enemyAmount = 0;
-    private int bossAmount = 0;
-    private int waveIndex = 0;
+    private int enemyWaveIndex = 0;
+    private int bossWaveIndex = 0;
+    private int UIWaveIndex = 0;
 
     private void Awake()
     {
@@ -72,14 +73,14 @@ public class IngameManager : MonoBehaviour
         {
             SpawnTank(levelConfig.InitTanks[i]);
         }
-        TankTypeToRandom = levelConfig.InitTanks[Random.Range(0, levelConfig.InitTanks.Count)];
+        //TankTypeToRandom = levelConfig.InitTanks[Random.Range(0, levelConfig.InitTanks.Count)];
 
 
         //Create the wave items for UI
-        ViewManager.Instance.IngameView.CreateWaveItems(levelConfig.waveConfigs.Count);
+        ViewManager.Instance.IngameView.CreateWaveItems(levelConfig.ListWaveConfig.Count, levelConfig.ListBossType.Count);
 
         //Init GameStart
-        Invoke(nameof(GameStart), 1f);
+        Invoke(nameof(GameStart), 0.15f);
     }
 
     private void Update()
@@ -108,7 +109,7 @@ public class IngameManager : MonoBehaviour
                 if (selectedTank != null)
                 {
                     selectedTank.SetSelected(true, Vector2.zero, false);
-                    originalTankSpawn = GetNearestTankSpawn(selectedTank.transform.position);
+                    originalTankSpawn = GetClosestTankSpawn(selectedTank.transform.position);
                 }
             }
             if (Input.GetMouseButton(0) && selectedTank != null)
@@ -118,7 +119,7 @@ public class IngameManager : MonoBehaviour
             }
             if (Input.GetMouseButtonUp(0) && selectedTank != null)
             {
-                TankSpawnController newTankSpawn = GetNearestTankSpawn(selectedTank.transform.position);
+                TankSpawnController newTankSpawn = GetClosestTankSpawn(selectedTank.transform.position);
                 if (newTankSpawn == null)
                 {
                     selectedTank.SetSelected(false, originalTankSpawn.transform.position, false);
@@ -178,8 +179,9 @@ public class IngameManager : MonoBehaviour
     public void GameStart()
     {
         GameState = GameState.GameStart;
-        StartCoroutine(CRSpawnNextWave(1f));
+        StartCoroutine(CRSpawnNextEnemyWave(1f));
         ViewManager.Instance.IngameView.ShowTextForFirstWave();
+        IsActiveBoss = false;
     }
 
 
@@ -227,15 +229,15 @@ public class IngameManager : MonoBehaviour
 
 
     /// <summary>
-    /// Coroutine spawn the next wave.
+    /// Coroutine spawn the next enemy wave.
     /// </summary>
     /// <param name="delayTime"></param>
     /// <returns></returns>
-    private IEnumerator CRSpawnNextWave(float delayTime)
+    private IEnumerator CRSpawnNextEnemyWave(float delayTime)
     {
-        enemyAmount = Random.Range(levelConfig.waveConfigs[waveIndex].minEnemyAmount, levelConfig.waveConfigs[waveIndex].maxEnemyAmount);
-        int enemyOrder = 100;
-        WaveConfig waveConfig = levelConfig.waveConfigs[waveIndex];
+        enemyAmount = Random.Range(levelConfig.ListWaveConfig[enemyWaveIndex].minEnemyAmount, levelConfig.ListWaveConfig[enemyWaveIndex].maxEnemyAmount);
+        int enemyOrder = 1000;
+        WaveConfig waveConfig = levelConfig.ListWaveConfig[enemyWaveIndex];
         yield return new WaitForSeconds(delayTime);
         for (int i = 0; i < enemyAmount; i++)
         {
@@ -248,6 +250,24 @@ public class IngameManager : MonoBehaviour
             enemyOrder--;
             yield return new WaitForSeconds(waveConfig.enemyDelayTime);
         }
+    }
+
+
+    /// <summary>
+    /// Coroutine spawn the next boss wave.
+    /// </summary>
+    /// <param name="delayTime"></param>
+    /// <returns></returns>
+    private IEnumerator CRSpawnNextBossWave(float delayTime)
+    {
+        BossType bossType = levelConfig.ListBossType[bossWaveIndex];
+        yield return new WaitForSeconds(delayTime);
+        BossController bossController = PoolManager.Instance.GetBossController(bossType);
+        Vector3 spawnPos = Vector3.zero;
+        spawnPos.y = Camera.main.ViewportToWorldPoint(new Vector2(0f, 1.2f)).y;
+        spawnPos.x = Random.Range(-4.5f, 4.5f);
+        bossController.transform.position = spawnPos;
+        bossController.OnBossInit(1000);
     }
 
 
@@ -284,33 +304,14 @@ public class IngameManager : MonoBehaviour
 
 
   
-    
-    public void SpawnBoss()
-    {
-        //StartCoroutine(SpawnBossEnemy());
-    }    
+  
 
-    //private IEnumerator SpawnBossEnemy()
-    //{
-    //    int bossOrder = 100;
-    //    for (int i = 0; i < levelConfig.bossConfig.Count; i++)
-    //    {
-    //        BossConfig bossConfig = levelConfig.bossConfig[i];
-    //        BossController boss = PoolManager.Instance.GetBossController(bossConfig.bossType);
-    //        Vector3 spawnPos = Vector3.zero;
-    //        spawnPos.y = 9;
-    //        spawnPos.x = Random.Range(-3f, 3f);
-    //        boss.transform.position = spawnPos;
-    //        boss.OnBossInit(bossOrder, bossConfig.damage, bossConfig.health);
-    //        bossOrder--;
-    //        bossAmount++;
-    //        yield return new WaitForSeconds(1);
-    //    }
-    //    yield break;
-    //}
-
-
-    private TankSpawnController GetNearestTankSpawn(Vector3 tankPos)
+    /// <summary>
+    /// Get the closest TankSpawnController with given position.
+    /// </summary>
+    /// <param name="tankPos"></param>
+    /// <returns></returns>
+    private TankSpawnController GetClosestTankSpawn(Vector3 tankPos)
     {
         float minDistance = 0.5f;
         TankSpawnController cur = null;
@@ -325,87 +326,20 @@ public class IngameManager : MonoBehaviour
         }
         return cur;
     }
-   
-
-
-    ////////////////////////////////////////////////// Public Functions
-
-
 
 
 
     /// <summary>
-    /// Handle the health bar take damage.
+    /// Get the next TankType.
     /// </summary>
-    /// <param name="damage"></param>
-    public void OnTakeDamage(float damage)
-    {
-        currentHealth = Mathf.Clamp(currentHealth - damage, 0f, totalHealth);
-        healthBar.localScale = new Vector3(currentHealth / totalHealth, 1f, 1f);
-    }
-
-
-
-
-    public void UpdateDeadEnemy()
-    {
-        enemyAmount--;
-        if (enemyAmount == 0)
-        {
-            if (waveIndex == levelConfig.waveConfigs.Count - 1)
-            {
-                //if (levelConfig.bossConfig.Count == 0)
-                //{
-                //    CurrentLevel++;
-                //    PlayerPrefs.SetInt(PlayerPrefsKey.LEVEL_KEY, CurrentLevel);
-                //    ViewManager.Instance.IngameView.OnCompleteLevel();
-                //}
-                //else
-                //{
-                //    ViewManager.Instance.IngameView.SetWaveTextBoss();
-                //}
-            }
-            else
-            {
-                ViewManager.Instance.IngameView.OnWaveCompleted(waveIndex);
-                waveIndex++;
-                StartCoroutine(CRSpawnNextWave(1f));
-            }
-        }
-    }
-
-    public void UpdateDeadBoss()
-    {
-        bossAmount--;
-        if (bossAmount == 0)
-        {
-            CurrentLevel++;
-            PlayerPrefs.SetInt(PlayerPrefsKey.LEVEL_KEY, CurrentLevel);
-            //ViewManager.Instance.IngameView.OnCompleteLevel();
-        }
-    }
-
-
-
-    public void BuyTank()
-    {
-        //if(CurrentCoin >= levelConfig.CointToBuyTank)
-        //{
-        //    int randomIdx = Random.Range(0, levelConfig.SpawnTanks.Count);
-        //    TankType tankType = levelConfig.SpawnTanks[randomIdx];
-        //    SpawnTank(tankType);
-        //    CurrentCoin -= levelConfig.CointToBuyTank;
-        //}
-    }
-
-
-
+    /// <param name="oldType"></param>
+    /// <returns></returns>
     private TankType GetNextTankType(TankType oldType)
     {
-        TankType tankType = oldType ;
-        switch(oldType)
+        TankType tankType = oldType;
+        switch (oldType)
         {
-            case TankType.Tank01 : 
+            case TankType.Tank01:
                 tankType = TankType.Tank02;
                 break;
             case TankType.Tank02:
@@ -432,7 +366,89 @@ public class IngameManager : MonoBehaviour
             case TankType.Tank09:
                 tankType = TankType.Tank10;
                 break;
-        }    
+        }
         return tankType;
+    }
+
+
+
+    ////////////////////////////////////////////////// Public Functions
+
+
+
+
+
+    /// <summary>
+    /// Handle the health bar take damage.
+    /// </summary>
+    /// <param name="damage"></param>
+    public void OnTakeDamage(float damage)
+    {
+        currentHealth = Mathf.Clamp(currentHealth - damage, 0f, totalHealth);
+        healthBar.localScale = new Vector3(currentHealth / totalHealth, 1f, 1f);
+    }
+
+
+
+
+    /// <summary>
+    /// Update the dead enemy by enemyAmount--;
+    /// </summary>
+    public void UpdateDeadEnemy()
+    {
+        enemyAmount--;
+        if (enemyAmount == 0)
+        {
+            if (enemyWaveIndex == levelConfig.ListWaveConfig.Count - 1)
+            {
+                if (levelConfig.ListBossType.Count == 0)
+                {
+                    //CurrentLevel++;
+                    //PlayerPrefs.SetInt(PlayerPrefsKey.LEVEL_KEY, CurrentLevel);
+                    //ViewManager.Instance.IngameView.OnCompleteLevel();
+                }
+                else
+                {
+                    //Update the wave on UI
+                    ViewManager.Instance.IngameView.OnWaveCompleted(UIWaveIndex);
+                    UIWaveIndex++;
+
+                    //Spawn the first boss
+                    IsActiveBoss = true;
+                    StartCoroutine(CRSpawnNextBossWave(1f));
+                }
+            }
+            else
+            {
+                //Update the wave on UI
+                ViewManager.Instance.IngameView.OnWaveCompleted(UIWaveIndex);
+                UIWaveIndex++;
+
+                enemyWaveIndex++;
+                StartCoroutine(CRSpawnNextEnemyWave(1f));
+            }
+        }
+    }
+
+
+    public void UpdateDeadBoss()
+    {
+        if (bossWaveIndex == levelConfig.ListBossType.Count - 1)
+        {
+            //Update the wave on UI
+            ViewManager.Instance.IngameView.OnWaveCompleted(UIWaveIndex);
+
+            //Kill all the bosses -> complete level
+        }
+        else
+        {
+            //Update the wave on UI
+            ViewManager.Instance.IngameView.OnWaveCompleted(UIWaveIndex);
+            UIWaveIndex++;
+
+            //Spawn the next boss
+            bossWaveIndex++;
+            StartCoroutine(CRSpawnNextBossWave(1f));
+        }
     }
 }

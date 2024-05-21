@@ -63,6 +63,8 @@ public class EnemyController : MonoBehaviour
                 spriteRenderer.sprite = animationSprites[i];
                 yield return new WaitForSeconds(0.01f);
             }
+
+            if (animationSprites.Length == 0) { yield return null; }
         }
     }
 

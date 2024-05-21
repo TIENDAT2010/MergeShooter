@@ -58,6 +58,22 @@ public class PoolManager : MonoBehaviour
 
 
     /// <summary>
+    /// Find all active bosses.
+    /// </summary>
+    /// <returns></returns>
+    public List<BossController> FindActiveBosses()
+    {
+        List<BossController> listResult = new List<BossController>();
+        foreach (BossController boss in listBossController)
+        {
+            if (boss.gameObject.activeSelf) { listResult.Add(boss); }
+        }
+        return listResult;
+    }
+
+
+
+    /// <summary>
     /// Get an BossController object.
     /// </summary>
     /// <param name="bossType"></param>
@@ -93,7 +109,7 @@ public class PoolManager : MonoBehaviour
 
         if (resultEnemy == null)
         {
-            //Instantiate the enemy
+            //Instantiate the boss
             EnemyController prefab = enemyControllerPrefabs.Where(a => a.EnemyType.Equals(enemyType)).FirstOrDefault();
             resultEnemy = Instantiate(prefab, Vector3.zero, Quaternion.identity);
             listEnemyController.Add(resultEnemy);

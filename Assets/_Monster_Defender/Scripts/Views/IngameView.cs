@@ -12,17 +12,9 @@ public class IngameView : BaseView
     [SerializeField] private Text waveText = null;
     [SerializeField] private RectTransform wavePanelTrans = null;
     [SerializeField] private Transform wavesPanelTrans = null;
-
     [SerializeField] private WaveItemController waveItemControllerPrefab = null;
 
-    //[SerializeField] private GameObject m_CompleteLevelPanel = null;
-    //[SerializeField] private Text levelText = null;
-    //[SerializeField] private Image mainHealthBar = null;
-    //[SerializeField] private Text healthText = null;
-    //[SerializeField] private Text coinText = null;
-    //[SerializeField] private Text waveText = null;
-    //[SerializeField] private GameObject m_GameOverPanel = null;
-    //[SerializeField] private GameObject m_PauseGamePanel = null;
+
 
     private List<WaveItemController> listActiveWaveItem = new List<WaveItemController>();
     private List<WaveItemController> listWaveItemController = new List<WaveItemController>();
@@ -127,25 +119,45 @@ public class IngameView : BaseView
 
     public override void OnHide() 
     {
+        //Disable all wave items
+        foreach(WaveItemController waveItem in listActiveWaveItem)
+        {
+            waveItem.gameObject.SetActive(false);
+        }
         listActiveWaveItem.Clear();
+
+
         gameObject.SetActive(false);
     }
 
 
     /// <summary>
-    /// Create the wave items with given amount.
+    /// Create the wave items with given wave amount.
     /// </summary>
-    /// <param name="waveAmount"></param>
-    public void CreateWaveItems(int waveAmount)
+    /// <param name="enemyWaveAmount"></param>
+    /// <param name="bossWaveAmount"></param>
+    public void CreateWaveItems(int enemyWaveAmount, int bossWaveAmount)
     {
-        //Create the wave items
-        for (int i = 0; i < waveAmount; i++)
+        //Create the wave items for enemy waves
+        for (int i = 0; i < enemyWaveAmount; i++)
         {
             WaveItemController waveItem = GetWaveItemController();
             waveItem.transform.SetParent(wavesPanelTrans);
             waveItem.transform.localScale = Vector3.one;
             listActiveWaveItem.Add(waveItem);
             waveItem.OnActive(i == 0);
+            waveItem.SetupSprite(0);
+        }
+
+        //Create the wave items for boss waves
+        for (int i = 0; i < bossWaveAmount; i++)
+        {
+            WaveItemController waveItem = GetWaveItemController();
+            waveItem.transform.SetParent(wavesPanelTrans);
+            waveItem.transform.localScale = Vector3.one;
+            listActiveWaveItem.Add(waveItem);
+            waveItem.OnActive(false);
+            waveItem.SetupSprite(1);
         }
     }
 

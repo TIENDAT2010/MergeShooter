@@ -1,11 +1,28 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class WaveItemController : MonoBehaviour
 {
+    [SerializeField] private Image itemImage = null;
+    [SerializeField] private Image coverImage = null;
     [SerializeField] private Transform corverTrans = null;
     [SerializeField] private Transform sliderTrans = null;
+    [SerializeField] private Sprite bossSprite;
+    [SerializeField] private Sprite dotSprite;
+
+
+
+    /// <summary>
+    /// Setup the sprite for this wave item.
+    /// </summary>
+    /// <param name="index"></param>
+    public void SetupSprite(int index)
+    {
+        itemImage.sprite = index == 0 ? dotSprite : bossSprite;
+        coverImage.sprite = index == 0 ? dotSprite : bossSprite;
+    }
 
 
 

@@ -240,5 +240,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0074af86296a1ed45b53fa1d45aee06a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  itemImage: {fileID: 3768548328519645945}
+  coverImage: {fileID: 2638271184662716813}
   corverTrans: {fileID: 6948418471095591882}
   sliderTrans: {fileID: 1874511078238527850}
+  bossSprite: {fileID: 21300000, guid: ca737f440f654564ebf0a85a626877b5, type: 3}
+  dotSprite: {fileID: -2413806693520163455, guid: 901586770c14f3d4ea92676b27a69145, type: 3}

@@ -97,12 +97,13 @@ public class TankController : MonoBehaviour
 
 
     /// <summary>
-    /// Coroutine attack the enemy.
+    /// Coroutine attack the boss.
     /// </summary>
     /// <returns></returns>
     private IEnumerator CRAttackEnemy()
     {
         EnemyController targetEnemy = null;
+        BossController targetBoss = null;
         while (gameObject.activeSelf)
         {
             //Stop at Pause state
@@ -112,67 +113,127 @@ public class TankController : MonoBehaviour
             }
 
 
-            //Rotate back to Vector2.up and return idle sprite
-            transform.up = Vector2.up;
-            spriteRenderer.sprite = tankIdleSprite;
-
-
-            //Find the closest enemy
-            List<EnemyController> activeEnemies = PoolManager.Instance.FindActiveEnemies();
-            foreach (EnemyController enemy in activeEnemies)
+            if (!IngameManager.Instance.IsActiveBoss)
             {
-                float distanceToTank = Vector2.Distance(transform.position, enemy.transform.position);
-                if ((distanceToTank <= attackRange) && (Mathf.Abs(enemy.transform.position.x - transform.position.x) <= 4))
+                //Find the closest boss
+                List<EnemyController> activeEnemies = PoolManager.Instance.FindActiveEnemies();
+                foreach (EnemyController enemy in activeEnemies)
                 {
-                    targetEnemy = enemy;
-                    break;
-                }
-            }
-
-
-
-
-
-            float timeCount = 0;
-            while (targetEnemy != null && targetEnemy.gameObject.activeSelf && gameObject.activeSelf)
-            {
-                //Rotate to the enemy
-                transform.up = (targetEnemy.transform.position - transform.position).normalized;
-
-                timeCount -= Time.deltaTime;
-                if (timeCount <= 0)
-                {
-                    //Reset timeCount
-                    timeCount = attackRate;
-
-
-                    //Play the shoot effect.
-                    shootEffect.gameObject.SetActive(true);
-                    shootEffect.PlayShootEffect();
-                    for (int i = 0; i < animationSprites.Length; i++)
+                    float distanceToTank = Vector2.Distance(transform.position, enemy.transform.position);
+                    if ((distanceToTank <= attackRange) && (Mathf.Abs(enemy.transform.position.x - transform.position.x) <= 4))
                     {
-                        spriteRenderer.sprite = animationSprites[i];
-                        yield return null;
+                        targetEnemy = enemy;
+                        break;
                     }
-                    shootEffect.gameObject.SetActive(false);
-
-
-                    //Spawn the bullet
-                    BulletController bulletspawn = PoolManager.Instance.GetBulletController(tankType);
-                    bulletspawn.transform.position = bulletSpawnTrans.transform.position;
-                    bulletspawn.transform.up = transform.up;
-                    bulletspawn.gameObject.SetActive(true);
-                    bulletspawn.OnInitBullet(damageAmount, bulletMovementSpeed);
                 }
 
-                yield return null;
-                if (!targetEnemy.gameObject.activeSelf) 
+
+                float timeCount = 0;
+                while (targetEnemy != null && targetEnemy.gameObject.activeSelf && gameObject.activeSelf)
                 {
-                    targetEnemy = null;
-                    break; 
+                    //Rotate to the boss
+                    transform.up = (targetEnemy.transform.position - transform.position).normalized;
+
+                    timeCount -= Time.deltaTime;
+                    if (timeCount <= 0)
+                    {
+                        //Reset timeCount
+                        timeCount = attackRate;
+
+
+                        //Play the shoot effect.
+                        shootEffect.gameObject.SetActive(true);
+                        shootEffect.PlayShootEffect();
+                        for (int i = 0; i < animationSprites.Length; i++)
+                        {
+                            spriteRenderer.sprite = animationSprites[i];
+                            yield return null;
+                        }
+                        shootEffect.gameObject.SetActive(false);
+
+
+                        //Spawn the bullet
+                        BulletController bulletspawn = PoolManager.Instance.GetBulletController(tankType);
+                        bulletspawn.transform.position = bulletSpawnTrans.transform.position;
+                        bulletspawn.transform.up = transform.up;
+                        bulletspawn.gameObject.SetActive(true);
+                        bulletspawn.OnInitBullet(damageAmount, bulletMovementSpeed);
+                    }
+
+                    yield return null;
+                    if (!targetEnemy.gameObject.activeSelf)
+                    {
+                        targetEnemy = null;
+
+                        //Rotate back to Vector2.up and return idle sprite
+                        transform.up = Vector2.up;
+                        spriteRenderer.sprite = tankIdleSprite;
+
+                        break;
+                    }
                 }
             }
+            else
+            {
+                //Find the closest boss
+                List<BossController> activeBosses = PoolManager.Instance.FindActiveBosses();
+                foreach (BossController boss in activeBosses)
+                {
+                    float distanceToTank = Vector2.Distance(transform.position, boss.transform.position);
+                    if ((distanceToTank <= attackRange) && (Mathf.Abs(boss.transform.position.x - transform.position.x) <= 4))
+                    {
+                        targetBoss = boss;
+                        break;
+                    }
+                }
 
+
+
+                float timeCount = 0;
+                while (targetBoss != null && targetBoss.gameObject.activeSelf && gameObject.activeSelf)
+                {
+                    //Rotate to the boss
+                    transform.up = (targetBoss.transform.position - transform.position).normalized;
+
+                    timeCount -= Time.deltaTime;
+                    if (timeCount <= 0)
+                    {
+                        //Reset timeCount
+                        timeCount = attackRate;
+
+
+                        //Play the shoot effect.
+                        shootEffect.gameObject.SetActive(true);
+                        shootEffect.PlayShootEffect();
+                        for (int i = 0; i < animationSprites.Length; i++)
+                        {
+                            spriteRenderer.sprite = animationSprites[i];
+                            yield return null;
+                        }
+                        shootEffect.gameObject.SetActive(false);
+
+
+                        //Spawn the bullet
+                        BulletController bulletspawn = PoolManager.Instance.GetBulletController(tankType);
+                        bulletspawn.transform.position = bulletSpawnTrans.transform.position;
+                        bulletspawn.transform.up = transform.up;
+                        bulletspawn.gameObject.SetActive(true);
+                        bulletspawn.OnInitBullet(damageAmount, bulletMovementSpeed);
+                    }
+
+                    yield return null;
+                    if (!targetBoss.gameObject.activeSelf)
+                    {
+                        targetBoss = null;
+
+                        //Rotate back to Vector2.up and return idle sprite
+                        transform.up = Vector2.up;
+                        spriteRenderer.sprite = tankIdleSprite;
+
+                        break;
+                    }
+                }
+            }
 
             yield return null;
         }

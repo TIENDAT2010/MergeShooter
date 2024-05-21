@@ -15,34 +15,11 @@ MonoBehaviour:
   BackGround: {fileID: 0}
   HealthAmount: 100
   InitTanks: 000000000000000000000000
-  waveConfigs:
+  ListWaveConfig:
   - minEnemyAmount: 5
-    maxEnemyAmount: 8
-    enemyDelayTime: 1
-    enemyTypeConfigs:
-    - enemyType: 0
-      frequency: 1
-  - minEnemyAmount: 6
     maxEnemyAmount: 10
     enemyDelayTime: 0.7
     enemyTypeConfigs:
     - enemyType: 0
       frequency: 1
-  - minEnemyAmount: 6
-    maxEnemyAmount: 10
-    enemyDelayTime: 0.7
-    enemyTypeConfigs:
-    - enemyType: 0
-      frequency: 1
-  - minEnemyAmount: 6
-    maxEnemyAmount: 10
-    enemyDelayTime: 0.7
-    enemyTypeConfigs:
-    - enemyType: 0
-      frequency: 1
-  - minEnemyAmount: 6
-    maxEnemyAmount: 10
-    enemyDelayTime: 0.7
-    enemyTypeConfigs:
-    - enemyType: 0
-      frequency: 1
+  ListBossType: 0000000000000000
