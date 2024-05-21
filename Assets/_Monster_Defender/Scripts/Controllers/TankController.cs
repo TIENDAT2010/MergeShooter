@@ -15,9 +15,9 @@ public class TankController : MonoBehaviour
     [Header("Tank References")]
     [SerializeField] private TankType tankType = TankType.Tank01;
     [SerializeField] private SpriteRenderer spriteRenderer = null;
-    [SerializeField] private ShootEffectController shootEffect = null;
-    [SerializeField] private Transform bulletSpawnTrans;
     [SerializeField] private Sprite tankIdleSprite = null;
+    [SerializeField] private Transform[] bulletSpawns;
+    [SerializeField] private ShootEffectController[] shootEffects = null;
     [SerializeField] private Sprite[] animationSprites = null;
 
     public TankType TankType { get => tankType; }
@@ -35,9 +35,14 @@ public class TankController : MonoBehaviour
     public void OnTankInit()
     {
         IsMoving = false;
-        shootEffect.gameObject.SetActive(false);
         damageAmount = UnityEngine.Random.Range(minDamageAmount, maxDamageAmount);
         StartCoroutine(CRAttackEnemy());
+
+        //Disable shoot effects
+        foreach(ShootEffectController shootEffect in shootEffects)
+        {
+            shootEffect.gameObject.SetActive(false);
+        }
     }
 
 
@@ -140,24 +145,8 @@ public class TankController : MonoBehaviour
                         //Reset timeCount
                         timeCount = attackRate;
 
-
-                        //Play the shoot effect.
-                        shootEffect.gameObject.SetActive(true);
-                        shootEffect.PlayShootEffect();
-                        for (int i = 0; i < animationSprites.Length; i++)
-                        {
-                            spriteRenderer.sprite = animationSprites[i];
-                            yield return null;
-                        }
-                        shootEffect.gameObject.SetActive(false);
-
-
-                        //Spawn the bullet
-                        BulletController bulletspawn = PoolManager.Instance.GetBulletController(tankType);
-                        bulletspawn.transform.position = bulletSpawnTrans.transform.position;
-                        bulletspawn.transform.up = transform.up;
-                        bulletspawn.gameObject.SetActive(true);
-                        bulletspawn.OnInitBullet(damageAmount, bulletMovementSpeed);
+                        //Play shoot effects and spawn bullets
+                        StartCoroutine(CRPlayShootEffectsAndSpawnBullets());
                     }
 
                     yield return null;
@@ -201,24 +190,8 @@ public class TankController : MonoBehaviour
                         //Reset timeCount
                         timeCount = attackRate;
 
-
-                        //Play the shoot effect.
-                        shootEffect.gameObject.SetActive(true);
-                        shootEffect.PlayShootEffect();
-                        for (int i = 0; i < animationSprites.Length; i++)
-                        {
-                            spriteRenderer.sprite = animationSprites[i];
-                            yield return null;
-                        }
-                        shootEffect.gameObject.SetActive(false);
-
-
-                        //Spawn the bullet
-                        BulletController bulletspawn = PoolManager.Instance.GetBulletController(tankType);
-                        bulletspawn.transform.position = bulletSpawnTrans.transform.position;
-                        bulletspawn.transform.up = transform.up;
-                        bulletspawn.gameObject.SetActive(true);
-                        bulletspawn.OnInitBullet(damageAmount, bulletMovementSpeed);
+                        //Play shoot effects and spawn bullets
+                        StartCoroutine(CRPlayShootEffectsAndSpawnBullets());
                     }
 
                     yield return null;
@@ -236,6 +209,46 @@ public class TankController : MonoBehaviour
             }
 
             yield return null;
+        }
+    }
+
+
+
+    /// <summary>
+    /// Coroutine play the shoot effects and spawn the bullets.
+    /// </summary>
+    /// <returns></returns>
+    private IEnumerator CRPlayShootEffectsAndSpawnBullets()
+    {
+        //Play the shoot effect.
+        foreach (ShootEffectController shootEffect in shootEffects)
+        {
+            shootEffect.gameObject.SetActive(true);
+            shootEffect.PlayShootEffect();
+        }
+
+        //play the animation
+        for (int i = 0; i < animationSprites.Length; i++)
+        {
+            spriteRenderer.sprite = animationSprites[i];
+            yield return null;
+        }
+
+        //Disable shoot effects
+        foreach (ShootEffectController shootEffect in shootEffects)
+        {
+            shootEffect.gameObject.SetActive(true);
+        }
+
+
+        //Spawn the bullet
+        foreach (Transform trans in bulletSpawns)
+        {
+            BulletController bulletspawn = PoolManager.Instance.GetBulletController(tankType);
+            bulletspawn.transform.position = trans.position;
+            bulletspawn.transform.up = transform.up;
+            bulletspawn.gameObject.SetActive(true);
+            bulletspawn.OnInitBullet(damageAmount, bulletMovementSpeed);
         }
     }
 }
