@@ -23,6 +23,8 @@ public class TankController : MonoBehaviour
     public TankType TankType { get => tankType; }
     public int SortingOder { set { spriteRenderer.sortingOrder = value; } }
 
+    public bool IsMoving { private set; get; }
+
     private float damageAmount = 0f;
 
 
@@ -32,6 +34,7 @@ public class TankController : MonoBehaviour
     /// </summary>
     public void OnTankInit()
     {
+        IsMoving = false;
         shootEffect.gameObject.SetActive(false);
         damageAmount = UnityEngine.Random.Range(minDamageAmount, maxDamageAmount);
         StartCoroutine(CRAttackEnemy());
@@ -58,8 +61,13 @@ public class TankController : MonoBehaviour
             if (snapToTarget) 
             { 
                 transform.position = targetPos;
+                StartCoroutine(CRAttackEnemy());
             }
-            else { StartCoroutine(CRMoveToTarget(targetPos)); }
+            else 
+            {
+                IsMoving = true;
+                StartCoroutine(CRMoveToTarget(targetPos));
+            }
         }
     }
 
@@ -82,7 +90,7 @@ public class TankController : MonoBehaviour
             transform.position = newPos;
             yield return null;
         }
-
+        IsMoving = false;
         StartCoroutine(CRAttackEnemy());
     }
 
@@ -113,8 +121,8 @@ public class TankController : MonoBehaviour
             List<EnemyController> activeEnemies = PoolManager.Instance.FindActiveEnemies();
             foreach (EnemyController enemy in activeEnemies)
             {
-                float distanceToPlayer = Vector3.Distance(transform.position, enemy.transform.position);
-                if ((distanceToPlayer <= attackRange) && (Mathf.Abs(enemy.transform.position.x - transform.position.x) <= 4))
+                float distanceToTank = Vector2.Distance(transform.position, enemy.transform.position);
+                if ((distanceToTank <= attackRange) && (Mathf.Abs(enemy.transform.position.x - transform.position.x) <= 4))
                 {
                     targetEnemy = enemy;
                     break;
@@ -158,7 +166,11 @@ public class TankController : MonoBehaviour
                 }
 
                 yield return null;
-                if (!targetEnemy.gameObject.activeSelf) { break; }
+                if (!targetEnemy.gameObject.activeSelf) 
+                {
+                    targetEnemy = null;
+                    break; 
+                }
             }
 
 

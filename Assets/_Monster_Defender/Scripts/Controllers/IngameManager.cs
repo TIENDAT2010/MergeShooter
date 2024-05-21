@@ -94,7 +94,7 @@ public class IngameManager : MonoBehaviour
 
                 foreach(TankSpawnController tankSpawn in ListTankSpawns)
                 {
-                    if(tankSpawn.TankController != null)
+                    if(tankSpawn.TankController != null && tankSpawn.TankController.IsMoving == false)
                     {
                         float distance = Vector2.Distance(tankSpawn.TankController.transform.position, touchPos);
                         if (distance < 0.5f && distance < minDis)
@@ -135,7 +135,7 @@ public class IngameManager : MonoBehaviour
                         {
                             originalTankSpawn.TankController = null;
                             newTankSpawn.TankController = selectedTank;
-                            selectedTank.SetSelected(false, newTankSpawn.transform.position, false);
+                            selectedTank.SetSelected(false, newTankSpawn.transform.position, true);
                         }
                         else
                         {
