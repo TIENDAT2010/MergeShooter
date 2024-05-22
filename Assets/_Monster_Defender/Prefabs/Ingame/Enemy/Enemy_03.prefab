@@ -430,7 +430,7 @@ MonoBehaviour:
   healthBar: {fileID: 6167413474972417576}
   normalMaterial: {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
   whiteMaterial: {fileID: 2100000, guid: e73a58f6e2794ae7b1b7e50b7fb811b0, type: 2}
-  sprites:
+  animationSprites:
   - {fileID: 21300000, guid: ec6344a076081f145a0ec8aba77119f8, type: 3}
   - {fileID: 21300000, guid: 96bdb3fab485fc145805c91e5246b205, type: 3}
   - {fileID: 21300000, guid: 52ce9fc7d1f24a64db36582c005f2820, type: 3}
