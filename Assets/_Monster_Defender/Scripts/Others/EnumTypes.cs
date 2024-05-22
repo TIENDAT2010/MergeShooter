@@ -6,16 +6,16 @@ public enum GameState
 {
     GameInit = 0,
     GameStart = 1,
-    CompleteLevel = 2,
-    GameOver = 3,
-    GamePause = 4,
+    GamePause = 2,
+    LevelFailed = 3,
+    LevelCompleted = 4,
 }
 
 public enum ViewType
 {
     HomeView = 0,
     IngameView = 1,
-    EndGameView = 2,
+    EndgameView = 2,
 }
 
 

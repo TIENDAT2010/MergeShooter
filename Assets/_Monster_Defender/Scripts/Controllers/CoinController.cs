@@ -41,7 +41,8 @@ public class CoinController : MonoBehaviour
 
         if (isUpdateCoin)
         {
-            CoinManager.Instance.AddCoins(1, 0f);
+            IngameManager.Instance.UpdateCoins();
+            CoinManager.Instance.AddCoins(1);
             gameObject.SetActive(false);
         }
     }

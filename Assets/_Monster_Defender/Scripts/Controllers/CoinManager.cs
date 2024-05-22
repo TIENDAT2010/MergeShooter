@@ -46,9 +46,17 @@ public class CoinManager : MonoBehaviour
 
 
 
+    /// <summary>
+    /// Add an amount of coins immediately.
+    /// </summary>
+    /// <param name="amount"></param>
+    public void AddCoins(int amount)
+    {
+        Coins += amount;
+    }
 
     /// <summary>
-    /// Add an amount of coins.
+    /// Add an amount of coins with coroutine.
     /// </summary>
     /// <param name="amount"></param>
     /// <param name="delay"></param>

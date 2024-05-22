@@ -26,9 +26,13 @@ public class IngameManager : MonoBehaviour
 
     private float totalHealth = 0;
     private float currentHealth = 0f;
-    private int enemyAmount = 0;
+    private int enemyAmountInWave = 0;
+    private int deadEnemyCount = 0;
+    private int totalEnemyCount = 0;
     private int enemyWaveIndex = 0;
     private int bossWaveIndex = 0;
+    private int deadBossCount = 0;
+    private int currentCoins = 0;
     private int UIWaveIndex = 0;
 
     private void Awake()
@@ -49,7 +53,7 @@ public class IngameManager : MonoBehaviour
     {
         Application.targetFrameRate = 60;
         GameState = GameState.GameInit;
-        ViewManager.Instance.SetActiveView(ViewType.IngameView);
+        StartCoroutine(CRShowViewWithDelay(ViewType.IngameView, 0f));
 
         //Load level
         CurrentLevel = PlayerPrefs.GetInt(PlayerPrefsKey.LEVEL_KEY, 1);
@@ -158,6 +162,22 @@ public class IngameManager : MonoBehaviour
 
 
 
+    /// <summary>
+    /// Coroutine show the view with delay time and callback.
+    /// </summary>
+    /// <param name="viewType"></param>
+    /// <param name="delayTime"></param>
+    /// <param name="callback"></param>
+    /// <returns></returns>
+    private IEnumerator CRShowViewWithDelay(ViewType viewType, float delayTime, System.Action callback = null)
+    {
+        yield return new WaitForSeconds(delayTime);
+        ViewManager.Instance.SetActiveView(viewType);
+        yield return null;
+        callback?.Invoke();
+    }
+
+
     ////////////////////////////////////////////////// State Functions
 
 
@@ -193,6 +213,37 @@ public class IngameManager : MonoBehaviour
 
 
 
+    /// <summary>
+    /// Level failed.
+    /// </summary>
+    public void LevelFailed()
+    {
+        GameState = GameState.LevelFailed;
+        StartCoroutine(CRShowViewWithDelay(ViewType.EndgameView, 1f, () =>
+        {
+            totalEnemyCount = deadEnemyCount + 10;
+            ViewManager.Instance.EndgameView.UpdateStats(deadEnemyCount, totalEnemyCount, deadBossCount, levelConfig.ListBossType.Count, currentCoins);
+        }));
+    }
+
+
+
+    /// <summary>
+    /// Level failed.
+    /// </summary>
+    public void LevelCompleted()
+    {
+        GameState = GameState.LevelCompleted;
+        StartCoroutine(CRShowViewWithDelay(ViewType.EndgameView, 1f, () =>
+        {
+            ViewManager.Instance.EndgameView.UpdateStats(deadEnemyCount, deadEnemyCount, deadBossCount, levelConfig.ListBossType.Count, currentCoins);
+        }));
+
+        CurrentLevel++;
+        PlayerPrefs.SetInt(PlayerPrefsKey.LEVEL_KEY, CurrentLevel);
+    }
+
+
     ////////////////////////////////////////////////// Private Functions
 
 
@@ -224,11 +275,12 @@ public class IngameManager : MonoBehaviour
     /// <returns></returns>
     private IEnumerator CRSpawnNextEnemyWave(float delayTime)
     {
-        enemyAmount = Random.Range(levelConfig.ListWaveConfig[enemyWaveIndex].minEnemyAmount, levelConfig.ListWaveConfig[enemyWaveIndex].maxEnemyAmount);
+        enemyAmountInWave = Random.Range(levelConfig.ListWaveConfig[enemyWaveIndex].minEnemyAmount, levelConfig.ListWaveConfig[enemyWaveIndex].maxEnemyAmount);
+        totalEnemyCount += enemyAmountInWave;
         int enemyOrder = 1000;
         WaveConfig waveConfig = levelConfig.ListWaveConfig[enemyWaveIndex];
         yield return new WaitForSeconds(delayTime);
-        for (int i = 0; i < enemyAmount; i++)
+        for (int i = 0; i < enemyAmountInWave; i++)
         {
             EnemyController enemyController = PoolManager.Instance.GetEnemyController(GetEnemyType(waveConfig.enemyTypeConfigs));
             Vector3 spawnPos = Vector3.zero;
@@ -375,26 +427,30 @@ public class IngameManager : MonoBehaviour
     {
         currentHealth = Mathf.Clamp(currentHealth - damage, 0f, totalHealth);
         healthBar.localScale = new Vector3(currentHealth / totalHealth, 1f, 1f);
+
+        if (currentHealth <= 0 && GameState == GameState.GameStart)
+        {
+            LevelFailed();
+        }
     }
 
 
 
 
     /// <summary>
-    /// Update the dead enemy by enemyAmount--;
+    /// Update the dead enemy by enemyAmountInWave--;
     /// </summary>
     public void UpdateDeadEnemy()
     {
-        enemyAmount--;
-        if (enemyAmount == 0)
+        deadEnemyCount++;
+        enemyAmountInWave--;
+        if (enemyAmountInWave == 0)
         {
             if (enemyWaveIndex == levelConfig.ListWaveConfig.Count - 1)
             {
                 if (levelConfig.ListBossType.Count == 0)
                 {
-                    //CurrentLevel++;
-                    //PlayerPrefs.SetInt(PlayerPrefsKey.LEVEL_KEY, CurrentLevel);
-                    //ViewManager.Instance.IngameView.OnCompleteLevel();
+                    LevelCompleted();
                 }
                 else
                 {
@@ -420,14 +476,19 @@ public class IngameManager : MonoBehaviour
     }
 
 
+    /// <summary>
+    /// Update dead boss.
+    /// </summary>
     public void UpdateDeadBoss()
     {
+        deadBossCount++;
         if (bossWaveIndex == levelConfig.ListBossType.Count - 1)
         {
             //Update the wave on UI
             ViewManager.Instance.IngameView.OnWaveCompleted(UIWaveIndex);
 
             //Kill all the bosses -> complete level
+            LevelCompleted();
         }
         else
         {
@@ -439,6 +500,15 @@ public class IngameManager : MonoBehaviour
             bossWaveIndex++;
             StartCoroutine(CRSpawnNextBossWave(1f));
         }
+    }
+
+
+    /// <summary>
+    /// Update currentCoins by +1.
+    /// </summary>
+    public void UpdateCoins()
+    {
+        currentCoins++;
     }
 
 
