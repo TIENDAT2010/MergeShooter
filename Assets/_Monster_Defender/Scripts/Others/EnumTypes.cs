@@ -31,6 +31,16 @@ public enum TankType
     Tank08 = 7,
     Tank09 = 8,
     Tank10 = 9,
+    Tank11 = 10,
+    Tank12 = 11,
+    Tank13 = 12,
+    Tank14 = 13,
+    Tank15 = 14,
+    Tank16 = 15,
+    Tank17 = 16,
+    Tank18 = 17,
+    Tank19 = 18,
+    Tank20 = 19,
 }
 
 public enum EnemyType
@@ -45,6 +55,11 @@ public enum EnemyType
     Monster08 = 7,
     Monster09 = 8,
     Monster10 = 9,
+    Monster11 = 10,
+    Monster12 = 11,
+    Monster13 = 12,
+    Monster14 = 13,
+    Monster15 = 14,
 }
 
 public enum BulletType
