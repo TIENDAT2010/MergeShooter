@@ -9,9 +9,12 @@ public class ViewManager : MonoBehaviour
     [SerializeField] private HomeView homeViewPrefab;
     [SerializeField] private IngameView ingameViewPrefab;
     [SerializeField] private GameObject eventSystemPrefab;
+    [SerializeField] private Canvas canvas = null;
 
     public HomeView HomeView { private set; get; }
     public IngameView IngameView { private set; get; }
+
+    public Canvas Canvas => canvas;
 
     private BaseView currentView = null;
 

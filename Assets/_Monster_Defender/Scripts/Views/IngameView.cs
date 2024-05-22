@@ -10,6 +10,7 @@ public class IngameView : BaseView
 {
     [SerializeField] private Text levelText = null;
     [SerializeField] private Text waveText = null;
+    [SerializeField] private Text coinsText = null;
     [SerializeField] private RectTransform wavePanelTrans = null;
     [SerializeField] private Transform wavesPanelTrans = null;
     [SerializeField] private WaveItemController waveItemControllerPrefab = null;
@@ -18,6 +19,14 @@ public class IngameView : BaseView
 
     private List<WaveItemController> listActiveWaveItem = new List<WaveItemController>();
     private List<WaveItemController> listWaveItemController = new List<WaveItemController>();
+
+
+    private void Update()
+    {
+        coinsText.text = CoinManager.Instance.Coins.ToString();
+    }
+
+
 
 
     /// <summary>
@@ -111,7 +120,7 @@ public class IngameView : BaseView
     public override void OnShow()
     {
         //Show the level
-        levelText.text = "LEVEL: " + IngameManager.Instance.CurrentLevel.ToString();
+        levelText.text = "LEVEL: " + PlayerPrefs.GetInt(PlayerPrefsKey.LEVEL_KEY, 1).ToString();
 
         //Hide the wave text
         wavePanelTrans.anchoredPosition = new Vector2(1000f, wavePanelTrans.anchoredPosition.y);
@@ -178,5 +187,38 @@ public class IngameView : BaseView
     public void OnWaveCompleted(int waveIndex)
     {
         StartCoroutine(CROnWaveCompleted(waveIndex));
+    }
+
+
+
+    /// <summary>
+    /// Get the world position for the coin to move to.
+    /// </summary>
+    /// <returns></returns>
+    public Vector2 CoinTextWorldPos()
+    {
+        Vector3 worldPos = Vector2.zero;
+        Vector2 screenPoint = coinsText.rectTransform.position;
+        RectTransformUtility.ScreenPointToWorldPointInRectangle(coinsText.rectTransform, screenPoint, Camera.main, out worldPos);
+        return new Vector2(worldPos.x, worldPos.y);
+    }
+
+
+
+    /// <summary>
+    /// ////////////////////////////////////////////// UI Functions
+    /// </summary>
+    
+
+
+    public void OnClickHomeButton()
+    {
+        SceneManager.LoadScene("HomeScene");
+    }
+
+
+    public void OnClickStoreButton() 
+    {
+
     }
 }

@@ -165,6 +165,15 @@ public class EnemyController : MonoBehaviour
             deadEffect.transform.position = transform.position;
             deadEffect.PlayDeadEffect();
 
+            //Create a coin
+            if (IngameManager.Instance.IsCreateCoinFromDeadEnemy())
+            {
+                CoinController coinController = PoolManager.Instance.GetCoinController();
+                coinController.transform.position = transform.position;
+                coinController.MoveToPosAndUpdateCoin(ViewManager.Instance.IngameView.CoinTextWorldPos());
+            }
+
+
             //Disable this enemy
             gameObject.SetActive(false);
         }

@@ -20,6 +20,7 @@ public class WaveConfig
     public int minEnemyAmount = 8;
     public int maxEnemyAmount = 15;
     public float enemyDelayTime = 1f;
+    [Range(0f, 1f)] public float coinFrequency = 0.5f;
     public List<EnemyTypeConfig> enemyTypeConfigs = new List<EnemyTypeConfig>();
 }
 

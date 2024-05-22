@@ -19,15 +19,6 @@ public class IngameManager : MonoBehaviour
     private TankController selectedTank = null;
     private TankSpawnController originalTankSpawn = null;
 
-    public int CurrentCoin 
-    {
-        get { return PlayerPrefs.GetInt(PlayerPrefsKey.COIN_KEY, 0); }
-        set
-        {
-            PlayerPrefs.SetInt(PlayerPrefsKey.COIN_KEY, value);
-        }
-    }
-
     public GameState GameState { private set; get; }
     public int CurrentLevel { private set; get; }
     public bool IsActiveBoss { private set; get; }
@@ -73,8 +64,6 @@ public class IngameManager : MonoBehaviour
         {
             SpawnTank(levelConfig.InitTanks[i]);
         }
-        //TankTypeToRandom = levelConfig.InitTanks[Random.Range(0, levelConfig.InitTanks.Count)];
-
 
         //Create the wave items for UI
         ViewManager.Instance.IngameView.CreateWaveItems(levelConfig.ListWaveConfig.Count, levelConfig.ListBossType.Count);
@@ -450,5 +439,15 @@ public class IngameManager : MonoBehaviour
             bossWaveIndex++;
             StartCoroutine(CRSpawnNextBossWave(1f));
         }
+    }
+
+
+    /// <summary>
+    /// Is create the coin from dead enemy.
+    /// </summary>
+    /// <returns></returns>
+    public bool IsCreateCoinFromDeadEnemy()
+    {
+        return Random.value < levelConfig.ListWaveConfig[enemyWaveIndex].coinFrequency;
     }
 }

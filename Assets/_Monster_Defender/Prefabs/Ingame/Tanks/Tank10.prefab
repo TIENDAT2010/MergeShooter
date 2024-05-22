@@ -329,7 +329,7 @@ MonoBehaviour:
   bulletMovementSpeed: 35
   tankType: 9
   spriteRenderer: {fileID: 3066768314228370872}
-  tankIdleSprite: {fileID: 0}
+  tankIdleSprite: {fileID: 21300000, guid: bbc8e1ce8aef23e4ab704a3f2b86514b, type: 3}
   bulletSpawns:
   - {fileID: 294529504322345677}
   - {fileID: 2461991558638507594}

@@ -2,14 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
-using UnityEditorInternal.Profiling.Memory.Experimental.FileFormat;
 
 public class PoolManager : MonoBehaviour
 {
     public static PoolManager Instance {  get; private set; }
 
+    [SerializeField] private CoinController coinControllerPrefab = null;
     [SerializeField] private DeadEffectController deadEffectControllerPrefab = null;
-    [SerializeField] private CoinEffectController coinEffectPrefabs = null;
     [SerializeField] private DamageEffectController damageEffectControllerPrefab = null;
     [SerializeField] private BulletEffectController bulletEffectControllerPrefab = null;
     [SerializeField] private EnemyController[] enemyControllerPrefabs = null;
@@ -18,6 +17,7 @@ public class PoolManager : MonoBehaviour
     [SerializeField] private BossController[] bossControllerPrefabs = null;
 
 
+    private List<CoinController> listCoinController = new List<CoinController>();
     private List<TankController> listTankController = new List<TankController>();
     private List<BulletController> listBulletController = new List<BulletController>();
     private List<EnemyController> listEnemyController = new List<EnemyController>();
@@ -69,6 +69,28 @@ public class PoolManager : MonoBehaviour
             if (boss.gameObject.activeSelf) { listResult.Add(boss); }
         }
         return listResult;
+    }
+
+
+
+    /// <summary>
+    /// Get a CoinController object.
+    /// </summary>
+    /// <returns></returns>
+    public CoinController GetCoinController()
+    {
+        //Find the object in the list
+        CoinController coinController = listCoinController.Where(a => !a.gameObject.activeSelf).FirstOrDefault();
+
+        if (coinController == null)
+        {
+            //Instantiate the dead effect
+            coinController = Instantiate(coinControllerPrefab, Vector3.zero, Quaternion.identity);
+            listCoinController.Add(coinController);
+        }
+
+        coinController.gameObject.SetActive(true);
+        return coinController;
     }
 
 
@@ -182,13 +204,6 @@ public class PoolManager : MonoBehaviour
         deadEffect.gameObject.SetActive(true);
         return deadEffect;
     }
-
-    public CoinEffectController GetCoinEffectController()
-    {
-        return Instantiate(coinEffectPrefabs, Vector3.zero, Quaternion.identity);
-    }
-
-
 
 
     /// <summary>

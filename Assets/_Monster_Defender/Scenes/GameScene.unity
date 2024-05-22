@@ -527,8 +527,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5d046a0d19fbb414d9b8ba576353df6f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  coinControllerPrefab: {fileID: 603100401141149440, guid: ea2e24147d2c6ec46b942c7fed49d9b2, type: 3}
   deadEffectControllerPrefab: {fileID: 3307052621351589210, guid: 8031a36f33f5c3447af58e7d22183906, type: 3}
-  coinEffectPrefabs: {fileID: 6419690872860588941, guid: 9e45a6c6b35d2a843854006f9d29243c, type: 3}
   damageEffectControllerPrefab: {fileID: 6128480541487394828, guid: 33365e383ed13c840b98d663876b894e, type: 3}
   bulletEffectControllerPrefab: {fileID: 1694087181198114795, guid: 76ca568187164c949ab1fe0adc392fb0, type: 3}
   enemyControllerPrefabs:
