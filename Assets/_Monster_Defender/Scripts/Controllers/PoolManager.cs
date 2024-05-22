@@ -66,7 +66,7 @@ public class PoolManager : MonoBehaviour
         List<BossController> listResult = new List<BossController>();
         foreach (BossController boss in listBossController)
         {
-            if (boss.gameObject.activeSelf) { listResult.Add(boss); }
+            if (boss.gameObject.activeSelf && !boss.IsDead) { listResult.Add(boss); }
         }
         return listResult;
     }

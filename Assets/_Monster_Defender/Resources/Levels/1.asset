@@ -23,18 +23,4 @@ MonoBehaviour:
     enemyTypeConfigs:
     - enemyType: 0
       frequency: 1
-  - minEnemyAmount: 5
-    maxEnemyAmount: 10
-    enemyDelayTime: 0.7
-    coinFrequency: 0.4
-    enemyTypeConfigs:
-    - enemyType: 0
-      frequency: 1
-  - minEnemyAmount: 5
-    maxEnemyAmount: 10
-    enemyDelayTime: 0.7
-    coinFrequency: 0.5
-    enemyTypeConfigs:
-    - enemyType: 0
-      frequency: 1
   ListBossType: 0000000000000000

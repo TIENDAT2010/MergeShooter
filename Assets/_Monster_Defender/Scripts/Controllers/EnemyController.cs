@@ -170,7 +170,7 @@ public class EnemyController : MonoBehaviour
             {
                 CoinController coinController = PoolManager.Instance.GetCoinController();
                 coinController.transform.position = transform.position;
-                coinController.MoveToPosAndUpdateCoin(ViewManager.Instance.IngameView.CoinTextWorldPos());
+                coinController.MoveToPos(ViewManager.Instance.IngameView.CoinTextWorldPos(), 1f, true);
             }
 
 

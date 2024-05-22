@@ -10,9 +10,11 @@ public class CoinController : MonoBehaviour
     /// Move this coin object to the target pos and add coin to CoinManager.
     /// </summary>
     /// <param name="targetPos"></param>
-    public void MoveToPosAndUpdateCoin(Vector2 targetPos)
+    /// <param name="time"></param>
+    /// <param name="isUpdateCoin"></param>
+    public void MoveToPos(Vector2 targetPos, float time, bool isUpdateCoin)
     {
-        StartCoroutine(CRMoveToPos(targetPos));
+        StartCoroutine(CRMoveToPos(targetPos, time, isUpdateCoin));
     }
 
 
@@ -21,22 +23,26 @@ public class CoinController : MonoBehaviour
     /// Coroutine move this coin object to the target pos and add coin to CoinManager.
     /// </summary>
     /// <param name="targetPos"></param>
+    /// <param name="time"></param>
+    /// <param name="isUpdateCoin"></param>
     /// <returns></returns>
-    private IEnumerator CRMoveToPos(Vector2 targetPos)
+    private IEnumerator CRMoveToPos(Vector2 targetPos, float time, bool isUpdateCoin)
     {
         float t = 0;
-        float moveTime = 1f;
-        Vector3 startVector3 = transform.position;
+        float moveTime = time;
+        Vector3 startPos = transform.position;
         while (t < moveTime)
         {
             t += Time.deltaTime;
             float factor = t / moveTime;
-            Vector3 newPos = Vector3.Lerp(startVector3, targetPos, factor);
-            transform.position = newPos;
+            transform.position = Vector3.Lerp(startPos, targetPos, factor);
             yield return null;
         }
 
-        CoinManager.Instance.AddCoins(1, 0f);
-        gameObject.SetActive(false);
+        if (isUpdateCoin)
+        {
+            CoinManager.Instance.AddCoins(1, 0f);
+            gameObject.SetActive(false);
+        }
     }
 }

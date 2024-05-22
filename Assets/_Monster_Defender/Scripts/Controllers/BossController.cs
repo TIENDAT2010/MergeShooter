@@ -12,6 +12,8 @@ public class BossController : MonoBehaviour
     [SerializeField] private float maxDamageAmount = 6f;
     [SerializeField] private float minHealthAmount = 25f;
     [SerializeField] private float maxHealthAmount = 40f;
+    [SerializeField] private int minCoinBonusAmount = 5;
+    [SerializeField] private int maxCoinBonusAmount = 5;
 
     [Header("Boss References")]
     [SerializeField] private BossType bossType = BossType.Boss01;
@@ -22,6 +24,7 @@ public class BossController : MonoBehaviour
     [SerializeField] private Sprite[] animationSprites = null;
 
     public BossType BossType => bossType;
+    public bool IsDead { private set; get; }
 
     private float bossDamage;
     private float totalHealth;
@@ -36,6 +39,7 @@ public class BossController : MonoBehaviour
     /// <param name="sortingOrder"></param>
     public void OnBossInit(int sortingOrder)
     {
+        IsDead = false;
         isTakingDamage = false;
         bossDamage = Random.Range(minDamageAmount, maxDamageAmount);
         totalHealth = Random.Range(minHealthAmount, maxHealthAmount); ;
@@ -152,6 +156,8 @@ public class BossController : MonoBehaviour
         healthBar.fillAmount = currentHealth / totalHealth;
         if (currentHealth <= 0)
         {
+            IsDead = true;
+
             //Update dead enemy
             IngameManager.Instance.UpdateDeadBoss();
 
@@ -160,7 +166,32 @@ public class BossController : MonoBehaviour
             deadEffect.transform.position = transform.position;
             deadEffect.PlayDeadEffect();
 
+
+            spriteRenderer.gameObject.SetActive(false);
+
+            //Create the coins
+            List<CoinController> listCoin = new List<CoinController>();
+            int coinAmount = Random.Range(minCoinBonusAmount, maxCoinBonusAmount);
+            for(int i = 0; i < coinAmount; i++)
+            {
+                CoinController coinController = PoolManager.Instance.GetCoinController();
+                coinController.transform.position = transform.position;
+
+                Vector2 targetPos = (Vector2)transform.position + Random.insideUnitCircle * 2f;
+                coinController.MoveToPos(targetPos, 0.1f, false);
+                listCoin.Add(coinController);
+                yield return null;
+            }
+
+            yield return new WaitForSeconds(0.15f);
+            foreach (CoinController coin in listCoin)
+            {
+                coin.MoveToPos(ViewManager.Instance.IngameView.CoinTextWorldPos(), 0.5f, true);
+                yield return null;
+            }
+
             //Disable this boss
+            spriteRenderer.gameObject.SetActive(true);
             gameObject.SetActive(false);
         }
         else
