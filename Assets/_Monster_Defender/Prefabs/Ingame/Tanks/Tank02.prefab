@@ -319,8 +319,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   attackRate: 0.5
   attackRange: 7
-  minDamageAmount: 1
-  maxDamageAmount: 3
+  minDamageAmount: 3
+  maxDamageAmount: 5
   bulletMovementSpeed: 35
   tankType: 1
   spriteRenderer: {fileID: 1380208300970728972}

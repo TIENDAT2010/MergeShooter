@@ -177,11 +177,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 675931a0ed3363747a8736d653d8b6e6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  attackRate: 0.5
-  attackRange: 7
-  minDamageAmount: 1
-  maxDamageAmount: 3
-  bulletMovementSpeed: 35
+  attackRate: 0.48
+  attackRange: 8
+  minDamageAmount: 5
+  maxDamageAmount: 10
+  bulletMovementSpeed: 38
   tankType: 3
   spriteRenderer: {fileID: 4789598109637990799}
   tankIdleSprite: {fileID: 21300000, guid: ab0fbb6bf0ae3db4782d7b35f1bfaa0a, type: 3}
