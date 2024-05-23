@@ -10,39 +10,39 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: dc6caabf55cf9bc4d9a6c6ae25c67cb0, type: 3}
-  m_Name: 2
+  m_Name: 15
   m_EditorClassIdentifier: 
   BackgroundMusic: {fileID: 8300000, guid: 2cd735d96862d7742b16e5ba2b204bcd, type: 3}
-  BackGroundSprite: {fileID: 21300000, guid: d97cf2700be6fa64ab1cda0f0af44755, type: 3}
-  HealthAmount: 60
-  InitTanks: 000000000000000000000000
+  BackGroundSprite: {fileID: 21300000, guid: 3bde3e3bfa5d47a44b370370a66c3bf5, type: 3}
+  HealthAmount: 80
+  InitTanks: 020000000200000002000000
   ListWaveConfig:
   - minEnemyAmount: 5
     maxEnemyAmount: 8
     enemyDelayTime: 0.7
     coinFrequency: 0.5
     enemyTypeConfigs:
-    - enemyType: 0
+    - enemyType: 4
       frequency: 1
   - minEnemyAmount: 6
     maxEnemyAmount: 9
     enemyDelayTime: 0.5
     coinFrequency: 0.5
     enemyTypeConfigs:
-    - enemyType: 0
+    - enemyType: 4
       frequency: 1
   - minEnemyAmount: 7
     maxEnemyAmount: 10
     enemyDelayTime: 0.6
     coinFrequency: 0.5
     enemyTypeConfigs:
-    - enemyType: 0
+    - enemyType: 4
       frequency: 1
   - minEnemyAmount: 8
     maxEnemyAmount: 11
     enemyDelayTime: 0.6
     coinFrequency: 0.5
     enemyTypeConfigs:
-    - enemyType: 0
+    - enemyType: 4
       frequency: 1
-  ListBossType: 
+  ListBossType: 02000000
