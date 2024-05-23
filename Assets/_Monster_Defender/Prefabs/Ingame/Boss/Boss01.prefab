@@ -262,12 +262,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   attackRate: 0.5
   movementSpeed: 3
-  minDamageAmount: 2
-  maxDamageAmount: 6
+  minDamageAmount: 8
+  maxDamageAmount: 15
   minHealthAmount: 25
-  maxHealthAmount: 40
+  maxHealthAmount: 50
   minCoinBonusAmount: 5
-  maxCoinBonusAmount: 5
+  maxCoinBonusAmount: 10
   bossType: 0
   spriteRenderer: {fileID: 5823251938794411043}
   normalMaterial: {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}

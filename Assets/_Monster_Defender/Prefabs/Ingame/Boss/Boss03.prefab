@@ -260,18 +260,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8ae0e4cf0b91afb4a9412b95a9a15b01, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  attackRate: 0.5
-  movementSpeed: 3
-  minDamageAmount: 2
-  maxDamageAmount: 6
-  minHealthAmount: 25
-  maxHealthAmount: 40
-  minCoinBonusAmount: 5
-  maxCoinBonusAmount: 5
+  attackRate: 0.4
+  movementSpeed: 4
+  minDamageAmount: 15
+  maxDamageAmount: 30
+  minHealthAmount: 50
+  maxHealthAmount: 90
+  minCoinBonusAmount: 10
+  maxCoinBonusAmount: 18
   bossType: 2
   spriteRenderer: {fileID: 5823251938794411043}
   normalMaterial: {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
-  whiteMaterial: {fileID: 2100000, guid: e73a58f6e2794ae7b1b7e50b7fb811b0, type: 2}
+  whiteMaterial: {fileID: 2100000, guid: 5f7c8097ce03765488dce7336875d5d6, type: 3}
   healthBar: {fileID: 6918384415362021320}
   animationSprites:
   - {fileID: 21300000, guid: 3d3c6ff2e1b96304eb0d76b672b4433d, type: 3}
