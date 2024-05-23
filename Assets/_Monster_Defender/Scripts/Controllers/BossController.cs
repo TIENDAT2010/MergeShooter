@@ -1,3 +1,4 @@
+using ClawbearGames;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -157,6 +158,8 @@ public class BossController : MonoBehaviour
         if (currentHealth <= 0)
         {
             IsDead = true;
+
+            SoundManager.Instance.PlaySound(SoundManager.Instance.BossExplode);
 
             //Update dead enemy
             IngameManager.Instance.UpdateDeadBoss();

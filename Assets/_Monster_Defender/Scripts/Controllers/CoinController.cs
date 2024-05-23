@@ -1,3 +1,4 @@
+using ClawbearGames;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -41,6 +42,7 @@ public class CoinController : MonoBehaviour
 
         if (isUpdateCoin)
         {
+            SoundManager.Instance.PlaySound(SoundManager.Instance.CoinItem);
             IngameManager.Instance.UpdateCoins();
             CoinManager.Instance.AddCoins(1);
             gameObject.SetActive(false);

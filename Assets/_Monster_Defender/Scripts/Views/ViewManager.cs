@@ -34,7 +34,7 @@ public class ViewManager : MonoBehaviour
             {
                 HomeView = Instantiate(homeViewPrefab, transform, false);
                 HomeView.transform.localScale = Vector3.one;
-                HomeView.OnShow();
+                HomeView.OnHide();
 
                 IngameView = Instantiate(ingameViewPrefab, transform, false);
                 IngameView.transform.localScale = Vector3.one;

@@ -712,6 +712,7 @@ MonoBehaviour:
     tankSprite: {fileID: 21300000, guid: dfd06fd832045274aacc96f57c9f7ee3, type: 3}
     priceToPurchase: 305
   healthBar: {fileID: 149540726}
+  backgroundSprite: {fileID: 943904940}
   ListTankSpawns:
   - {fileID: 990511925}
   - {fileID: 2102833520}

@@ -1,3 +1,4 @@
+using ClawbearGames;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -78,6 +79,7 @@ public class EndgameView : BaseView
 
     public void OnClickNextLevelButton()
     {
+        SoundManager.Instance.PlaySound(SoundManager.Instance.Button);
         SceneManager.LoadScene("GameScene");
     }
 }

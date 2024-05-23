@@ -241,7 +241,7 @@ MonoBehaviour:
   ingameViewPrefab: {fileID: 7589563523754500853, guid: 85f62e84a64ebc848890c17754b73e51, type: 3}
   endgameViewPrefab: {fileID: 4196445402455010228, guid: 95037778b1ce8c94da3ca001c22c13b8, type: 3}
   eventSystemPrefab: {fileID: 3849683409118527792, guid: b25cb2b7898ce7646ba03eeaf6a0655f, type: 3}
-  canvas: {fileID: 0}
+  canvas: {fileID: 3876268}
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0
@@ -690,7 +690,8 @@ MonoBehaviour:
   musicSource: {fileID: 1082036052}
   Button: {fileID: 8300000, guid: b8edc94c7a8cf8f45a7b38bba9c188b2, type: 3}
   CoinItem: {fileID: 8300000, guid: e768e150ea9364642af06c1991eebac0, type: 3}
-  MergeTank: {fileID: 8300000, guid: 995b39a5f6d0fbf4fbb490d53ac697b5, type: 3}
+  MergeTank: {fileID: 8300000, guid: ed0579463f93a9044a75b0c009848c95, type: 3}
+  SelectTank: {fileID: 8300000, guid: 033733e66f07cc44ca5b4dc3c49c1eb2, type: 3}
   BulletExplode: {fileID: 8300000, guid: ed70ddc249a62bb4db478cffbc6d8bd0, type: 3}
   EnemyExplode: {fileID: 8300000, guid: a12886247a270064ba0368966f8d5a5f, type: 3}
   BossExplode: {fileID: 8300000, guid: a12886247a270064ba0368966f8d5a5f, type: 3}

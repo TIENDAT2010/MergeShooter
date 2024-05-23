@@ -1,3 +1,4 @@
+using ClawbearGames;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -46,6 +47,8 @@ public class BulletController : MonoBehaviour
             Collider2D enemyCollider2D = Physics2D.OverlapCircle(transform.position + transform.up * 0.1f, 0.15f, enemyLayerMask);
             if (enemyCollider2D != null)
             {
+                SoundManager.Instance.PlaySound(SoundManager.Instance.BulletExplode);
+
                 //Enemy take damage
                 EnemyController enemy = enemyCollider2D.gameObject.GetComponent<EnemyController>();
                 enemy.OnTakeDamage(bulletDamage);
@@ -61,6 +64,8 @@ public class BulletController : MonoBehaviour
             Collider2D bossCollider2D = Physics2D.OverlapCircle(transform.position + transform.up * 0.1f, 0.15f, bossLayerMask);
             if (bossCollider2D != null)
             {
+                SoundManager.Instance.PlaySound(SoundManager.Instance.BulletExplode);
+
                 //Boss take damage
                 BossController boss = bossCollider2D.gameObject.GetComponent<BossController>();
                 boss.OnTakeDamage(bulletDamage);

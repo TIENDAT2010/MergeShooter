@@ -1,12 +1,15 @@
+using ClawbearGames;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class HomeView : BaseView
 {
     [SerializeField] private Transform startButtonTrans = null;
-
+    [SerializeField] private Slider soundSlider = null;
+    [SerializeField] private Slider musicSlider = null;
 
     /// <summary>
     /// ////////////////////////////////////////////// Private Functions
@@ -57,8 +60,9 @@ public class HomeView : BaseView
 
     public override void OnShow()
     {
-        gameObject.SetActive(true);
         StartCoroutine(CRBounceStartButton());
+        soundSlider.value = SoundManager.Instance.SoundVolume;
+        musicSlider.value = SoundManager.Instance.MusicVolume;
     }
 
     public override void OnHide() 
@@ -77,6 +81,19 @@ public class HomeView : BaseView
 
     public void OnClickStartButton()
     {
+        SoundManager.Instance.PlaySound(SoundManager.Instance.Button);
         SceneManager.LoadScene("GameScene");
+    }
+
+
+
+    public void OnSoundSliderChanged()
+    {
+        SoundManager.Instance.SetSoundVolume(soundSlider.value);
+    }
+
+    public void OnMusicSliderChanged()
+    {
+        SoundManager.Instance.SetSoundVolume(musicSlider.value);
     }
 }

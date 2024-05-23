@@ -136,6 +136,13 @@ public class TankController : MonoBehaviour
                 float timeCount = 0;
                 while (targetEnemy != null && targetEnemy.gameObject.activeSelf && gameObject.activeSelf)
                 {
+                    //Stop at Pause state
+                    while (IngameManager.Instance.GameState == GameState.GamePause)
+                    {
+                        yield return null;
+                    }
+
+
                     //Rotate to the boss
                     transform.up = (targetEnemy.transform.position - transform.position).normalized;
 
@@ -181,6 +188,13 @@ public class TankController : MonoBehaviour
                 float timeCount = 0;
                 while (targetBoss != null && targetBoss.gameObject.activeSelf && gameObject.activeSelf)
                 {
+                    //Stop at Pause state
+                    while (IngameManager.Instance.GameState == GameState.GamePause)
+                    {
+                        yield return null;
+                    }
+
+
                     //Rotate to the boss
                     transform.up = (targetBoss.transform.position - transform.position).normalized;
 

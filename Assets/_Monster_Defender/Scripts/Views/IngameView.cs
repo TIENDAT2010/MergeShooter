@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using System.Linq;
+using ClawbearGames;
 public class IngameView : BaseView
 {
     [SerializeField] private Text levelText = null;
@@ -281,12 +282,14 @@ public class IngameView : BaseView
 
     public void OnClickHomeButton()
     {
+        SoundManager.Instance.PlaySound(SoundManager.Instance.Button);
         SceneManager.LoadScene("HomeScene");
     }
 
 
     public void OnClickStoreButton() 
     {
+        SoundManager.Instance.PlaySound(SoundManager.Instance.Button);
         IngameManager.Instance.GamePause();
         tanksPanelTrans.gameObject.SetActive(true);
         if (contentTrans.childCount == 0)
@@ -306,6 +309,7 @@ public class IngameView : BaseView
 
     public void OnClickCloseButton()
     {
+        SoundManager.Instance.PlaySound(SoundManager.Instance.Button);
         tanksPanelTrans.gameObject.SetActive(false);
         IngameManager.Instance.GameResume();
     }

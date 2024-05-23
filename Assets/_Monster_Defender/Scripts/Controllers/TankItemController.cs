@@ -1,3 +1,4 @@
+using ClawbearGames;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -37,6 +38,7 @@ public class TankItemController : MonoBehaviour
 
     public void OnClickBuyButton()
     {
+        SoundManager.Instance.PlaySound(SoundManager.Instance.Button);
         if (!IngameManager.Instance.IsFullOfTanks())
         {
             CoinManager.Instance.RemoveCoins(tankItemConfig.priceToPurchase, 0f);

@@ -1,3 +1,4 @@
+using ClawbearGames;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -157,6 +158,8 @@ public class EnemyController : MonoBehaviour
         healthBar.fillAmount = currentHealth / totalHealth;
         if (currentHealth <= 0)
         {
+            SoundManager.Instance.PlaySound(SoundManager.Instance.EnemyExplode);
+
             //Update dead enemy
             IngameManager.Instance.UpdateDeadEnemy();
 

@@ -1,3 +1,4 @@
+using ClawbearGames;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -12,6 +13,7 @@ public class IngameManager : MonoBehaviour
 
     [Header("Ingame References")]
     [SerializeField] private Transform healthBar = null;
+    [SerializeField] private SpriteRenderer backgroundSprite = null;
     [SerializeField] private List<TankSpawnController> ListTankSpawns = new List<TankSpawnController>();
 
 
@@ -59,6 +61,7 @@ public class IngameManager : MonoBehaviour
         //Load level
         CurrentLevel = PlayerPrefs.GetInt(PlayerPrefsKey.LEVEL_KEY, 1);
         levelConfig = Resources.Load("Levels/" + CurrentLevel.ToString(), typeof(LevelConfigSO)) as LevelConfigSO;
+        backgroundSprite.sprite = levelConfig.BackGroundSprite;
 
         //Setup health bar
         totalHealth = levelConfig.HealthAmount;
@@ -103,6 +106,7 @@ public class IngameManager : MonoBehaviour
 
                 if (selectedTank != null)
                 {
+                    SoundManager.Instance.PlaySound(SoundManager.Instance.SelectTank);
                     selectedTank.SetSelected(true, Vector2.zero, false);
                 }
             }
@@ -136,6 +140,8 @@ public class IngameManager : MonoBehaviour
                         {
                             if ((newTankSpawn.TankController.TankType == selectedTank.TankType) && (selectedTank.TankType != TankType.Tank10))
                             {
+                                SoundManager.Instance.PlaySound(SoundManager.Instance.MergeTank);
+
                                 TankType nextTankType = GetNextTankType(selectedTank.TankType);
                                 newTankSpawn.TankController.gameObject.SetActive(false);
                                 selectedTank.gameObject.SetActive(false);
@@ -192,6 +198,7 @@ public class IngameManager : MonoBehaviour
         GameState = GameState.GameStart;
         StartCoroutine(CRSpawnNextEnemyWave(1f));
         ViewManager.Instance.IngameView.ShowTextForFirstWave();
+        SoundManager.Instance.PlayMusic(levelConfig.BackgroundMusic);
         IsActiveBoss = false;
     }
 
@@ -221,6 +228,7 @@ public class IngameManager : MonoBehaviour
     public void LevelFailed()
     {
         GameState = GameState.LevelFailed;
+        SoundManager.Instance.PlaySound(SoundManager.Instance.LevelFailed);
         StartCoroutine(CRShowViewWithDelay(ViewType.EndgameView, 1f, () =>
         {
             totalEnemyCount = deadEnemyCount + 10;
@@ -236,6 +244,7 @@ public class IngameManager : MonoBehaviour
     public void LevelCompleted()
     {
         GameState = GameState.LevelCompleted;
+        SoundManager.Instance.PlaySound(SoundManager.Instance.LevelCompleted);
         StartCoroutine(CRShowViewWithDelay(ViewType.EndgameView, 1f, () =>
         {
             ViewManager.Instance.EndgameView.UpdateStats(deadEnemyCount, deadEnemyCount, deadBossCount, levelConfig.ListBossType.Count, currentCoins);
