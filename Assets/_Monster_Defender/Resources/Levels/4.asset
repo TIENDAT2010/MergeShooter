@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: 4
   m_EditorClassIdentifier: 
   BackgroundMusic: {fileID: 8300000, guid: 01f55574a27c6a0459d4465a1adba701, type: 3}
-  BackGroundSprite: {fileID: 21300000, guid: 5da5522f2f63a624f89c5447844c540f, type: 3}
-  HealthAmount: 50
+  BackGroundSprite: {fileID: 21300000, guid: cfa162a68cc969c49b1bb23b5f0c6323, type: 3}
+  HealthAmount: 70
   InitTanks: 000000000000000000000000
   ListWaveConfig:
   - minEnemyAmount: 5
@@ -22,20 +22,26 @@ MonoBehaviour:
     enemyDelayTime: 0.7
     coinFrequency: 0.5
     enemyTypeConfigs:
+    - enemyType: 0
+      frequency: 0.5
     - enemyType: 1
-      frequency: 1
+      frequency: 0.5
   - minEnemyAmount: 6
     maxEnemyAmount: 9
     enemyDelayTime: 0.5
     coinFrequency: 0.5
     enemyTypeConfigs:
+    - enemyType: 0
+      frequency: 0.5
     - enemyType: 1
-      frequency: 1
+      frequency: 0.5
   - minEnemyAmount: 7
     maxEnemyAmount: 10
     enemyDelayTime: 0.5
     coinFrequency: 0.5
     enemyTypeConfigs:
+    - enemyType: 0
+      frequency: 0.5
     - enemyType: 1
-      frequency: 1
+      frequency: 0.5
   ListBossType: 
