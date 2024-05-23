@@ -660,42 +660,57 @@ MonoBehaviour:
   - tankType: 2
     tankSprite: {fileID: 21300000, guid: bc63303596f7da0489b233f04fe6f162, type: 3}
     priceToPurchase: 50
-  - tankType: 2
-    tankSprite: {fileID: 21300000, guid: bc63303596f7da0489b233f04fe6f162, type: 3}
-    priceToPurchase: 50
-  - tankType: 2
-    tankSprite: {fileID: 21300000, guid: bc63303596f7da0489b233f04fe6f162, type: 3}
-    priceToPurchase: 50
-  - tankType: 2
-    tankSprite: {fileID: 21300000, guid: bc63303596f7da0489b233f04fe6f162, type: 3}
-    priceToPurchase: 50
-  - tankType: 2
-    tankSprite: {fileID: 21300000, guid: bc63303596f7da0489b233f04fe6f162, type: 3}
-    priceToPurchase: 50
-  - tankType: 2
-    tankSprite: {fileID: 21300000, guid: bc63303596f7da0489b233f04fe6f162, type: 3}
-    priceToPurchase: 50
-  - tankType: 2
-    tankSprite: {fileID: 21300000, guid: bc63303596f7da0489b233f04fe6f162, type: 3}
-    priceToPurchase: 50
-  - tankType: 2
-    tankSprite: {fileID: 21300000, guid: bc63303596f7da0489b233f04fe6f162, type: 3}
-    priceToPurchase: 50
-  - tankType: 2
-    tankSprite: {fileID: 21300000, guid: bc63303596f7da0489b233f04fe6f162, type: 3}
-    priceToPurchase: 50
-  - tankType: 2
-    tankSprite: {fileID: 21300000, guid: bc63303596f7da0489b233f04fe6f162, type: 3}
-    priceToPurchase: 50
-  - tankType: 2
-    tankSprite: {fileID: 21300000, guid: bc63303596f7da0489b233f04fe6f162, type: 3}
-    priceToPurchase: 50
-  - tankType: 2
-    tankSprite: {fileID: 21300000, guid: bc63303596f7da0489b233f04fe6f162, type: 3}
-    priceToPurchase: 50
-  - tankType: 2
-    tankSprite: {fileID: 21300000, guid: bc63303596f7da0489b233f04fe6f162, type: 3}
-    priceToPurchase: 50
+  - tankType: 3
+    tankSprite: {fileID: 21300000, guid: ab0fbb6bf0ae3db4782d7b35f1bfaa0a, type: 3}
+    priceToPurchase: 65
+  - tankType: 4
+    tankSprite: {fileID: 21300000, guid: ac7c53828fed9464d921d6f9ba3ccfd4, type: 3}
+    priceToPurchase: 80
+  - tankType: 5
+    tankSprite: {fileID: 21300000, guid: ebf61c2221485694fb08c4ab77c8b5e7, type: 3}
+    priceToPurchase: 95
+  - tankType: 6
+    tankSprite: {fileID: 21300000, guid: 94dd5753d9c42ff4b851d213c5d985db, type: 3}
+    priceToPurchase: 110
+  - tankType: 7
+    tankSprite: {fileID: 21300000, guid: 2bda83bb93fbdb545833ffda44e306ba, type: 3}
+    priceToPurchase: 125
+  - tankType: 8
+    tankSprite: {fileID: 21300000, guid: 7cdf7d49203ebd24b812578ff32bb639, type: 3}
+    priceToPurchase: 140
+  - tankType: 9
+    tankSprite: {fileID: 21300000, guid: bbc8e1ce8aef23e4ab704a3f2b86514b, type: 3}
+    priceToPurchase: 155
+  - tankType: 10
+    tankSprite: {fileID: 21300000, guid: 9bbcaded6846b054b9e595cac4cee16d, type: 3}
+    priceToPurchase: 170
+  - tankType: 11
+    tankSprite: {fileID: 21300000, guid: f8f867a3a0005074dac083daae1675fe, type: 3}
+    priceToPurchase: 185
+  - tankType: 12
+    tankSprite: {fileID: 21300000, guid: ab742a1cf2cb3ca4b954e645d695a5f7, type: 3}
+    priceToPurchase: 200
+  - tankType: 13
+    tankSprite: {fileID: 21300000, guid: 8e796fb55f155d541805a84e9611c029, type: 3}
+    priceToPurchase: 215
+  - tankType: 14
+    tankSprite: {fileID: 21300000, guid: 3767bcd8e5bcc274c8122ae076932a4f, type: 3}
+    priceToPurchase: 230
+  - tankType: 15
+    tankSprite: {fileID: 21300000, guid: 0a6e9fa6c83f4b84f8aee1f69fd7d7c3, type: 3}
+    priceToPurchase: 245
+  - tankType: 16
+    tankSprite: {fileID: 21300000, guid: 4749bd591b5528642b864d4554478434, type: 3}
+    priceToPurchase: 260
+  - tankType: 17
+    tankSprite: {fileID: 21300000, guid: 727d8f4aceca7bf4ab4071c454be9a33, type: 3}
+    priceToPurchase: 275
+  - tankType: 18
+    tankSprite: {fileID: 21300000, guid: dfd97c17175122748aade54e421463a5, type: 3}
+    priceToPurchase: 290
+  - tankType: 19
+    tankSprite: {fileID: 21300000, guid: dfd06fd832045274aacc96f57c9f7ee3, type: 3}
+    priceToPurchase: 305
   healthBar: {fileID: 149540726}
   ListTankSpawns:
   - {fileID: 990511925}
