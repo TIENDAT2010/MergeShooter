@@ -108,6 +108,7 @@ public class IngameView : BaseView
     /// <returns></returns>
     private IEnumerator CRShowWaveText(int number)
     {
+        yield return null;
         Vector2 startPos = new Vector2(1000f, wavePanelTrans.anchoredPosition.y);
         Vector2 midPos = new Vector2(0f, wavePanelTrans.anchoredPosition.y);
         Vector2 endPos = new Vector2(-1000f, wavePanelTrans.anchoredPosition.y);

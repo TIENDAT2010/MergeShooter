@@ -266,10 +266,12 @@ MonoBehaviour:
   maxDamageAmount: 6
   minHealthAmount: 25
   maxHealthAmount: 40
+  minCoinBonusAmount: 5
+  maxCoinBonusAmount: 5
   bossType: 0
   spriteRenderer: {fileID: 5823251938794411043}
   normalMaterial: {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
-  whiteMaterial: {fileID: 2100000, guid: e73a58f6e2794ae7b1b7e50b7fb811b0, type: 2}
+  whiteMaterial: {fileID: 2100000, guid: 5f7c8097ce03765488dce7336875d5d6, type: 3}
   healthBar: {fileID: 6918384415362021320}
   animationSprites:
   - {fileID: 21300000, guid: 8b6b3156a75b8934e94e07cfbf9a7ffd, type: 3}

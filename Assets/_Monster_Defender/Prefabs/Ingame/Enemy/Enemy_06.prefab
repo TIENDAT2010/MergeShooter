@@ -335,17 +335,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 62488db7218062740bdde1f4dfaa7f8f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  attackRate: 1
-  movementSpeed: 7
-  minDamageAmount: 1
-  maxDamageAmount: 2
-  minHealthAmount: 5
-  maxHealthAmount: 10
+  attackRate: 0.9
+  movementSpeed: 2.5
+  minDamageAmount: 3.5
+  maxDamageAmount: 4.5
+  minHealthAmount: 30
+  maxHealthAmount: 35
   enemyType: 5
   spriteRenderer: {fileID: 1672538095124354543}
   healthBar: {fileID: 3427328342681415394}
   normalMaterial: {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
-  whiteMaterial: {fileID: 2100000, guid: e73a58f6e2794ae7b1b7e50b7fb811b0, type: 2}
+  whiteMaterial: {fileID: 2100000, guid: 5f7c8097ce03765488dce7336875d5d6, type: 3}
   animationSprites:
   - {fileID: 21300000, guid: 294fb469e0b076949b6702378b01a14d, type: 3}
   - {fileID: 21300000, guid: 08549ed5593b32e4abf6060bc4f90873, type: 3}

@@ -82,4 +82,11 @@ public class EndgameView : BaseView
         SoundManager.Instance.PlaySound(SoundManager.Instance.Button);
         SceneManager.LoadScene("GameScene");
     }
+
+
+    public void OnClickHomeButton()
+    {
+        SoundManager.Instance.PlaySound(SoundManager.Instance.Button);
+        SceneManager.LoadScene("HomeScene");
+    }
 }
