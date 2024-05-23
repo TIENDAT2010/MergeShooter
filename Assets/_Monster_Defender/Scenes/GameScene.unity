@@ -650,6 +650,52 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c9c1522599c383f478060b4794f3afe6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  listTankItemConfig:
+  - tankType: 0
+    tankSprite: {fileID: 21300000, guid: b657d70b5654a9941b4372c6f26135a2, type: 3}
+    priceToPurchase: 20
+  - tankType: 1
+    tankSprite: {fileID: 21300000, guid: cef0e2dc25418d44e8e32948038ed534, type: 3}
+    priceToPurchase: 35
+  - tankType: 2
+    tankSprite: {fileID: 21300000, guid: bc63303596f7da0489b233f04fe6f162, type: 3}
+    priceToPurchase: 50
+  - tankType: 2
+    tankSprite: {fileID: 21300000, guid: bc63303596f7da0489b233f04fe6f162, type: 3}
+    priceToPurchase: 50
+  - tankType: 2
+    tankSprite: {fileID: 21300000, guid: bc63303596f7da0489b233f04fe6f162, type: 3}
+    priceToPurchase: 50
+  - tankType: 2
+    tankSprite: {fileID: 21300000, guid: bc63303596f7da0489b233f04fe6f162, type: 3}
+    priceToPurchase: 50
+  - tankType: 2
+    tankSprite: {fileID: 21300000, guid: bc63303596f7da0489b233f04fe6f162, type: 3}
+    priceToPurchase: 50
+  - tankType: 2
+    tankSprite: {fileID: 21300000, guid: bc63303596f7da0489b233f04fe6f162, type: 3}
+    priceToPurchase: 50
+  - tankType: 2
+    tankSprite: {fileID: 21300000, guid: bc63303596f7da0489b233f04fe6f162, type: 3}
+    priceToPurchase: 50
+  - tankType: 2
+    tankSprite: {fileID: 21300000, guid: bc63303596f7da0489b233f04fe6f162, type: 3}
+    priceToPurchase: 50
+  - tankType: 2
+    tankSprite: {fileID: 21300000, guid: bc63303596f7da0489b233f04fe6f162, type: 3}
+    priceToPurchase: 50
+  - tankType: 2
+    tankSprite: {fileID: 21300000, guid: bc63303596f7da0489b233f04fe6f162, type: 3}
+    priceToPurchase: 50
+  - tankType: 2
+    tankSprite: {fileID: 21300000, guid: bc63303596f7da0489b233f04fe6f162, type: 3}
+    priceToPurchase: 50
+  - tankType: 2
+    tankSprite: {fileID: 21300000, guid: bc63303596f7da0489b233f04fe6f162, type: 3}
+    priceToPurchase: 50
+  - tankType: 2
+    tankSprite: {fileID: 21300000, guid: bc63303596f7da0489b233f04fe6f162, type: 3}
+    priceToPurchase: 50
   healthBar: {fileID: 149540726}
   ListTankSpawns:
   - {fileID: 990511925}

@@ -85,7 +85,16 @@ public enum BossType
     Boss05 = 4,
 }
 
-public class EnumTypes 
+public class CustomTypes 
 {
     
+}
+
+
+[System.Serializable]
+public class TankItemConfig
+{
+    public TankType tankType = TankType.Tank01;
+    public Sprite tankSprite = null;
+    public int priceToPurchase = 50;
 }

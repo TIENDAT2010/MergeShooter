@@ -95,7 +95,7 @@ public class CoinManager : MonoBehaviour
         yield return new WaitForSeconds(delay);
         //if (endCoins > startCoins) { ServicesManager.Instance.SoundManager.PlaySound(ServicesManager.Instance.SoundManager.Rewarded); }
         float t = 0;
-        float runTime = 0.25f;
+        float runTime = 0.1f;
         while (t < runTime)
         {
             t += Time.deltaTime;

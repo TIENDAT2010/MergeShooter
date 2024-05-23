@@ -4,20 +4,24 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using System.Linq;
-
 public class IngameView : BaseView
 {
     [SerializeField] private Text levelText = null;
     [SerializeField] private Text waveText = null;
     [SerializeField] private Text coinsText = null;
+    [SerializeField] private Button closeButton = null;
     [SerializeField] private RectTransform wavePanelTrans = null;
+    [SerializeField] private RectTransform contentTrans = null;
     [SerializeField] private Transform wavesPanelTrans = null;
+    [SerializeField] private Transform tanksPanelTrans = null;
     [SerializeField] private WaveItemController waveItemControllerPrefab = null;
-
+    [SerializeField] private TankItemController tankItemControllerPrefab = null;
 
 
     private List<WaveItemController> listActiveWaveItem = new List<WaveItemController>();
+    private List<TankItemController> listActiveTankItem = new List<TankItemController>();
     private List<WaveItemController> listWaveItemController = new List<WaveItemController>();
+    private List<TankItemController> listTankItemController = new List<TankItemController>();
 
 
     private void Update()
@@ -51,6 +55,28 @@ public class IngameView : BaseView
 
         waveItem.gameObject.SetActive(true);
         return waveItem;
+    }
+
+
+
+    /// <summary>
+    /// Get a TankItemController object.
+    /// </summary>
+    /// <returns></returns>
+    private TankItemController GetTankItemController()
+    {
+        //Find the object in the list
+        TankItemController tankItem = listTankItemController.Where(a => !a.gameObject.activeSelf).FirstOrDefault();
+
+        if (tankItem == null)
+        {
+            //Instantiate the dead effect
+            tankItem = Instantiate(tankItemControllerPrefab, Vector3.zero, Quaternion.identity);
+            listTankItemController.Add(tankItem);
+        }
+
+        tankItem.gameObject.SetActive(true);
+        return tankItem;
     }
 
 
@@ -112,6 +138,26 @@ public class IngameView : BaseView
 
 
     /// <summary>
+    /// Coroutine create tank items.
+    /// </summary>
+    /// <returns></returns>
+    private IEnumerator CRCreateTankItems()
+    {
+        for (int i = 0; i < IngameManager.Instance.ListTankItemConfig.Count; i++)
+        {
+            TankItemController tankItem = GetTankItemController();
+            tankItem.transform.SetParent(contentTrans);
+            tankItem.transform.localScale = Vector3.one;
+            tankItem.OnInit(IngameManager.Instance.ListTankItemConfig[i]);
+            listActiveTankItem.Add(tankItem);
+            yield return null;
+        }
+        closeButton.interactable = true;
+    }
+
+
+
+    /// <summary>
     /// ////////////////////////////////////////////// Public Functions
     /// </summary>
 
@@ -123,6 +169,9 @@ public class IngameView : BaseView
 
         //Hide the wave text
         wavePanelTrans.anchoredPosition = new Vector2(1000f, wavePanelTrans.anchoredPosition.y);
+
+        ///Hide tanks panel
+        tanksPanelTrans.gameObject.SetActive(false);
     }
 
     public override void OnHide() 
@@ -133,6 +182,14 @@ public class IngameView : BaseView
             waveItem.gameObject.SetActive(false);
         }
         listActiveWaveItem.Clear();
+
+
+        //Disable all tank items
+        foreach (TankItemController waveItem in listActiveTankItem)
+        {
+            waveItem.gameObject.SetActive(false);
+        }
+        listActiveTankItem.Clear();
 
 
         gameObject.SetActive(false);
@@ -205,6 +262,18 @@ public class IngameView : BaseView
 
 
     /// <summary>
+    /// Update the buy tank buttons of all tank items.
+    /// </summary>
+    public void UpdateBuyTankButtons()
+    {
+        foreach (TankItemController tankItem in listActiveTankItem)
+        {
+            tankItem.UpdateBuyButton();
+        }
+    }
+
+
+    /// <summary>
     /// ////////////////////////////////////////////// UI Functions
     /// </summary>
     
@@ -218,6 +287,26 @@ public class IngameView : BaseView
 
     public void OnClickStoreButton() 
     {
+        IngameManager.Instance.GamePause();
+        tanksPanelTrans.gameObject.SetActive(true);
+        if (contentTrans.childCount == 0)
+        {
+            closeButton.interactable = false;
+            StartCoroutine(CRCreateTankItems());
+        }
+        else
+        {
+            foreach(TankItemController tankItem in listActiveTankItem)
+            {
+                tankItem.UpdateBuyButton();
+            }
+        }
+    }
 
+
+    public void OnClickCloseButton()
+    {
+        tanksPanelTrans.gameObject.SetActive(false);
+        IngameManager.Instance.GameResume();
     }
 }

@@ -6,8 +6,8 @@ public class IngameManager : MonoBehaviour
 {
     public static IngameManager Instance { get; private set; }
 
-    //[Header("Ingame Configs")]
-    //[SerializeField] private float bulletMovementSpeed = 70f;
+    [Header("Ingame Configs")]
+    [SerializeField] private List<TankItemConfig> listTankItemConfig = new List<TankItemConfig>();
 
 
     [Header("Ingame References")]
@@ -20,6 +20,7 @@ public class IngameManager : MonoBehaviour
     private TankSpawnController originalTankSpawn = null;
 
     public GameState GameState { private set; get; }
+    public List<TankItemConfig> ListTankItemConfig => listTankItemConfig;
     public int CurrentLevel { private set; get; }
     public bool IsActiveBoss { private set; get; }
 
@@ -91,10 +92,11 @@ public class IngameManager : MonoBehaviour
                     if(tankSpawn.TankController != null && tankSpawn.TankController.IsMoving == false)
                     {
                         float distance = Vector2.Distance(tankSpawn.TankController.transform.position, touchPos);
-                        if (distance < 0.5f && distance < minDis)
+                        if (distance < 0.7f && distance < minDis)
                         {
                             minDis = distance;
                             selectedTank = tankSpawn.TankController;
+                            originalTankSpawn = tankSpawn;
                         }
                     }
                 }
@@ -102,7 +104,6 @@ public class IngameManager : MonoBehaviour
                 if (selectedTank != null)
                 {
                     selectedTank.SetSelected(true, Vector2.zero, false);
-                    originalTankSpawn = GetClosestTankSpawn(selectedTank.transform.position);
                 }
             }
             if (Input.GetMouseButton(0) && selectedTank != null)
@@ -138,6 +139,7 @@ public class IngameManager : MonoBehaviour
                                 TankType nextTankType = GetNextTankType(selectedTank.TankType);
                                 newTankSpawn.TankController.gameObject.SetActive(false);
                                 selectedTank.gameObject.SetActive(false);
+                                originalTankSpawn.TankController = null;
 
                                 TankController newTank = PoolManager.Instance.GetTankController(nextTankType);
                                 newTank.transform.position = newTankSpawn.transform.position;
@@ -245,26 +247,6 @@ public class IngameManager : MonoBehaviour
 
 
     ////////////////////////////////////////////////// Private Functions
-
-
-
-
-    private void SpawnTank(TankType tankType)
-    {
-        for (int i = 0; i < ListTankSpawns.Count; i++)
-        {
-            TankSpawnController tankSpawn = ListTankSpawns[i];
-            if (tankSpawn.TankController == null)
-            {
-                TankController tank = PoolManager.Instance.GetTankController(tankType);
-                tankSpawn.TankController = tank;
-                tank.gameObject.transform.position = tankSpawn.gameObject.transform.position;
-                tank.OnTankInit();
-                break;
-            }
-        }
-    }
-
 
 
 
@@ -504,6 +486,28 @@ public class IngameManager : MonoBehaviour
 
 
     /// <summary>
+    /// Spawn the tank with given TankType.
+    /// </summary>
+    /// <param name="tankType"></param>
+    public void SpawnTank(TankType tankType)
+    {
+        for (int i = 0; i < ListTankSpawns.Count; i++)
+        {
+            TankSpawnController tankSpawn = ListTankSpawns[i];
+            if (tankSpawn.TankController == null)
+            {
+                TankController tank = PoolManager.Instance.GetTankController(tankType);
+                tankSpawn.TankController = tank;
+                tank.gameObject.transform.position = tankSpawn.gameObject.transform.position;
+                tank.OnTankInit();
+                break;
+            }
+        }
+    }
+
+
+
+    /// <summary>
     /// Update currentCoins by +1.
     /// </summary>
     public void UpdateCoins()
@@ -519,5 +523,21 @@ public class IngameManager : MonoBehaviour
     public bool IsCreateCoinFromDeadEnemy()
     {
         return Random.value < levelConfig.ListWaveConfig[enemyWaveIndex].coinFrequency;
+    }
+
+
+
+    /// <summary>
+    /// Chekc the grid is full of tanks.
+    /// </summary>
+    /// <returns></returns>
+    public bool IsFullOfTanks()
+    {
+        bool isFull = true;
+        foreach (TankSpawnController tankSpawn in ListTankSpawns)
+        {
+            if (tankSpawn.TankController == null) { isFull = false; break; }
+        }
+        return isFull;
     }
 }
