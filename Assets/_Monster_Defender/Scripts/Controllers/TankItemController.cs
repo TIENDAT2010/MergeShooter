@@ -41,6 +41,7 @@ public class TankItemController : MonoBehaviour
         {
             CoinManager.Instance.RemoveCoins(tankItemConfig.priceToPurchase, 0f);
             IngameManager.Instance.SpawnTank(tankItemConfig.tankType);
+            ViewManager.Instance.IngameView.UpdateBuyTankButtons();
         }
     }
 }
