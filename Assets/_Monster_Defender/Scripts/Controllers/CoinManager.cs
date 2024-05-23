@@ -6,7 +6,7 @@ public class CoinManager : MonoBehaviour
     public static CoinManager Instance { get; private set; }
 
     [Header("Coin Manager Configuration")]
-    [SerializeField] private int initialCoins = 100;
+    [SerializeField] private int initialCoins = 50;
     //[SerializeField] private int minRewardedCoins = 100;
     //[SerializeField] private int maxRewardedCoins = 150;
 
@@ -47,10 +47,10 @@ public class CoinManager : MonoBehaviour
 
 
     /// <summary>
-    /// Add an amount of coins immediately.
+    /// Update an amount of coins immediately.
     /// </summary>
     /// <param name="amount"></param>
-    public void AddCoins(int amount)
+    public void UpdateCoins(int amount)
     {
         Coins += amount;
     }

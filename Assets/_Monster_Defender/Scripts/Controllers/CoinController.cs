@@ -44,7 +44,7 @@ public class CoinController : MonoBehaviour
         {
             SoundManager.Instance.PlaySound(SoundManager.Instance.CoinItem);
             IngameManager.Instance.UpdateCoins();
-            CoinManager.Instance.AddCoins(1);
+            CoinManager.Instance.UpdateCoins(1);
             gameObject.SetActive(false);
         }
     }

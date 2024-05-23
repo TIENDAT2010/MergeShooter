@@ -185,15 +185,6 @@ public class IngameView : BaseView
         }
         listActiveWaveItem.Clear();
 
-
-        //Disable all tank items
-        foreach (TankItemController waveItem in listActiveTankItem)
-        {
-            waveItem.gameObject.SetActive(false);
-        }
-        listActiveTankItem.Clear();
-
-
         gameObject.SetActive(false);
     }
 

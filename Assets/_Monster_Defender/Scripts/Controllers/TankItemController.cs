@@ -41,7 +41,7 @@ public class TankItemController : MonoBehaviour
         SoundManager.Instance.PlaySound(SoundManager.Instance.Button);
         if (!IngameManager.Instance.IsFullOfTanks())
         {
-            CoinManager.Instance.RemoveCoins(tankItemConfig.priceToPurchase, 0f);
+            CoinManager.Instance.UpdateCoins(-tankItemConfig.priceToPurchase);
             IngameManager.Instance.SpawnTank(tankItemConfig.tankType);
             ViewManager.Instance.IngameView.UpdateBuyTankButtons();
         }

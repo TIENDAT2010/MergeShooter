@@ -56,7 +56,7 @@ public class IngameManager : MonoBehaviour
     {
         Application.targetFrameRate = 60;
         GameState = GameState.GameInit;
-        StartCoroutine(CRShowViewWithDelay(ViewType.IngameView, 0f));
+        StartCoroutine(CRShowViewWithDelay(ViewType.IngameView, 0.05f));
 
         //Load level
         CurrentLevel = PlayerPrefs.GetInt(PlayerPrefsKey.LEVEL_KEY, 1);
@@ -270,7 +270,20 @@ public class IngameManager : MonoBehaviour
         totalEnemyCount += enemyAmountInWave;
         int enemyOrder = 1000;
         WaveConfig waveConfig = levelConfig.ListWaveConfig[enemyWaveIndex];
-        yield return new WaitForSeconds(delayTime);
+
+        //Wait
+        float timeCount = delayTime;
+        while (timeCount > 0)
+        {
+            timeCount -= Time.deltaTime;
+
+            //Stop at Pause state
+            while (GameState == GameState.GamePause)
+            {
+                yield return null;
+            }
+        }
+
         for (int i = 0; i < enemyAmountInWave; i++)
         {
             EnemyController enemyController = PoolManager.Instance.GetEnemyController(GetEnemyType(waveConfig.enemyTypeConfigs));
@@ -293,7 +306,20 @@ public class IngameManager : MonoBehaviour
     private IEnumerator CRSpawnNextBossWave(float delayTime)
     {
         BossType bossType = levelConfig.ListBossType[bossWaveIndex];
-        yield return new WaitForSeconds(delayTime);
+
+        //Wait
+        float timeCount = delayTime;
+        while (timeCount > 0)
+        {
+            timeCount -= Time.deltaTime;
+
+            //Stop at Pause state
+            while (GameState == GameState.GamePause)
+            {
+                yield return null;
+            }
+        }
+
         BossController bossController = PoolManager.Instance.GetBossController(bossType);
         Vector3 spawnPos = Vector3.zero;
         spawnPos.y = Camera.main.ViewportToWorldPoint(new Vector2(0f, 1.2f)).y;

@@ -94,6 +94,6 @@ public class HomeView : BaseView
 
     public void OnMusicSliderChanged()
     {
-        SoundManager.Instance.SetSoundVolume(musicSlider.value);
+        SoundManager.Instance.SetMusicVolume(musicSlider.value);
     }
 }

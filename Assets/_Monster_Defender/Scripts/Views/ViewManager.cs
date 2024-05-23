@@ -48,6 +48,11 @@ public class ViewManager : MonoBehaviour
     }
 
 
+
+    /// <summary>
+    /// Set the view active with given type.
+    /// </summary>
+    /// <param name="viewType"></param>
     public void SetActiveView(ViewType viewType)
     {
         if (currentView != null)

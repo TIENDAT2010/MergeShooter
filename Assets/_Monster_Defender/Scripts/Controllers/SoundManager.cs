@@ -11,8 +11,8 @@ namespace ClawbearGames
         [SerializeField] private AudioSource soundSource = null;
         [SerializeField] private AudioSource musicSource = null;
 
-        public float SoundVolume => soundSource.volume;
-        public float MusicVolume => musicSource.volume;
+        public float SoundVolume => PlayerPrefs.GetFloat(PlayerPrefsKey.SOUND_KEY, 1f);
+        public float MusicVolume => PlayerPrefs.GetFloat(PlayerPrefsKey.MUSIC_KEY, 1f);
 
 
         [Header("Audio Clips References")]
@@ -39,19 +39,10 @@ namespace ClawbearGames
                 DontDestroyOnLoad(gameObject);
             }
 
-            if (PlayerPrefs.HasKey(PlayerPrefsKey.SOUND_KEY))
-                PlayerPrefs.SetFloat(PlayerPrefsKey.SOUND_KEY, 1f);
-            if (PlayerPrefs.HasKey(PlayerPrefsKey.MUSIC_KEY))
-                PlayerPrefs.SetFloat(PlayerPrefsKey.MUSIC_KEY, 1f);
-        }
-
-
-
-        private void Start()
-        {
             soundSource.volume = PlayerPrefs.GetFloat(PlayerPrefsKey.SOUND_KEY, 1f);
             musicSource.volume = PlayerPrefs.GetFloat(PlayerPrefsKey.MUSIC_KEY, 1f);
         }
+
 
 
         /// <summary>
