@@ -53,4 +53,4 @@ MonoBehaviour:
       frequency: 0.5
     - enemyType: 2
       frequency: 0.5
-  ListBossType: 
+  ListBossType: 0000000001000000
