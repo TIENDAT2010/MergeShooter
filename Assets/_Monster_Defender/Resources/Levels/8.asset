@@ -14,10 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   BackgroundMusic: {fileID: 8300000, guid: dd5adba233a71124dbe17605a2979c4c, type: 3}
   BackGroundSprite: {fileID: 21300000, guid: 45b7cc55311a5dc41ae096b2b182dd3d, type: 3}
-  HealthAmount: 90
-  InitTanks: 010000000000000001000000
+  HealthAmount: 190
+  InitTanks: 010000000100000001000000
   ListWaveConfig:
-  - minEnemyAmount: 5
+  - minEnemyAmount: 6
     maxEnemyAmount: 8
     enemyDelayTime: 0.7
     coinFrequency: 0.5
@@ -28,8 +28,8 @@ MonoBehaviour:
       frequency: 0.5
     - enemyType: 3
       frequency: 0.5
-  - minEnemyAmount: 6
-    maxEnemyAmount: 9
+  - minEnemyAmount: 8
+    maxEnemyAmount: 10
     enemyDelayTime: 0.5
     coinFrequency: 0.5
     enemyTypeConfigs:
@@ -39,8 +39,8 @@ MonoBehaviour:
       frequency: 0.5
     - enemyType: 4
       frequency: 0.5
-  - minEnemyAmount: 7
-    maxEnemyAmount: 10
+  - minEnemyAmount: 10
+    maxEnemyAmount: 12
     enemyDelayTime: 0.6
     coinFrequency: 0.5
     enemyTypeConfigs:
@@ -50,15 +50,15 @@ MonoBehaviour:
       frequency: 0.5
     - enemyType: 4
       frequency: 0.5
-  - minEnemyAmount: 7
-    maxEnemyAmount: 10
+  - minEnemyAmount: 12
+    maxEnemyAmount: 15
     enemyDelayTime: 0.6
     coinFrequency: 0.5
     enemyTypeConfigs:
+    - enemyType: 2
+      frequency: 0.5
     - enemyType: 3
       frequency: 0.5
     - enemyType: 4
-      frequency: 0.5
-    - enemyType: 5
       frequency: 0.5
   ListBossType: 

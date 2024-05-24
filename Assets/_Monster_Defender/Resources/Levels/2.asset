@@ -17,29 +17,29 @@ MonoBehaviour:
   HealthAmount: 70
   InitTanks: 000000000000000000000000
   ListWaveConfig:
-  - minEnemyAmount: 5
+  - minEnemyAmount: 6
     maxEnemyAmount: 8
     enemyDelayTime: 0.7
     coinFrequency: 0.5
     enemyTypeConfigs:
     - enemyType: 0
       frequency: 1
-  - minEnemyAmount: 6
-    maxEnemyAmount: 9
+  - minEnemyAmount: 8
+    maxEnemyAmount: 10
     enemyDelayTime: 0.5
     coinFrequency: 0.5
     enemyTypeConfigs:
     - enemyType: 0
       frequency: 1
-  - minEnemyAmount: 7
-    maxEnemyAmount: 10
+  - minEnemyAmount: 10
+    maxEnemyAmount: 12
     enemyDelayTime: 0.6
     coinFrequency: 0.5
     enemyTypeConfigs:
     - enemyType: 0
       frequency: 1
-  - minEnemyAmount: 8
-    maxEnemyAmount: 11
+  - minEnemyAmount: 12
+    maxEnemyAmount: 15
     enemyDelayTime: 0.6
     coinFrequency: 0.5
     enemyTypeConfigs:

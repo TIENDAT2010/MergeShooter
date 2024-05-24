@@ -83,7 +83,7 @@ public class EnemyController : MonoBehaviour
         while (gameObject.activeSelf)
         {
             //Stop moving on Pause game state
-            while (IngameManager.Instance.GameState == GameState.GamePause)
+            while (IngameManager.Instance.GameState != GameState.GameStart)
             {
                 yield return null;
             }
@@ -121,7 +121,7 @@ public class EnemyController : MonoBehaviour
         while (gameObject.activeSelf)
         {
             //Stop attacking on Pause game state
-            while (IngameManager.Instance.GameState == GameState.GamePause)
+            while (IngameManager.Instance.GameState != GameState.GameStart)
             {
                 yield return null;
             }

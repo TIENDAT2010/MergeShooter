@@ -275,6 +275,7 @@ public class IngameView : BaseView
     public void OnClickHomeButton()
     {
         SoundManager.Instance.PlaySound(SoundManager.Instance.Button);
+        SoundManager.Instance.StopMusic(true);
         SceneManager.LoadScene("HomeScene");
     }
 

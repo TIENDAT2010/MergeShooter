@@ -37,10 +37,11 @@ namespace ClawbearGames
             {
                 Instance = this;
                 DontDestroyOnLoad(gameObject);
-            }
 
-            soundSource.volume = PlayerPrefs.GetFloat(PlayerPrefsKey.SOUND_KEY, 1f);
-            musicSource.volume = PlayerPrefs.GetFloat(PlayerPrefsKey.MUSIC_KEY, 1f);
+
+                soundSource.volume = PlayerPrefs.GetFloat(PlayerPrefsKey.SOUND_KEY, 1f);
+                musicSource.volume = PlayerPrefs.GetFloat(PlayerPrefsKey.MUSIC_KEY, 1f);
+            }
         }
 
 
@@ -83,9 +84,20 @@ namespace ClawbearGames
         /// <param name="audioClip"></param>
         public void PlayMusic(AudioClip audioClip)
         {
+            StopMusic(false);
             musicSource.clip = audioClip;
             musicSource.loop = true;
             musicSource.Play();
+        }
+
+
+        /// <summary>
+        /// Stop music with bool value.
+        /// </summary>
+        /// <param name="active"></param>
+        public void StopMusic(bool active)
+        {
+            musicSource.mute = active;
         }
     }
 }

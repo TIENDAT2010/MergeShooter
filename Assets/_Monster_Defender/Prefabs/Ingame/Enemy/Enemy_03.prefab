@@ -423,8 +423,8 @@ MonoBehaviour:
   movementSpeed: 2.2
   minDamageAmount: 2
   maxDamageAmount: 3
-  minHealthAmount: 15
-  maxHealthAmount: 20
+  minHealthAmount: 30
+  maxHealthAmount: 45
   enemyType: 2
   spriteRenderer: {fileID: 546821757809985762}
   healthBar: {fileID: 6167413474972417576}

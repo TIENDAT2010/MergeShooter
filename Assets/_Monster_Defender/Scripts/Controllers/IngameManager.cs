@@ -59,7 +59,7 @@ public class IngameManager : MonoBehaviour
         StartCoroutine(CRShowViewWithDelay(ViewType.IngameView, 0.05f));
 
         //Load level
-        CurrentLevel = PlayerPrefs.GetInt(PlayerPrefsKey.LEVEL_KEY, 1);
+        CurrentLevel = PlayerPrefs.GetInt(PlayerPrefsKey.LEVEL_KEY, 15);
         levelConfig = Resources.Load("Levels/" + CurrentLevel.ToString(), typeof(LevelConfigSO)) as LevelConfigSO;
         backgroundSprite.sprite = levelConfig.BackGroundSprite;
 
@@ -228,6 +228,7 @@ public class IngameManager : MonoBehaviour
     public void LevelFailed()
     {
         GameState = GameState.LevelFailed;
+        SoundManager.Instance.StopMusic(true);
         SoundManager.Instance.PlaySound(SoundManager.Instance.LevelFailed);
         StartCoroutine(CRShowViewWithDelay(ViewType.EndgameView, 1f, () =>
         {
@@ -244,6 +245,7 @@ public class IngameManager : MonoBehaviour
     public void LevelCompleted()
     {
         GameState = GameState.LevelCompleted;
+        SoundManager.Instance.StopMusic(true);
         SoundManager.Instance.PlaySound(SoundManager.Instance.LevelCompleted);
         StartCoroutine(CRShowViewWithDelay(ViewType.EndgameView, 1f, () =>
         {

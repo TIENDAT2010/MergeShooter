@@ -137,7 +137,7 @@ public class TankController : MonoBehaviour
                 while (targetEnemy != null && targetEnemy.gameObject.activeSelf && gameObject.activeSelf)
                 {
                     //Stop at Pause state
-                    while (IngameManager.Instance.GameState == GameState.GamePause)
+                    while (IngameManager.Instance.GameState != GameState.GameStart)
                     {
                         yield return null;
                     }
@@ -189,7 +189,7 @@ public class TankController : MonoBehaviour
                 while (targetBoss != null && targetBoss.gameObject.activeSelf && gameObject.activeSelf)
                 {
                     //Stop at Pause state
-                    while (IngameManager.Instance.GameState == GameState.GamePause)
+                    while (IngameManager.Instance.GameState != GameState.GameStart)
                     {
                         yield return null;
                     }

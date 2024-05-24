@@ -264,8 +264,8 @@ MonoBehaviour:
   movementSpeed: 3
   minDamageAmount: 8
   maxDamageAmount: 15
-  minHealthAmount: 25
-  maxHealthAmount: 50
+  minHealthAmount: 50
+  maxHealthAmount: 100
   minCoinBonusAmount: 5
   maxCoinBonusAmount: 10
   bossType: 0
