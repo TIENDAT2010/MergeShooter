@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dc6caabf55cf9bc4d9a6c6ae25c67cb0, type: 3}
   m_Name: 5
   m_EditorClassIdentifier: 
-  BackgroundMusic: {fileID: 8300000, guid: 2cd735d96862d7742b16e5ba2b204bcd, type: 3}
-  BackGroundSprite: {fileID: 21300000, guid: 5da5522f2f63a624f89c5447844c540f, type: 3}
+  BackgroundMusic: {fileID: 8300000, guid: fb4964c55bf7cf84e9a66c74c09aead0, type: 3}
+  BackGroundSprite: {fileID: 21300000, guid: 7a043d7c0ef60d744a02aef1b26ed687, type: 3}
   HealthAmount: 90
   InitTanks: 00000000000000000100000001000000
   ListWaveConfig:

@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   BackgroundMusic: {fileID: 8300000, guid: 2cd735d96862d7742b16e5ba2b204bcd, type: 3}
   BackGroundSprite: {fileID: 21300000, guid: 5da5522f2f63a624f89c5447844c540f, type: 3}
-  HealthAmount: 60
+  HealthAmount: 70
   InitTanks: 000000000000000000000000
   ListWaveConfig:
   - minEnemyAmount: 5
