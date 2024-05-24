@@ -138,7 +138,7 @@ public class IngameManager : MonoBehaviour
                         }
                         else
                         {
-                            if ((newTankSpawn.TankController.TankType == selectedTank.TankType) && (selectedTank.TankType != TankType.Tank10))
+                            if ((newTankSpawn.TankController.TankType == selectedTank.TankType) && (selectedTank.TankType != TankType.Tank20))
                             {
                                 SoundManager.Instance.PlaySound(SoundManager.Instance.MergeTank);
 
@@ -424,6 +424,36 @@ public class IngameManager : MonoBehaviour
             case TankType.Tank09:
                 tankType = TankType.Tank10;
                 break;
+            case TankType.Tank10:
+                tankType = TankType.Tank11;
+                break;
+            case TankType.Tank11:
+                tankType = TankType.Tank12;
+                break;
+            case TankType.Tank12:
+                tankType = TankType.Tank13;
+                break;
+            case TankType.Tank13:
+                tankType = TankType.Tank14;
+                break;
+            case TankType.Tank14:
+                tankType = TankType.Tank15;
+                break;
+            case TankType.Tank15:
+                tankType = TankType.Tank16;
+                break;
+            case TankType.Tank16:
+                tankType = TankType.Tank17;
+                break;
+            case TankType.Tank17:
+                tankType = TankType.Tank18;
+                break;
+            case TankType.Tank18:
+                tankType = TankType.Tank19;
+                break;
+            case TankType.Tank19:
+                tankType = TankType.Tank20;
+                break;
         }
         return tankType;
     }
@@ -461,7 +491,7 @@ public class IngameManager : MonoBehaviour
     {
         deadEnemyCount++;
         enemyAmountInWave--;
-        if (enemyAmountInWave == 0)
+        if (enemyAmountInWave <= 0)
         {
             if (enemyWaveIndex == levelConfig.ListWaveConfig.Count - 1)
             {

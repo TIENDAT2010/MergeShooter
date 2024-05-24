@@ -591,6 +591,10 @@ MonoBehaviour:
   - {fileID: 5772459285833032178, guid: 69e9bc758be441840b73cd1e05bcb318, type: 3}
   bossControllerPrefabs:
   - {fileID: 8351639225448822815, guid: c12855d06f20c4c4b808f25208b4bbd3, type: 3}
+  - {fileID: 8351639225448822815, guid: 790d526f43b7db94da018b6befb14941, type: 3}
+  - {fileID: 8351639225448822815, guid: 5901f017705419f419982979592c966a, type: 3}
+  - {fileID: 8351639225448822815, guid: 187d12ee52e947a4398f6428c1ef9eec, type: 3}
+  - {fileID: 8351639225448822815, guid: bfb467b896c797a4b9d319682a221f86, type: 3}
 --- !u!4 &246533366
 Transform:
   m_ObjectHideFlags: 0

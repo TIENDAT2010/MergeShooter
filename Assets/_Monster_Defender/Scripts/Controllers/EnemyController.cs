@@ -26,6 +26,7 @@ public class EnemyController : MonoBehaviour
     private float totalHealth;
     private float currentHealth;
     private bool isTakingDamage = false;
+    private bool isOnScreen = false;
 
     public EnemyType EnemyType { get => enemyType; }
 
@@ -38,6 +39,7 @@ public class EnemyController : MonoBehaviour
     /// <param name="sortingOrder"></param>
     public void OnEnemyInit(int sortingOrder)
     {
+        isOnScreen = false;
         isTakingDamage = false;
         healthBar.fillAmount = 1f;
         spriteRenderer.sortingOrder = sortingOrder;
@@ -90,6 +92,16 @@ public class EnemyController : MonoBehaviour
             transform.position += Vector3.down * movementSpeed * Time.deltaTime;
             yield return null;
 
+            if (!isOnScreen)
+            {
+                Vector2 viewportPos = Camera.main.WorldToViewportPoint(transform.position);
+                if (viewportPos.y <= 0.95)
+                {
+                    isOnScreen = true;
+                }
+            }
+
+
             //Stop moving at the health bar -> start the attack
             if (transform.position.y <= -4f)
             {
@@ -138,7 +150,7 @@ public class EnemyController : MonoBehaviour
     /// <param name="damage"></param>
     public void OnTakeDamage(float damage)
     {
-        if (!isTakingDamage)
+        if (!isTakingDamage && isOnScreen)
         {
             isTakingDamage = true;
             StartCoroutine(CROnTakeDamage(damage));

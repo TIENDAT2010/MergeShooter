@@ -4960,7 +4960,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 644d64ca7a266d345981c061e08f8620, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tankType: 9
+  tankType: 18
   enemyLayerMask:
     serializedVersion: 2
     m_Bits: 128
