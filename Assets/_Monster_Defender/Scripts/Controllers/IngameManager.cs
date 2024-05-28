@@ -59,7 +59,7 @@ public class IngameManager : MonoBehaviour
         StartCoroutine(CRShowViewWithDelay(ViewType.IngameView, 0.05f));
 
         //Load level
-        CurrentLevel = PlayerPrefs.GetInt(PlayerPrefsKey.LEVEL_KEY, 15);
+        CurrentLevel = PlayerPrefs.GetInt(PlayerPrefsKey.LEVEL_KEY, 1);
         levelConfig = Resources.Load("Levels/" + CurrentLevel.ToString(), typeof(LevelConfigSO)) as LevelConfigSO;
         backgroundSprite.sprite = levelConfig.BackGroundSprite;
 
